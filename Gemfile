@@ -32,6 +32,9 @@ gem 'pg'
 # Devise
 gem 'devise'
 
+# Foreigner
+gem 'foreigner'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
