@@ -29,6 +29,9 @@ gem 'spring',        group: :development
 # Postgres
 gem 'pg'
 
+# Devise
+gem 'devise'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
