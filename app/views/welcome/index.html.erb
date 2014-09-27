@@ -1,7 +1,8 @@
 <% if current_user %>
-  <%= button_to "sign out", sign_out_url %>
+  <%= button_to "sign out", destroy_user_session_url, method: :delete %>
 <% else %>
-  <%= link_to "sign in", sign_in_url %>
+  <%= link_to "sign in", new_user_session_url %>
+  <%= link_to "sign up", new_user_registration_url %>
 <% end %>
 
 Yo!
