@@ -8,10 +8,13 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
 
     if @user.save
-      redirect_to user_url(@user)
+      redirect_to :root
     else
       render json: @user.errors.full_messages
     end
+  end
+
+  def destroy
   end
 
 end

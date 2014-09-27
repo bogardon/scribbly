@@ -1,0 +1,7 @@
+<% if current_user %>
+  <%= button_to "sign out", sign_out_url %>
+<% else %>
+  <%= link_to "sign in", sign_in_url %>
+<% end %>
+
+Yo!
