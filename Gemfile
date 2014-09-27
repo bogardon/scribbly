@@ -39,6 +39,9 @@ gem 'foundation-rails'
 # Pundit
 gem 'pundit'
 
+# Puma
+gem 'puma'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
