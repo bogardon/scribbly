@@ -29,6 +29,7 @@ gem 'pg'
 
 # Devise
 gem 'devise'
+gem 'devise_invitable'
 
 # Foreigner
 gem 'foreigner'
