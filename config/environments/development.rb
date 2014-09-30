@@ -48,4 +48,14 @@ Rails.application.configure do
     user_name: "bogardon123",
     password: "hehehoho"
   }
+  
+  # Paperclip
+  config.paperclip_defaults = {
+    storage: :s3,
+    s3_credentials: {
+      bucket: "scribbly-development",
+      access_key_id: ENV['S3_DEVELOPMENT_ACCESS_KEY_ID'],
+      secret_access_key: ENV['S3_DEVELOPMENT_SECRET_ACCESS_KEY']
+    }
+  }
 end
