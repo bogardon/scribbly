@@ -25,6 +25,7 @@ class CollaborationsController < ApplicationController
   end
 
   def show
+    @collaboration = current_user.collaborations.find(params[:id])
   end
 
   def destroy
