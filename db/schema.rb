@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140928182009) do
+ActiveRecord::Schema.define(version: 20140930031912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,13 @@ ActiveRecord::Schema.define(version: 20140928182009) do
     t.integer  "user_id"
     t.integer  "post_id"
     t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "contents", force: true do |t|
+    t.text     "body"
+    t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -88,6 +95,8 @@ ActiveRecord::Schema.define(version: 20140928182009) do
 
   add_foreign_key "comments", "posts", name: "comments_post_id_fk"
   add_foreign_key "comments", "users", name: "comments_user_id_fk"
+
+  add_foreign_key "contents", "posts", name: "contents_post_id_fk"
 
   add_foreign_key "memberships", "collaborations", name: "memberships_collaboration_id_fk"
   add_foreign_key "memberships", "users", name: "memberships_user_id_fk"
