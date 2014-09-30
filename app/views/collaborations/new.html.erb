@@ -1,0 +1,13 @@
+<h2>Create Collaboration</h2>
+
+<%= form_for @collaboration do |f| %>
+
+  <div><%= f.label :name %><br />
+  <%= f.text_field :name, autofocus: true %></div>
+
+  <div><%= f.label :description %>
+    <%= f.text_area :description, autofocus: true %></div>
+
+  <div><%= f.submit "Create Collaboration" %></div>
+
+<% end %>

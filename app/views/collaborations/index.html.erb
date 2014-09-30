@@ -1,1 +1,9 @@
 Create a collaboration!
+
+<%= link_to "Create Collaboration", new_collaboration_url %>
+
+<ul>
+  <% @collaborations.each do |collab| %>
+    <li><%= link_to collab.name, collaboration_url(collab) %></li>
+  <% end %>
+</ul>
