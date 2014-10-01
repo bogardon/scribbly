@@ -1,0 +1,13 @@
+<h2>Create Campaign</h2>
+
+<%= form_for @campaign, url: collaboration_campaigns_url do |f| %>
+
+  <div><%= f.label :name %><br />
+  <%= f.text_field :name, autofocus: true %></div>
+
+  <div><%= f.label :description %>
+    <%= f.text_area :description, autofocus: true %></div>
+
+  <div><%= f.submit "Create Campaign" %></div>
+
+<% end %>

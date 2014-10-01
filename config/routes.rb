@@ -2,10 +2,14 @@ Rails.application.routes.draw do
   devise_for :users
 
   root 'welcome#index'
-  
-  resources :collaborations
-  resources :campaigns
-  resources :posts
+
+  resources :collaborations do
+    resources :campaigns, shallow: true
+  end
+
+  resources :campaigns do
+    resources :posts, shallow: true
+  end
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

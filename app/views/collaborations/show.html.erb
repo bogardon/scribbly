@@ -1,5 +1,13 @@
 <h2><%= @collaboration.name %></h2>
 <p><%= @collaboration.description %></p>
 
+<%= link_to "Create Campaign", new_collaboration_campaign_url(@collaboration) %>
+
+<h5>Campaigns</h5>
+<ul>
+  <% @collaboration.campaigns.each do |campaign| %>
+    <li><%= link_to campaign.name, campaign_url(campaign) %></li>
+  <% end %>
+</ul>
 
 <%= link_to "Back", collaborations_url %>
