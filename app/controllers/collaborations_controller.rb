@@ -36,5 +36,4 @@ class CollaborationsController < ApplicationController
   def collab_params
     params.require(:collaboration).permit(:name, :description)
   end
-
 end
