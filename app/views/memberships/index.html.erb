@@ -1,0 +1,12 @@
+<h3>Members</h3>
+<ul>
+  <% @memberships.each do |m| %>
+    <li><%= m.user.email %></li>
+  <% end %>
+</ul>
+
+<%= form_for :member, url: collaboration_memberships_url(@collaboration) do |f| %>
+  <%= f.label "Invite new member:" %>
+  <%= f.text_field :email, placeholder: "johndoe@gmail.com" %>
+  <%= f.submit "Invite" %>
+<% end %>

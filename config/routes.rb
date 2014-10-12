@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :collaborations do
     resources :campaigns, shallow: true
+    resources :memberships, shallow: true
   end
 
   resources :campaigns do
