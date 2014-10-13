@@ -1,7 +1,12 @@
 <h3>Members</h3>
 <ul>
   <% @memberships.each do |m| %>
-    <li><%= m.user.email %></li>
+    <li>
+      <%= m.user.email %>
+      <%= link_to collaboration_membership_path(@collaboration, m), method: :delete do %>
+        <i class='fi-x'></i>
+      <% end %>
+    </li>
   <% end %>
 </ul>
 

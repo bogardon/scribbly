@@ -36,6 +36,7 @@ gem 'foreigner'
 
 # Foundation for frontend framework
 gem 'foundation-rails'
+gem 'foundation-icons-sass-rails'
 
 # Pundit
 gem 'pundit'

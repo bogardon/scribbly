@@ -10,4 +10,11 @@ class MembershipsController < ApplicationController
     @collaboration.memberships.find_or_create_by(user_id: @member.id)
     redirect_to collaboration_memberships_url(@collaboration)
   end
+  
+  def destroy
+    @collaboration = Collaboration.find_by_id(params[:collaboration_id])
+    @membership = Membership.find_by_id(params[:id])
+    @membership.destroy
+    redirect_to collaboration_memberships_url(@collaboration)
+  end
 end
