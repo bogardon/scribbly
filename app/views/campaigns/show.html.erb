@@ -1,6 +1,8 @@
 <h2><%= @campaign.name %></h2>
 <p><%= @campaign.description %></p>
 
-Create Post (TODO)
+<%= link_to "Create Post", new_campaign_post_url(@campaign) %>
+
+<br>
 
 <%= link_to "Back", collaboration_url(@campaign.collaboration) %>
