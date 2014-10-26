@@ -1,0 +1,15 @@
+<h2>Create Post</h2>
+
+<%= form_for @post, url: campaign_posts_url do |f| %>
+
+  <div><%= f.label :description %>
+    <%= f.text_area :description, autofocus: true %></div>
+
+	  <%= f.fields_for :comments do |c| %>
+		  <div><%= c.label :description %>
+			  <%= c.text_area :description %></div>
+		<% end %>
+
+  <div><%= f.submit "Create Post" %></div>
+
+<% end %>
