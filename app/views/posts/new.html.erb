@@ -5,17 +5,19 @@
   <%= f.hidden_field :user_id, value: current_user.id %>
   <div>
     <%= f.label :post %>
-    <%= f.text_area :description, autofocus: true %>
+    <%= f.text_field :name, autofocus: true %>
   </div>
 
   <%= f.fields_for :comments do |c| %>
     <%= c.hidden_field :user_id, value: current_user.id %>
 	  <div>
       <%= c.label :comment %>
-		  <%= c.text_area :description %>
+		  <%= c.text_area :body %>
     </div>
 	<% end %>
 
-  <div><%= f.submit "Create Post" %></div>
+  <div>
+    <%= f.submit "Create Post" %>
+  </div>
 
 <% end %>

@@ -5,7 +5,7 @@ class CreatePosts < ActiveRecord::Migration
       t.foreign_key :users
       t.integer :campaign_id
       t.foreign_key :campaigns
-      t.text :description
+      t.string :name
       t.timestamps
     end
   end

@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(version: 20141005210730) do
   create_table "comments", force: true do |t|
     t.integer  "user_id"
     t.integer  "post_id"
-    t.text     "description"
+    t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -60,7 +60,7 @@ ActiveRecord::Schema.define(version: 20141005210730) do
   create_table "posts", force: true do |t|
     t.integer  "user_id"
     t.integer  "campaign_id"
-    t.text     "description"
+    t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

@@ -5,7 +5,7 @@ class CreateComments < ActiveRecord::Migration
       t.foreign_key :users
       t.integer :post_id
       t.foreign_key :posts
-      t.text :description
+      t.text :body
       t.timestamps
     end
   end

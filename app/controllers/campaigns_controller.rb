@@ -27,6 +27,7 @@ class CampaignsController < ApplicationController
 
   def show
     @campaign = Campaign.find_by_id(params[:id])
+    @posts = @campaign.posts
   end
 
   def destroy

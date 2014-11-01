@@ -1,8 +1,19 @@
 <h2><%= @campaign.name %></h2>
-<p><%= @campaign.description %></p>
 
-<%= link_to "Create Post", new_campaign_post_url(@campaign) %>
+<p>
+  <%= @campaign.description %>
+</p>
 
-<br>
+<p>
+  <%= link_to "Create Post", new_campaign_post_url(@campaign) %>
+</p>
 
-<%= link_to "Back", collaboration_url(@campaign.collaboration) %>
+<ul>
+<% @posts.each do |p| %>
+  <li><%= link_to p.name, post_url(p) %></li>
+<% end %>
+</ul>
+
+<p>
+  <%= link_to "Back", collaboration_url(@campaign.collaboration) %>
+</p>
