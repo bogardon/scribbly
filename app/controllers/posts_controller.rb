@@ -3,7 +3,7 @@ class PostsController < ApplicationController
     @campaign = Campaign.find_by_id(params[:campaign_id])
     @post = Post.new
     @comment = @post.comments.build
-    # @content = @post.contents.build
+    @content = @post.contents.build
   end
 
   def create
@@ -35,6 +35,6 @@ class PostsController < ApplicationController
   def post_params
     params.require(:post).permit(:user_id, :campaign_id, :name,
       :comments_attributes => [:id, :body, :user_id, :post_id],
-      :contents_attributes => [:id, :body, :post_id])
+      :contents_attributes => [:id, :body, :post_id, :media])
   end
 end

@@ -1,23 +1,31 @@
 <h2>Create Post</h2>
 
-<%= form_for @post, url: campaign_posts_url do |f| %>
-  <%= f.hidden_field :campaign_id, value: @campaign.id %>
-  <%= f.hidden_field :user_id, value: current_user.id %>
+<%= form_for @post, url: campaign_posts_url do |f_post| %>
+  <%= f_post.hidden_field :campaign_id, value: @campaign.id %>
+  <%= f_post.hidden_field :user_id, value: current_user.id %>
   <div>
-    <%= f.label :post %>
-    <%= f.text_field :name, autofocus: true %>
+    <%= f_post.label :post %>
+    <%= f_post.text_field :name, autofocus: true %>
   </div>
 
-  <%= f.fields_for :comments do |c| %>
-    <%= c.hidden_field :user_id, value: current_user.id %>
+  <%= f_post.fields_for :comments do |f_comment| %>
+    <%= f_comment.hidden_field :user_id, value: current_user.id %>
 	  <div>
-      <%= c.label :comment %>
-		  <%= c.text_area :body %>
+      <%= f_comment.label :comment %>
+		  <%= f_comment.text_area :body %>
     </div>
 	<% end %>
+  
+  <%= f_post.fields_for :contents do |f_content| %>
+    <%= f_content.hidden_field :user_id, value: current_user.id %>
+    <div>
+      <%= f_content.label :content %>
+      <%= f_content.file_field :media %>
+    </div>
+  <% end %>
 
   <div>
-    <%= f.submit "Create Post" %>
+    <%= f_post.submit "Create Post" %>
   </div>
 
 <% end %>
