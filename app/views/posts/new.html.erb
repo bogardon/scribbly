@@ -1,14 +1,20 @@
 <h2>Create Post</h2>
 
 <%= form_for @post, url: campaign_posts_url do |f| %>
+  <%= f.hidden_field :campaign_id, value: @campaign.id %>
+  <%= f.hidden_field :user_id, value: current_user.id %>
+  <div>
+    <%= f.label :post %>
+    <%= f.text_area :description, autofocus: true %>
+  </div>
 
-  <div><%= f.label :description %>
-    <%= f.text_area :description, autofocus: true %></div>
-
-	  <%= f.fields_for :comments do |c| %>
-		  <div><%= c.label :description %>
-			  <%= c.text_area :description %></div>
-		<% end %>
+  <%= f.fields_for :comments do |c| %>
+    <%= c.hidden_field :user_id, value: current_user.id %>
+	  <div>
+      <%= c.label :comment %>
+		  <%= c.text_area :description %>
+    </div>
+	<% end %>
 
   <div><%= f.submit "Create Post" %></div>
 

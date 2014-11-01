@@ -1,23 +1,19 @@
 class PostsController < ApplicationController
   def new
     @campaign = Campaign.find_by_id(params[:campaign_id])
-    @post = @campaign.posts.build
+    @post = Post.new
     @comment = @post.comments.build
     # @content = @post.contents.build
   end
 
   def create
-    # binding.pry
     @campaign = Campaign.find_by_id(params[:campaign_id])
-    @post = current_user.posts.new(post_params)
-    @post.campaign_id = @campaign.id
-    # @comment = @post.comments.build(post_params)
-    # @content = @post.contents.build(post_params)
-
+    @post = Post.new(post_params)
     if @post.save
       redirect_to campaign_posts_url
     else
-      redirect_to campaign_posts_url      
+      flash[:notice] = @post.errors
+      redirect_to new_campaign_post_url
     end
   end
 
