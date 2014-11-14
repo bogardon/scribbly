@@ -12,7 +12,8 @@ class CampaignsController < ApplicationController
     if @campaign.save
       redirect_to collaboration_url(@collaboration)
     else
-      redirect_to collaboration_url(@collaboration)
+      flash[:notice] = @campaign.errors
+      redirect_to new_collaboration_campaign(@collaboration)
     end
   end
 
