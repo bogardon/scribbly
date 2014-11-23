@@ -1,1 +1,28 @@
-<h1><%= @post.name %></h1>
+<div class='row'>
+  <div class='small-8 small-centered columns'>
+    <h1 id='post-title'><%= @post.name %></h1>
+  </div>
+</div>
+
+<% @post.contents.each do |c| %>
+  <div class='row'>
+    <div class='small-8 small-centered columns'>
+      <%= image_tag(c.media.url) %>
+    </div>
+  </div>
+<% end %>
+
+<% @post.comments.each do |c| %>
+  <div class='row'>
+    <div class='small-6 small-centered columns'>
+      <div class ='row'>
+        <div class='small-2 columns'>
+          <%= image_tag(c.user.avatar.url) %>
+        </div>
+        <div class='small-10 columns'>
+          <%= c.body %>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>
