@@ -1,21 +1,31 @@
 <div class='row'>
   <div class='small-8 small-centered columns'>
-    <h1 id='post-title'><%= @post.name %></h1>
+    <h1 class='text-center'><%= @post.name %></h1>
   </div>
 </div>
 
-<% @post.contents.each do |c| %>
-  <div class='row'>
+<div id='post-contents-stack'>
+  <% @post.contents.each_with_index do |c, i| %>
+    <div class='post-content row <%= i != @post.contents.size - 1 ? "hide" : ""%>'>
+      <div class='small-8 small-centered columns'>
+        <%= image_tag(c.media.url) %>
+      </div>
+    </div>
+  <% end %>
+  
+  <div class='row' id='contents-segmented-control'>
     <div class='small-8 small-centered columns'>
-      <%= image_tag(c.media.url) %>
+      <% @post.contents.size.times do |i| %>
+        <a href="#" class="round button" data-content-index="<%= i %>"><%= i + 1 %></a>
+      <% end %>
     </div>
   </div>
-<% end %>
+</div>
 
 <div id='post-comments-list'>
-<% @post.comments.each do |c| %>
-  <%= comment_row_html(c) %>
-<% end %>
+  <% @post.comments.each do |c| %>
+    <%= comment_row_html(c) %>
+  <% end %>
 </div>
 
 <div class='row'>
@@ -25,7 +35,6 @@
         <%= form_for @comment, url: post_comments_url(@post), remote: true do |f| %>
           <%= f.hidden_field :user_id, value: current_user.id %>
           <%= f.hidden_field :post_id, value: @post.id %>
-          <%= f.label :body %>
           <%= f.text_field :body %>
           <%= f.submit "Add Comment" %>
         <% end %>
