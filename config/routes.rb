@@ -4,8 +4,11 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :collaborations do
-    resources :campaigns, shallow:true do
-      resources :posts, shallow: true
+    resources :campaigns, shallow: true do
+      resources :posts, shallow: true do
+        resources :comments
+        resources :contents
+      end
     end
     resources :memberships
   end

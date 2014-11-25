@@ -25,6 +25,9 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.includes(:contents, comments: :user).find_by_id(params[:id])
+    
+    @comment = Comment.new
+    @content = Content.new
   end
 
   def destroy

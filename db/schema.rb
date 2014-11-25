@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20141005210730) do
 
   create_table "contents", force: true do |t|
     t.text     "body"
+    t.integer  "user_id"
     t.integer  "post_id"
     t.string   "media_file_name"
     t.string   "media_content_type"
@@ -105,6 +106,7 @@ ActiveRecord::Schema.define(version: 20141005210730) do
   add_foreign_key "comments", "users", name: "comments_user_id_fk"
 
   add_foreign_key "contents", "posts", name: "contents_post_id_fk"
+  add_foreign_key "contents", "users", name: "contents_user_id_fk"
 
   add_foreign_key "memberships", "collaborations", name: "memberships_collaboration_id_fk"
   add_foreign_key "memberships", "users", name: "memberships_user_id_fk"

@@ -1,5 +1,6 @@
 class Content < ActiveRecord::Base
   belongs_to :post
+  belongs_to :user
 
   # Paperclip
   has_attached_file :media,

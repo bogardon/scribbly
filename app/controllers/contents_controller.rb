@@ -3,6 +3,9 @@ class ContentsController < ApplicationController
   end
 
   def create
+    @content = Content.new(content_params)
+    @content.save
+    redirect_to post_url(params[:post_id])
   end
 
   def edit
@@ -23,6 +26,6 @@ class ContentsController < ApplicationController
   private
 
   def content_params
-
+    params.require(:content).permit(:id, :post_id, :user_id, :media)
   end
 end

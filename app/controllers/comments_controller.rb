@@ -3,6 +3,16 @@ class CommentsController < ApplicationController
   end
 
   def create
+    @post = Post.find_by_id(params[:post_id])
+    @comment = @post.comments.new(comment_params)
+    if @comment.save
+    else
+      flash[:notice] = @comment.errors
+    end
+    
+    respond_to do |format|
+      format.js
+    end
   end
 
   def edit
@@ -23,6 +33,6 @@ class CommentsController < ApplicationController
   private
 
   def comment_params
-
+    params.require(:comment).permit(:id, :body, :user_id, :post_id)
   end
 end
