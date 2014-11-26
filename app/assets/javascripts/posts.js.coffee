@@ -11,5 +11,11 @@ $ ->
         ele.removeClass("hide")
       else
         ele.addClass("hide")
+    $('.content-button').each (i, e) ->
+      ele = $(e)
+      if ele.data('content-index') == selectedIndex
+        ele.removeClass('secondary')
+      else
+        ele.addClass('secondary')
         
     return false

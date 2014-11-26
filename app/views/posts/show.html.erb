@@ -16,7 +16,7 @@
   <div class='row' id='contents-segmented-control'>
     <div class='small-8 small-centered columns'>
       <% @post.contents.size.times do |i| %>
-        <a href="#" class="round button" data-content-index="<%= i %>"><%= i + 1 %></a>
+        <a href="#" class="content-button round button <%= i != @post.contents.size - 1 ? "secondary" : ""%>" data-content-index="<%= i %>"><%= i + 1 %></a>
       <% end %>
     </div>
   </div>
