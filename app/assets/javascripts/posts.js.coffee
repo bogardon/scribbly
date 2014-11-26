@@ -6,9 +6,10 @@ $ ->
   $("a[data-content-index]").click (e) ->
     selectedIndex = $(this).data("content-index")
     $(".post-content").each (i, e) ->
-      if i == selectedIndex
-        $(e).addClass("hide")
+      ele = $(e)
+      if ele.data('content-index') == selectedIndex
+        ele.removeClass("hide")
       else
-        $(e).removeClass("hide")
+        ele.addClass("hide")
         
     return false

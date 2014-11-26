@@ -6,7 +6,7 @@
 
 <div id='post-contents-stack'>
   <% @post.contents.each_with_index do |c, i| %>
-    <div class='post-content row <%= i != @post.contents.size - 1 ? "hide" : ""%>'>
+    <div class='post-content row <%= i != @post.contents.size - 1 ? "hide" : ""%>' data-content-index="<%= i %>">
       <div class='small-8 small-centered columns'>
         <%= image_tag(c.media.url) %>
       </div>
@@ -43,7 +43,6 @@
         <%= form_for @content, url: post_contents_url(@post) do |f| %>
           <%= f.hidden_field :user_id, value: current_user.id %>
           <%= f.hidden_field :post_id, value: @post.id %>
-          <%= f.label :content %>
           <%= f.file_field :media %>
           <%= f.submit "Add Content" %>
         <% end %>
