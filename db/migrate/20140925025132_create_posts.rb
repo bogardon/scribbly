@@ -6,6 +6,7 @@ class CreatePosts < ActiveRecord::Migration
       t.integer :campaign_id
       t.foreign_key :campaigns
       t.string :name
+      t.datetime :scheduled_at
       t.timestamps
     end
   end

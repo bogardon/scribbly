@@ -62,6 +62,7 @@ ActiveRecord::Schema.define(version: 20141005210730) do
     t.integer  "user_id"
     t.integer  "campaign_id"
     t.string   "name"
+    t.datetime "scheduled_at"
     t.datetime "created_at"
     t.datetime "updated_at"
   end

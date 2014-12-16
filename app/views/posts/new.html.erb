@@ -7,6 +7,12 @@
     <%= f_post.label :post %>
     <%= f_post.text_field :name, autofocus: true %>
   </div>
+  
+  <div>
+    <%= f_post.label :scheduled_at %>
+    <%= f_post.datetime_select :scheduled_at %>
+    <%= f_post.time_zone_select :time_zone, nil, {}, :id => "time-zone-select" %>
+  </div>
 
   <%= f_post.fields_for :comments do |f_comment| %>
     <%= f_comment.hidden_field :user_id, value: current_user.id %>
