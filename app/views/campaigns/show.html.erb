@@ -8,11 +8,24 @@
   <%= link_to "Create Post", new_campaign_post_url(@campaign) %>
 </p>
 
-<ul>
-<% @posts.each do |p| %>
-  <li><%= link_to p.name, post_url(p) %></li>
-<% end %>
-</ul>
+<div class='row'>
+  <div class='small-12 columns'>
+    <ul class="small-block-grid-7">
+      <% @weekly_posts.each do |day, posts| %>
+        <li>
+          <div>
+            <%= day.strftime("%a %m/%d") %>
+          </div>
+          <% posts.each do |post| %>
+          <div>
+            <%= link_to post.name, post_url(post) %>
+          </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
 
 <p>
   <%= link_to "Back", collaboration_url(@campaign.collaboration) %>

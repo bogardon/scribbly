@@ -29,6 +29,12 @@ class CampaignsController < ApplicationController
   def show
     @campaign = Campaign.find_by_id(params[:id])
     @posts = @campaign.posts
+    @weekly_posts = Date.today.all_week(:sunday).map do |d|
+      p = @posts.select do |p|
+        p.scheduled_at.between?(d, d+1)
+      end
+      [d, p]
+    end
   end
 
   def destroy
