@@ -9,20 +9,17 @@
 </p>
 
 <div class='row'>
+  <div class='small-1 columns'>
+    <a><i class='fi-arrow-left' id='left-arrow'></i></a>
+  </div>
+  <div class='small-1 columns'>
+    <a><i class='fi-arrow-right' id='right-arrow'></i></a>
+  </div>
+</div>
+
+<div class='row'>
   <div class='small-12 columns'>
-    <ul class="small-block-grid-7">
-      <% @weekly_posts.each do |day, posts| %>
-        <li>
-          <div>
-            <%= day.strftime("%a %m/%d") %>
-          </div>
-          <% posts.each do |post| %>
-          <div>
-            <%= link_to post.name, post_url(post) %>
-          </div>
-          <% end %>
-        </li>
-      <% end %>
+    <ul id='calendar' data-campaign-id="<%=@campaign.id%>" class="small-block-grid-7">
     </ul>
   </div>
 </div>
@@ -30,3 +27,20 @@
 <p>
   <%= link_to "Back", collaboration_url(@campaign.collaboration) %>
 </p>
+
+<script type="text/template" id="day-template">
+  <li>
+    <div>
+      <%%= month %>/<%%= date %>
+    </div>
+    <ul>
+    <%% _.each(posts, function(p) { %>
+      <li>
+        <a href="/posts/<%% p.id%>">
+          <%%= p.name %>
+        </a>
+      </li>
+    <%% }) %>
+    </ul>
+  </li>
+</script>

@@ -6,6 +6,24 @@ class PostsController < ApplicationController
     @content = @post.contents.build
   end
 
+  def index
+    @campaign = Campaign.find_by_id(params[:campaign_id])
+
+    date = params[:date].to_datetime
+    week = date.all_week(:sunday)
+
+    @weekly_posts = @campaign.posts.during(week)
+
+    @day_posts_pairs = week.map do |d|
+      p = @weekly_posts.select do |p|
+        p.scheduled_at.between?(d, d + 1)
+      end.sort(&:scheduled_at)
+      [d, p]
+    end
+
+    render json: @day_posts_pairs
+  end
+
   def create
     @campaign = Campaign.find_by_id(params[:campaign_id])
     @post = Post.new(post_params)
@@ -25,7 +43,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.includes(:contents, comments: :user).find_by_id(params[:id])
-    
+
     @comment = Comment.new
     @content = Content.new
   end
