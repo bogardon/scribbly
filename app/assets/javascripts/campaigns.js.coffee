@@ -23,8 +23,15 @@ $ ->
       data.forEach (pair) ->
         dayOfWeek = moment(pair[0])
         posts = pair[1]
-
-        html = dayTemplate month: dayOfWeek.month() + 1, date: dayOfWeek.date(), posts: posts
+        new_posts = _.map posts, (p) ->
+          id: p.id, name: p.name, time: moment(p.scheduled_at).format("hh:mm a")
+        obj =
+          moment:
+            day: dayOfWeek.format("ddd")
+            month: dayOfWeek.month() + 1
+            date: dayOfWeek.date()
+          posts: new_posts
+        html = dayTemplate obj
 
         newHtml += html
 

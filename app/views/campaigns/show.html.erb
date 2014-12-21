@@ -10,10 +10,10 @@
 
 <div class='row'>
   <div class='small-1 columns'>
-    <a><i class='fi-arrow-left' id='left-arrow'></i></a>
+    <a id='left-arrow'><i class='fi-arrow-left'></i></a>
   </div>
   <div class='small-1 columns'>
-    <a><i class='fi-arrow-right' id='right-arrow'></i></a>
+    <a id='right-arrow'><i class='fi-arrow-right'></i></a>
   </div>
 </div>
 
@@ -29,16 +29,16 @@
 </p>
 
 <script type="text/template" id="day-template">
-  <li>
-    <div>
-      <%%= month %>/<%%= date %>
+  <li class='day-list-item'>
+    <div class='day-title'>
+      <%%= moment.day %> <%%= moment.month %>/<%%= moment.date %>
     </div>
-    <ul>
+    <ul class='post-list'>
     <%% _.each(posts, function(p) { %>
-      <li>
-        <a href="/posts/<%% p.id%>">
-          <%%= p.name %>
-        </a>
+      <li class='post-list-item'>
+        <div class='post-title'>
+          <a href="/posts/<%%= p.id%>"><%%= p.name %> <%%= p.time %></a>
+        </div>
       </li>
     <%% }) %>
     </ul>
