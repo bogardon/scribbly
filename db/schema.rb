@@ -16,58 +16,58 @@ ActiveRecord::Schema.define(version: 20141005210730) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "campaigns", force: true do |t|
+  create_table "campaigns", force: :cascade do |t|
     t.string   "name",             null: false
-    t.text     "description"
     t.integer  "collaboration_id"
+    t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "collaborations", force: true do |t|
+  create_table "collaborations", force: :cascade do |t|
     t.string   "name",        null: false
     t.text     "description"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "comments", force: true do |t|
+  create_table "comments", force: :cascade do |t|
+    t.text     "body"
     t.integer  "user_id"
     t.integer  "post_id"
-    t.text     "body"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "contents", force: true do |t|
+  create_table "contents", force: :cascade do |t|
     t.text     "body"
-    t.integer  "user_id"
-    t.integer  "post_id"
     t.string   "media_file_name"
     t.string   "media_content_type"
     t.integer  "media_file_size"
     t.datetime "media_updated_at"
+    t.integer  "user_id"
+    t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "memberships", force: true do |t|
+  create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "collaboration_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "posts", force: true do |t|
-    t.integer  "user_id"
-    t.integer  "campaign_id"
+  create_table "posts", force: :cascade do |t|
     t.string   "name"
     t.datetime "scheduled_at"
+    t.integer  "user_id"
+    t.integer  "campaign_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: ""
     t.string   "reset_password_token"
@@ -101,18 +101,13 @@ ActiveRecord::Schema.define(version: 20141005210730) do
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "campaigns", "collaborations", name: "campaigns_collaboration_id_fk", dependent: :delete
-
-  add_foreign_key "comments", "posts", name: "comments_post_id_fk"
-  add_foreign_key "comments", "users", name: "comments_user_id_fk"
-
-  add_foreign_key "contents", "posts", name: "contents_post_id_fk"
-  add_foreign_key "contents", "users", name: "contents_user_id_fk"
-
-  add_foreign_key "memberships", "collaborations", name: "memberships_collaboration_id_fk"
-  add_foreign_key "memberships", "users", name: "memberships_user_id_fk"
-
-  add_foreign_key "posts", "campaigns", name: "posts_campaign_id_fk"
-  add_foreign_key "posts", "users", name: "posts_user_id_fk"
-
+  add_foreign_key "campaigns", "collaborations"
+  add_foreign_key "comments", "posts"
+  add_foreign_key "comments", "users"
+  add_foreign_key "contents", "posts"
+  add_foreign_key "contents", "users"
+  add_foreign_key "memberships", "collaborations"
+  add_foreign_key "memberships", "users"
+  add_foreign_key "posts", "campaigns"
+  add_foreign_key "posts", "users"
 end
