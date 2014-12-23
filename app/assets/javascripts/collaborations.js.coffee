@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+  # calendar stuff
   dayTemplate = _.template $("#day-template").html()
 
   savedDate = () ->
@@ -13,9 +14,9 @@ $ ->
       return moment()
 
   fetchPostsInWeek = (date) ->
-    collaborationId = $("#calendar").data('collaboration-id')
-    request = $.get "/collaborations/#{collaborationId}/posts", date: date.toString()
-    request.success (data) ->
+    postsUrl = "/collaborations/#{$("#calendar").data('collaboration-id')}/posts"
+    $.get postsUrl, date: date.toString()
+    .success (data) ->
       $.cookie("saved_date", date)
 
       calendar = $("#calendar")
@@ -24,7 +25,7 @@ $ ->
         dayOfWeek = moment(pair[0])
         posts = pair[1]
         new_posts = _.map posts, (p) ->
-          id: p.id, name: p.name, time: moment(p.scheduled_at).format("hh:mm a")
+          id: p.id, name: p.name, time: moment(p.scheduled_at).format("hh:mma")
         obj =
           moment:
             day: dayOfWeek.format("ddd")
@@ -39,9 +40,40 @@ $ ->
 
   $('#right-arrow').click (e) ->
     fetchPostsInWeek(savedDate().add(7, 'days'))
+    false
 
   $('#left-arrow').click (e) ->
     fetchPostsInWeek(savedDate().add(-7, 'days'))
+    false
 
-  if $("#calendar").length
-    fetchPostsInWeek(savedDate())
+  fetchPostsInWeek(savedDate()) if $("#calendar").length
+
+  # membership stuff
+  membershipTemplate = _.template $("#membership-template").html()
+
+  fetchMembers = () ->
+    membershipsUrl = "/collaborations/#{$("#membership-list").data('collaboration-id')}/memberships"
+    $.get membershipsUrl
+    .success (data) ->
+      membershipListItems = (membershipTemplate member for member in data)
+      $("#membership-list").html membershipListItems.join('')
+      bindToMembershipX()
+
+  $('input').focus () ->
+    $(this).attr 'placeholder', 'Enter email'
+  $('input').focusout () ->
+    $(this).attr 'placeholder', 'Add member'
+
+  $('#membership-form').on 'ajax:success', (xhr, data, status) ->
+    $("#membership-form")[0].reset()
+    $("#membership-list").append membershipTemplate data
+    bindToMembershipX()
+
+  bindToMembershipX = () ->
+    $('.membership-x').on 'ajax:success', (xhr, data, status) ->
+      debugger
+      $(this).parent().remove()
+    .on 'ajax:error', (xhr, status, error) ->
+      debugger
+
+  fetchMembers() if $("#membership-list").length

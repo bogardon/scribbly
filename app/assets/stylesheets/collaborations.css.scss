@@ -20,7 +20,20 @@
   text-align: center;
 }
 
-
 #right-arrow {
   float: right;
+}
+
+#membership-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.membership-list-item {
+  font-size: 0.75em;
+}
+
+.section-title {
+  text-decoration: underline;
 }

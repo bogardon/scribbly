@@ -1,28 +1,44 @@
 <h2><%= @collaboration.name %></h2>
 <p><%= @collaboration.description %></p>
 
-<%= link_to "Create Campaign", new_collaboration_campaign_url(@collaboration) %>
-
-<p>
-  <%= link_to "Create Post", new_collaboration_post_url(@collaboration) %>
-</p>
-
 <div class='row'>
-  <div class='small-1 columns'>
+  <div class='small-1 small-offset-2 columns'>
     <a id='left-arrow'><i class='fi-arrow-left'></i></a>
   </div>
-  <div class='small-1 columns'>
+  <div class='small-1 small-offset-6 end columns'>
     <a id='right-arrow'><i class='fi-arrow-right'></i></a>
   </div>
 </div>
 
 <div class='row'>
-  <div class='small-12 columns'>
+  <div class='small-2 columns'>
+    <%= link_to "Create Campaign", new_collaboration_campaign_url(@collaboration) %>
+    <br>
+    <%= link_to "Create Post", new_collaboration_post_url(@collaboration) %>
+  </div>
+  <div class='small-8 columns'>
     <ul id='calendar' data-collaboration-id="<%=@collaboration.id%>" class="small-block-grid-7">
     </ul>
   </div>
+  <div class='small-2 columns'>
+    <h6 class='section-title'><strong>Members</strong></h6>
+    <%= form_for :member, url: collaboration_memberships_url(@collaboration), remote: true, html: {id: "membership-form"} do |f| %>
+    <%= f.text_field :email, placeholder: "Add member" %>
+    <% end %>
+    <ul id='membership-list' data-collaboration-id="<%= @collaboration.id %>">
+    </ul>
+    <div>
+  </div>
 </div>
 
+<%= link_to "Back", collaborations_url %>
+
+<script type="text/template" id="membership-template">
+  <li class='membership-list-item'>
+    <%%= user.email %>
+    <a href='/memberships/<%%= id %>' data-type='json' data-remote=true data-method='delete' rel='nofollow' class='membership-x'><i class='fi-x'></i></a>
+  </li>
+</script>
 
 <script type="text/template" id="day-template">
   <li class='day-list-item'>
@@ -40,7 +56,3 @@
     </ul>
   </li>
 </script>
-
-<%= link_to "Invite Members", collaboration_memberships_url(@collaboration) %>
-<br>
-<%= link_to "Back", collaborations_url %>
