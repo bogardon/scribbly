@@ -5,6 +5,7 @@
 $ ->
   # calendar stuff
   dayTemplate = _.template $("#day-template").html()
+  postTemplate = _.template $("#post-template").html()
 
   savedDate = () ->
     date = $.cookie("saved_date")
@@ -13,30 +14,29 @@ $ ->
     else
       return moment()
 
+  allWeek = (date) ->
+
   fetchPostsInWeek = (date) ->
     postsUrl = "/collaborations/#{$("#calendar").data('collaboration-id')}/posts"
-    $.get postsUrl, date: date.toString()
+    start = moment(date).startOf("week")
+    end = moment(date).endOf("week")
+    $.get postsUrl, start: start.toString(), end: end.toString()
     .success (data) ->
       $.cookie("saved_date", date)
 
+      dayListItems = while start < end
+        dayListItem = $(dayTemplate day: start.format("ddd"), month: start.month()+1, date: start.date())
+        _.each data, (post) ->
+          scheduledAt = moment(post.scheduled_at)
+          if  scheduledAt >= start and scheduledAt <= moment(start).endOf("day")
+            dayListItem.children(".post-list").append postTemplate id: post.id, name: post.name, time: scheduledAt.format("hh:mma")
+        start.add(1, "day")
+        dayListItem
+
       calendar = $("#calendar")
-      newHtml = ''
-      data.forEach (pair) ->
-        dayOfWeek = moment(pair[0])
-        posts = pair[1]
-        new_posts = _.map posts, (p) ->
-          id: p.id, name: p.name, time: moment(p.scheduled_at).format("hh:mma")
-        obj =
-          moment:
-            day: dayOfWeek.format("ddd")
-            month: dayOfWeek.month() + 1
-            date: dayOfWeek.date()
-          posts: new_posts
-        html = dayTemplate obj
+      calendar.html dayListItems
 
-        newHtml += html
 
-      calendar.html newHtml
 
   $('#right-arrow').click (e) ->
     fetchPostsInWeek(savedDate().add(7, 'days'))
@@ -71,9 +71,19 @@ $ ->
 
   bindToMembershipX = () ->
     $('.membership-x').on 'ajax:success', (xhr, data, status) ->
-      debugger
       $(this).parent().remove()
     .on 'ajax:error', (xhr, status, error) ->
-      debugger
 
   fetchMembers() if $("#membership-list").length
+
+  # campaign stuff
+  campaignTemplate = _.template $("#campaign-template").html()
+
+  fetchCampaigns = () ->
+    campaignsUrl = "/collaborations/#{$("#campaign-list").data('collaboration-id')}/campaigns"
+    $.get campaignsUrl
+    .success (data) ->
+      campaignListItems = (campaignTemplate campaign for campaign in data)
+      $("#campaign-list").html campaignListItems.join('')
+
+  fetchCampaigns() if $("#campaign-list").length

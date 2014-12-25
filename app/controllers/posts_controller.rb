@@ -9,19 +9,12 @@ class PostsController < ApplicationController
   def index
     @collaboration = Collaboration.find_by_id(params[:collaboration_id])
 
-    date = params[:date].to_datetime
-    week = date.all_week(:sunday)
+    start_date = params[:start].to_datetime
+    end_date = params[:end].to_datetime
 
-    @weekly_posts = @collaboration.posts.during(week)
+    @posts = @collaboration.posts.during(start_date..end_date)
 
-    @day_posts_pairs = week.map do |d|
-      p = @weekly_posts.select do |p|
-        p.scheduled_at.between?(d, d + 1)
-      end.sort(&:scheduled_at)
-      [d, p]
-    end
-
-    render json: @day_posts_pairs
+    render json: @posts
   end
 
   def create

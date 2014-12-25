@@ -2,7 +2,10 @@
 <p><%= @collaboration.description %></p>
 
 <div class='row'>
-  <div class='small-1 small-offset-2 columns'>
+  <div class='small-2 columns'>
+    <%= link_to "Create Post", new_collaboration_post_url(@collaboration) %>
+  </div>
+  <div class='small-1 columns'>
     <a id='left-arrow'><i class='fi-arrow-left'></i></a>
   </div>
   <div class='small-1 small-offset-6 end columns'>
@@ -12,9 +15,10 @@
 
 <div class='row'>
   <div class='small-2 columns'>
+    <h6 class='section-title'><strong>Campaigns</strong></h6>
+    <ul id='campaign-list' data-collaboration-id="<%=@collaboration.id%>">
+    </ul>
     <%= link_to "Create Campaign", new_collaboration_campaign_url(@collaboration) %>
-    <br>
-    <%= link_to "Create Post", new_collaboration_post_url(@collaboration) %>
   </div>
   <div class='small-8 columns'>
     <ul id='calendar' data-collaboration-id="<%=@collaboration.id%>" class="small-block-grid-7">
@@ -27,11 +31,16 @@
     <% end %>
     <ul id='membership-list' data-collaboration-id="<%= @collaboration.id %>">
     </ul>
-    <div>
   </div>
 </div>
 
 <%= link_to "Back", collaborations_url %>
+
+<script type='text/template' id='campaign-template'>
+  <li class='campaign-list-item'>
+    <%%= name %>
+  </li>
+</script>
 
 <script type="text/template" id="membership-template">
   <li class='membership-list-item'>
@@ -43,16 +52,17 @@
 <script type="text/template" id="day-template">
   <li class='day-list-item'>
     <div class='day-title'>
-      <%%= moment.day %> <%%= moment.month %>/<%%= moment.date %>
+      <%%= day %> <%%= month %>/<%%= date %>
     </div>
     <ul class='post-list'>
-    <%% _.each(posts, function(p) { %>
-      <li class='post-list-item'>
-        <div class='post-title'>
-          <a href="/posts/<%%= p.id%>"><%%= p.name %> <%%= p.time %></a>
-        </div>
-      </li>
-    <%% }) %>
     </ul>
+  </li>
+</script>
+
+<script type='text/template' id='post-template'>
+  <li class='post-list-item'>
+    <div class='post-title'>
+      <a href="/posts/<%%= id%>"><%%= name %> <%%= time %></a>
+    </div>
   </li>
 </script>

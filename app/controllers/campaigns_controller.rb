@@ -24,6 +24,9 @@ class CampaignsController < ApplicationController
   end
 
   def index
+    @collaboration = Collaboration.find(params[:collaboration_id])
+    @campaigns = @collaboration.campaigns
+    render json: @campaigns
   end
 
   def show
