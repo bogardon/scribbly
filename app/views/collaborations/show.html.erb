@@ -37,7 +37,9 @@
 <%= link_to "Back", collaborations_url %>
 
 <script type='text/template' id='campaign-template'>
-  <li class='campaign-list-item'>
+  <li class='campaign-list-item' data-campaign-id="<%%= id %>">
+    <div class='campaign-selection campaign-show'>
+    </div>
     <%%= name %>
   </li>
 </script>
@@ -60,7 +62,7 @@
 </script>
 
 <script type='text/template' id='post-template'>
-  <li class='post-list-item'>
+  <li class='post-list-item' data-campaign-id="<%%= campaign_id %>">
     <div class='post-title'>
       <a href="/posts/<%%= id%>"><%%= name %> <%%= time %></a>
     </div>

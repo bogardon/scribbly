@@ -29,7 +29,7 @@ $ ->
         _.each data, (post) ->
           scheduledAt = moment(post.scheduled_at)
           if  scheduledAt >= start and scheduledAt <= moment(start).endOf("day")
-            dayListItem.children(".post-list").append postTemplate id: post.id, name: post.name, time: scheduledAt.format("hh:mma")
+            dayListItem.children(".post-list").append postTemplate id: post.id, campaign_id: post.campaign_id, name: post.name, time: scheduledAt.format("hh:mma")
         start.add(1, "day")
         dayListItem
 
@@ -85,5 +85,16 @@ $ ->
     .success (data) ->
       campaignListItems = (campaignTemplate campaign for campaign in data)
       $("#campaign-list").html campaignListItems.join('')
+      bindToCampaignSelection()
+
+  bindToCampaignSelection = () ->
+    $('.campaign-selection').click (e) ->
+      campaignItem = $(this)
+      campaignItem.toggleClass "campaign-show"
+
+      $(".post-list-item").filter (i, e) ->
+        $(this).data('campaign-id') == campaignItem.parent().data('campaign-id')
+      .toggleClass 'post-hide'
+
 
   fetchCampaigns() if $("#campaign-list").length

@@ -37,3 +37,28 @@
 .section-title {
   text-decoration: underline;
 }
+
+#campaign-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.campaign-selection {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 1px solid gray;
+}
+
+.campaign-show {
+  background-color: gray;
+}
+
+.post-hide {
+  display: none
+}
+
+.campaign-list-item {
+  font-size: 0.9em;
+}
