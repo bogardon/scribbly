@@ -59,25 +59,25 @@ $ ->
       $("#membership-list").html membershipListItems.join('')
       bindToMembershipX()
 
-  $('input').focus () ->
-    $(this).attr 'placeholder', 'Enter email'
-  $('input').focusout () ->
-    $(this).attr 'placeholder', 'Add member'
-
   $('#membership-form').on 'ajax:success', (xhr, data, status) ->
-    $("#membership-form")[0].reset()
+    $(this)[0].reset()
     $("#membership-list").append membershipTemplate data
     bindToMembershipX()
 
   bindToMembershipX = () ->
-    $('.membership-x').on 'ajax:success', (xhr, data, status) ->
+    $('.membership-x').off 'ajax:success'
+    .on 'ajax:success', (xhr, data, status) ->
       $(this).parent().remove()
-    .on 'ajax:error', (xhr, status, error) ->
 
   fetchMembers() if $("#membership-list").length
 
   # campaign stuff
   campaignTemplate = _.template $("#campaign-template").html()
+
+  $('#campaign-form').on 'ajax:success', (xhr, data, status) ->
+    $(this)[0].reset()
+    $("#campaign-list").append campaignTemplate data
+    bindToCampaignSelection()
 
   fetchCampaigns = () ->
     campaignsUrl = "/collaborations/#{$("#campaign-list").data('collaboration-id')}/campaigns"
@@ -88,13 +88,14 @@ $ ->
       bindToCampaignSelection()
 
   bindToCampaignSelection = () ->
-    $('.campaign-selection').click (e) ->
+    $('.campaign-selection').unbind('click').click (e) ->
+      console.log "sup"
       campaignItem = $(this)
       campaignItem.toggleClass "campaign-show"
 
       $(".post-list-item").filter (i, e) ->
         $(this).data('campaign-id') == campaignItem.parent().data('campaign-id')
       .toggleClass 'post-hide'
-
+      false
 
   fetchCampaigns() if $("#campaign-list").length

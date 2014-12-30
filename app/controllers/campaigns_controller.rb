@@ -6,14 +6,12 @@ class CampaignsController < ApplicationController
 
   def create
     @collaboration = Collaboration.find(params[:collaboration_id])
-
     @campaign = @collaboration.campaigns.build(campaign_params)
 
     if @campaign.save
-      redirect_to collaboration_url(@collaboration)
+      render json: @campaign
     else
-      flash[:notice] = @campaign.errors
-      redirect_to new_collaboration_campaign(@collaboration)
+      render json: nil, status: 400
     end
   end
 
