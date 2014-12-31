@@ -2,6 +2,16 @@
 <p><%= @collaboration.description %></p>
 
 <div class='row'>
+  <div class='small-3 small-centered columns'>
+    <ul class="button-group even-3 text-center">
+      <li><a href="#" class="tiny button secondary">Daily</a></li>
+      <li><a href="#" class="tiny button">Weekly</a></li>
+      <li><a href="#" class="tiny button secondary">Monthly</a></li>
+    </ul>
+  </div>
+</div>
+
+<div class='row'>
   <div class='small-2 columns'>
     <%= link_to "Create Post", new_collaboration_post_url(@collaboration) %>
   </div>
@@ -23,8 +33,8 @@
     </ul>
   </div>
   <div class='small-8 columns'>
-    <ul id='calendar' data-collaboration-id="<%=@collaboration.id%>" class="small-block-grid-7">
-    </ul>
+    <div id='calendar' data-collaboration-id="<%=@collaboration.id%>">
+    </div>
   </div>
   <div class='small-2 columns'>
     <h6 class='section-title'><strong>Members</strong></h6>
@@ -53,20 +63,23 @@
   </li>
 </script>
 
-<script type="text/template" id="day-template">
-  <li class='day-list-item'>
-    <div class='day-title'>
-      <%%= day %> <%%= month %>/<%%= date %>
-    </div>
-    <ul class='post-list'>
-    </ul>
-  </li>
-</script>
-
-<script type='text/template' id='post-template'>
-  <li class='post-list-item' data-campaign-id="<%%= campaign_id %>">
-    <div class='post-title'>
-      <a href="/posts/<%%= id%>"><%%= name %> <%%= time %></a>
-    </div>
-  </li>
+<script type="text/template" id="weekly-template">
+  <ul class='small-block-grid-7'>
+    <%% _.each(obj, function(day) { %>
+    <li class='day-list-item'>
+      <div class='day-title'>
+        <%%= day.dayOfWeek %> <%%= day.month %>/<%%= day.date %>
+      </div>
+      <ul class='post-list'>
+      <%% _.each(day.posts, function(post) { %>
+        <li class='post-list-item' data-campaign-id="<%%= post.campaign_id %>">
+          <div class='post-title'>
+            <a href="/posts/<%%= post.id%>"><%%= post.name %></a>
+          </div>
+        </li>
+      <%% }) %>
+      </ul>
+    </li>
+    <%% }) %>
+  </ul>
 </script>

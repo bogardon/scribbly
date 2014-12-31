@@ -4,49 +4,43 @@
 
 $ ->
   # calendar stuff
-  dayTemplate = _.template $("#day-template").html()
-  postTemplate = _.template $("#post-template").html()
+  weeklyTemplate = _.template $("#weekly-template").html()
 
-  savedDate = () ->
+  dateRange = () ->
     date = $.cookie("saved_date")
-    if date?
-      return moment(date)
-    else
-      return moment()
+    savedDate = if date? then moment(date) else moment()
+    {start: moment(savedDate).startOf("week"), end: moment(savedDate).endOf("week")}
 
-  allWeek = (date) ->
-
-  fetchPostsInWeek = (date) ->
+  fetchPosts = (dateRange) ->
     postsUrl = "/collaborations/#{$("#calendar").data('collaboration-id')}/posts"
-    start = moment(date).startOf("week")
-    end = moment(date).endOf("week")
+    start = moment(dateRange.start)
+    end = moment(dateRange.end)
     $.get postsUrl, start: start.toString(), end: end.toString()
     .success (data) ->
-      $.cookie("saved_date", date)
 
-      dayListItems = while start < end
-        dayListItem = $(dayTemplate day: start.format("ddd"), month: start.month()+1, date: start.date())
-        _.each data, (post) ->
-          scheduledAt = moment(post.scheduled_at)
-          if  scheduledAt >= start and scheduledAt <= moment(start).endOf("day")
-            dayListItem.children(".post-list").append postTemplate id: post.id, campaign_id: post.campaign_id, name: post.name, time: scheduledAt.format("hh:mma")
+      # set new html for calendar div
+      days = while start < end
+        posts = _.filter data, (post) ->
+          moment(post.scheduled_at) >= moment(start).startOf("day") &&
+          moment(post.scheduled_at) <= moment(start).endOf('day')
+        day =
+          dayOfWeek: start.format("ddd")
+          month: start.month() + 1
+          date: start.date()
+          posts: posts
+
         start.add(1, "day")
-        dayListItem
+        day
 
-      calendar = $("#calendar")
-      calendar.html dayListItems
-
-
+      $("#calendar").html weeklyTemplate days
 
   $('#right-arrow').click (e) ->
-    fetchPostsInWeek(savedDate().add(7, 'days'))
     false
 
   $('#left-arrow').click (e) ->
-    fetchPostsInWeek(savedDate().add(-7, 'days'))
     false
 
-  fetchPostsInWeek(savedDate()) if $("#calendar").length
+  fetchPosts(dateRange()) if $("#calendar").length
 
   # membership stuff
   membershipTemplate = _.template $("#membership-template").html()
