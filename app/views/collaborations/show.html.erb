@@ -4,9 +4,9 @@
 <div class='row'>
   <div class='small-3 small-centered columns'>
     <ul class="button-group even-3 text-center">
-      <li><a href="#" class="tiny button secondary">Daily</a></li>
-      <li><a href="#" class="tiny button">Weekly</a></li>
-      <li><a href="#" class="tiny button secondary">Monthly</a></li>
+      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='day'>Day</a></li>
+      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='week'>Week</a></li>
+      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='month'>Month</a></li>
     </ul>
   </div>
 </div>
@@ -16,10 +16,10 @@
     <%= link_to "Create Post", new_collaboration_post_url(@collaboration) %>
   </div>
   <div class='small-1 columns'>
-    <a id='left-arrow'><i class='fi-arrow-left'></i></a>
+    <a class='time-scale-arrow' data-scale-amount="-1"><i class='fi-arrow-left'></i></a>
   </div>
   <div class='small-1 small-offset-6 end columns'>
-    <a id='right-arrow'><i class='fi-arrow-right'></i></a>
+    <a class='time-scale-arrow float-right' data-scale-amount="1"><i class='fi-arrow-right'></i></a>
   </div>
 </div>
 
@@ -81,5 +81,33 @@
       </ul>
     </li>
     <%% }) %>
+  </ul>
+</script>
+
+<script type="text/template" id="monthly-template">
+  <ul class='small-block-grid-7'>
+  <%% _.each(weekdays, function(weekday) { %>
+    <li class='day-list-item'>
+      <div class='day-title'>
+        <%%= weekday %>
+      </div>
+    </li>
+  <%% }) %>
+  <%% _.each(days, function(day) { %>
+    <li class='month-day-item <%%= day.currentMonth ? "current-month" : "" %> <%%= day.today ? "today" : "" %>''>
+      <div class='month-day-title'>
+        <%%= day.date %>
+      </div>
+      <ul class='post-list'>
+      <%% _.each(day.posts, function(post) { %>
+        <li class='post-list-item' data-campaign-id="<%%= post.campaign_id %>">
+          <div class='post-title'>
+            <a href="/posts/<%%= post.id%>"><%%= post.name %></a>
+          </div>
+        </li>
+      <%% }) %>
+      </ul>
+    </li>
+  <%% }) %>
   </ul>
 </script>

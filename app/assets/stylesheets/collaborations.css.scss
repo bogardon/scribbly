@@ -20,7 +20,7 @@
   text-align: center;
 }
 
-#right-arrow {
+.float-right {
   float: right;
 }
 
@@ -61,4 +61,21 @@
 
 .campaign-list-item {
   font-size: 0.9em;
+}
+
+.month-day-title {
+  padding: 0.2em;
+}
+
+.month-day-item {
+  background-color: rgb(233, 233, 233);
+  min-height: 5em;
+}
+
+.current-month {
+  background-color: white;
+}
+
+.today {
+  background-color: rgb(118, 223, 157);
 }

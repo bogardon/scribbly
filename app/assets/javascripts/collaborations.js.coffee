@@ -5,11 +5,21 @@
 $ ->
   # calendar stuff
   weeklyTemplate = _.template $("#weekly-template").html()
+  monthlyTemplate = _.template $("#monthly-template").html()
 
-  dateRange = () ->
+  savedDate = () ->
     date = $.cookie("saved_date")
-    savedDate = if date? then moment(date) else moment()
-    {start: moment(savedDate).startOf("week"), end: moment(savedDate).endOf("week")}
+    if date? then moment(date) else moment()
+
+  dateRange = (date) ->
+    switch timeScale()
+      when "day" then {start: moment(date).startOf("day"), end: moment(date).endOf("day")}
+      when "week" then {start: moment(date).startOf("week"), end: moment(date).endOf("week")}
+      when "month" then {start: moment(date).startOf("month").startOf("week"), end: moment(date).endOf("month").endOf("week")}
+
+  timeScale = () ->
+    scale = $.cookie("time_scale")
+    if scale? then scale else "week"
 
   fetchPosts = (dateRange) ->
     postsUrl = "/collaborations/#{$("#calendar").data('collaboration-id')}/posts"
@@ -17,30 +27,48 @@ $ ->
     end = moment(dateRange.end)
     $.get postsUrl, start: start.toString(), end: end.toString()
     .success (data) ->
-
       # set new html for calendar div
-      days = while start < end
-        posts = _.filter data, (post) ->
-          moment(post.scheduled_at) >= moment(start).startOf("day") &&
-          moment(post.scheduled_at) <= moment(start).endOf('day')
-        day =
-          dayOfWeek: start.format("ddd")
-          month: start.month() + 1
-          date: start.date()
-          posts: posts
+      switch timeScale()
+        when "week"
+          days = while start < end
+            day =
+              dayOfWeek: start.format("ddd")
+              month: start.month() + 1
+              date: start.date()
+              posts: _.filter data, (post) ->
+                moment(post.scheduled_at) >= moment(start).startOf("day") &&
+                moment(post.scheduled_at) <= moment(start).endOf('day')
+            start.add(1, "day")
+            day
+          $("#calendar").html weeklyTemplate days
+        when "month"
+          obj =
+            weekdays: moment.weekdaysShort()
+            days: while start < end
+              day =
+                date: start.date()
+                currentMonth: savedDate().month() == start.month()
+                today: moment().month() == start.month() && moment().date() == start.date() && moment().year() == start.year()
+                posts: _.filter data, (post) ->
+                  moment(post.scheduled_at) >= moment(start).startOf("day") &&
+                  moment(post.scheduled_at) <= moment(start).endOf('day')
+              start.add(1, "day")
+              day
+          $("#calendar").html monthlyTemplate obj
 
-        start.add(1, "day")
-        day
 
-      $("#calendar").html weeklyTemplate days
-
-  $('#right-arrow').click (e) ->
+  $('.time-scale-arrow').click (e) ->
+    newDate = savedDate().add($(this).data('scale-amount'), timeScale())
+    $.cookie 'saved_date', newDate
+    fetchPosts(dateRange(newDate))
     false
 
-  $('#left-arrow').click (e) ->
-    false
+  $('.time-scale-select').click (e) ->
+    $.cookie("time_scale", $(this).data('scale'))
+    fetchPosts(dateRange(savedDate()))
 
-  fetchPosts(dateRange()) if $("#calendar").length
+  if $("#calendar").length
+    fetchPosts(dateRange(savedDate()))
 
   # membership stuff
   membershipTemplate = _.template $("#membership-template").html()
