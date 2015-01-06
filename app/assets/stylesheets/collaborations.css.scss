@@ -64,12 +64,13 @@
 }
 
 .month-day-title {
-  padding: 0.2em;
+  padding-left: 0.5em;
+  padding-top: 0.2em;
 }
 
 .month-day-item {
   background-color: rgb(233, 233, 233);
-  min-height: 5em;
+  min-height: 6em;
 }
 
 .current-month {
@@ -78,4 +79,8 @@
 
 .today {
   background-color: rgb(118, 223, 157);
+}
+
+#time-scale-title {
+  text-align: center;
 }

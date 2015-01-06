@@ -30,6 +30,13 @@ $ ->
       # set new html for calendar div
       switch timeScale()
         when "week"
+          if start.month() == end.month() && start.year() == end.year()
+            $("#time-scale-title").html "#{start.format("MMM")} #{start.date()} - #{end.date()}, #{start.format("YYYY")}"
+          else if start.month() != end.month() && start.year() == end.year()
+            $("#time-scale-title").html "#{start.format("MMM")} #{start.date()} - #{end.format("MMM")} #{end.date()}, #{start.format("YYYY")}"
+          else
+            $("#time-scale-title").html "#{start.format("MMM")} #{start.date()}, #{start.format("YYYY")} - #{end.format("MMM")} #{end.date()}, #{end.format("YYYY")}"
+
           days = while start < end
             day =
               dayOfWeek: start.format("ddd")
@@ -42,6 +49,7 @@ $ ->
             day
           $("#calendar").html weeklyTemplate days
         when "month"
+          $("#time-scale-title").html savedDate().format("MMMM YYYY")
           obj =
             weekdays: moment.weekdaysShort()
             days: while start < end
@@ -56,6 +64,10 @@ $ ->
               day
           $("#calendar").html monthlyTemplate obj
 
+  $("#today-button").click (e) ->
+    newDate = moment()
+    $.cookie 'saved_date', newDate
+    fetchPosts(dateRange(newDate))
 
   $('.time-scale-arrow').click (e) ->
     newDate = savedDate().add($(this).data('scale-amount'), timeScale())
@@ -65,9 +77,13 @@ $ ->
 
   $('.time-scale-select').click (e) ->
     $.cookie("time_scale", $(this).data('scale'))
+    $('.time-scale-select').toggleClass 'secondary'
     fetchPosts(dateRange(savedDate()))
 
   if $("#calendar").length
+    $('.time-scale-select').filter ->
+      $(this).data('scale') == timeScale()
+    .toggleClass 'secondary'
     fetchPosts(dateRange(savedDate()))
 
   # membership stuff

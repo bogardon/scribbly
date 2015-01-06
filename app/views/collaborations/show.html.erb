@@ -2,11 +2,13 @@
 <p><%= @collaboration.description %></p>
 
 <div class='row'>
+  <div class='small-2 small-offset-2 columns'>
+    <a class='tiny button success' id='today-button'>Today</a>
+  </div>
   <div class='small-3 small-centered columns'>
     <ul class="button-group even-3 text-center">
-      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='day'>Day</a></li>
-      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='week'>Week</a></li>
-      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='month'>Month</a></li>
+      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='week'>Weekly</a></li>
+      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='month'>Monthly</a></li>
     </ul>
   </div>
 </div>
@@ -18,7 +20,10 @@
   <div class='small-1 columns'>
     <a class='time-scale-arrow' data-scale-amount="-1"><i class='fi-arrow-left'></i></a>
   </div>
-  <div class='small-1 small-offset-6 end columns'>
+  <div class='small-6 columns' id='time-scale-title'>
+
+  </div>
+  <div class='small-1 end columns'>
     <a class='time-scale-arrow float-right' data-scale-amount="1"><i class='fi-arrow-right'></i></a>
   </div>
 </div>
