@@ -21,7 +21,7 @@
     <a class='time-scale-arrow' data-scale-amount="-1"><i class='fi-arrow-left'></i></a>
   </div>
   <div class='small-6 columns' id='time-scale-title'>
-
+    Loading...
   </div>
   <div class='small-1 end columns'>
     <a class='time-scale-arrow float-right' data-scale-amount="1"><i class='fi-arrow-right'></i></a>
@@ -54,8 +54,8 @@
 <%= link_to "Back", collaborations_url %>
 
 <script type='text/template' id='campaign-template'>
-  <li class='campaign-list-item' data-campaign-id="<%%= id %>">
-    <div class='campaign-selection campaign-show'>
+  <li class='campaign-list-item' data-campaign-id="<%%= id %>" data-color='<%%= color %>'>
+    <div class='campaign-selection' style="background-color: <%%= shown ? color : "" %>; border-color: <%%= color %>">
     </div>
     <%%= name %>
   </li>
@@ -99,7 +99,7 @@
     </li>
   <%% }) %>
   <%% _.each(days, function(day) { %>
-    <li class='month-day-item <%%= day.currentMonth ? "current-month" : "" %> <%%= day.today ? "today" : "" %>''>
+    <li class='month-day-item <%%= day.currentMonth ? "current-month" : "" %> <%%= day.today ? "today" : "" %>'>
       <div class='month-day-title'>
         <%%= day.date %>
       </div>

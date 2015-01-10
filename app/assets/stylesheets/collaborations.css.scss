@@ -17,6 +17,7 @@
 }
 
 .post-title {
+  font-size: 0.9em;
   text-align: center;
 }
 
@@ -48,11 +49,9 @@
   display: inline-block;
   width: 14px;
   height: 14px;
-  border: 1px solid gray;
-}
-
-.campaign-show {
-  background-color: gray;
+  border-width: 1px;
+  border-style: solid;
+  vertical-align: middle;
 }
 
 .post-hide {
@@ -60,6 +59,7 @@
 }
 
 .campaign-list-item {
+  cursor: pointer;
   font-size: 0.9em;
 }
 
@@ -71,6 +71,11 @@
 .month-day-item {
   background-color: rgb(233, 233, 233);
   min-height: 6em;
+  max-height: 6em
+}
+
+.month-day-item:hover {
+  background: #efefef;
 }
 
 .current-month {
@@ -83,4 +88,9 @@
 
 #time-scale-title {
   text-align: center;
+  font-size: 1.5em;
+}
+
+.time-scale-arrow {
+  font-size: 1.5em;
 }

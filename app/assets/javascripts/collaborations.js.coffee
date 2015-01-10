@@ -112,6 +112,12 @@ $ ->
   # campaign stuff
   campaignTemplate = _.template $("#campaign-template").html()
 
+  campaignShown = (campaignId) ->
+    $.parseJSON($.cookie("show-campaign-#{campaignId}") || true)
+
+  toggleCampaignShown = (campaignId) ->
+    $.cookie("show-campaign-#{campaignId}", !campaignShown(campaignId))
+
   $('#campaign-form').on 'ajax:success', (xhr, data, status) ->
     $(this)[0].reset()
     $("#campaign-list").append campaignTemplate data
@@ -121,18 +127,20 @@ $ ->
     campaignsUrl = "/collaborations/#{$("#campaign-list").data('collaboration-id')}/campaigns"
     $.get campaignsUrl
     .success (data) ->
+      _.each data, (c) ->
+        c.shown = campaignShown(c.id)
       campaignListItems = (campaignTemplate campaign for campaign in data)
       $("#campaign-list").html campaignListItems.join('')
       bindToCampaignSelection()
 
   bindToCampaignSelection = () ->
-    $('.campaign-selection').unbind('click').click (e) ->
-      console.log "sup"
+    $('.campaign-list-item').unbind('click').click (e) ->
       campaignItem = $(this)
-      campaignItem.toggleClass "campaign-show"
-
+      toggleCampaignShown(campaignItem.data('campaign-id'))
+      color = if campaignShown(campaignItem.data('campaign-id')) then campaignItem.data('color') else ""
+      campaignItem.find('.campaign-selection').css("background-color", color)
       $(".post-list-item").filter (i, e) ->
-        $(this).data('campaign-id') == campaignItem.parent().data('campaign-id')
+        $(this).data('campaign-id') == campaignItem.data('campaign-id')
       .toggleClass 'post-hide'
       false
 

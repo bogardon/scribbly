@@ -9,7 +9,7 @@ class CampaignsController < ApplicationController
     @campaign = @collaboration.campaigns.build(campaign_params)
 
     if @campaign.save
-      render json: @campaign
+      render json: @campaign.to_json(methods: :color)
     else
       render json: nil, status: 400
     end
@@ -24,7 +24,7 @@ class CampaignsController < ApplicationController
   def index
     @collaboration = Collaboration.find(params[:collaboration_id])
     @campaigns = @collaboration.campaigns
-    render json: @campaigns
+    render json: @campaigns.to_json(methods: :color)
   end
 
   def show

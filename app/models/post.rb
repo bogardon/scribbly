@@ -19,4 +19,8 @@ class Post < ActiveRecord::Base
     time_zone = ActiveSupport::TimeZone.new self.time_zone
     self.scheduled_at -= time_zone.utc_offset
   end
+
+  def campaign_color
+    campaign.color
+  end
 end
