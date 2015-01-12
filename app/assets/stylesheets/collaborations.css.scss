@@ -68,6 +68,14 @@
   padding-top: 0.2em;
 }
 
+.week-day-item {
+  min-height: 6em;
+}
+
+.week-day-item:hover {
+  background: #efefef;
+}
+
 .month-day-item {
   background-color: rgb(233, 233, 233);
   min-height: 6em;

@@ -39,6 +39,7 @@ $ ->
 
           days = while start < end
             day =
+              description: start.toString()
               dayOfWeek: start.format("ddd")
               month: start.month() + 1
               date: start.date()
@@ -54,6 +55,7 @@ $ ->
             weekdays: moment.weekdaysShort()
             days: while start < end
               day =
+                description: start.toString()
                 date: start.date()
                 currentMonth: savedDate().month() == start.month()
                 today: moment().month() == start.month() && moment().date() == start.date() && moment().year() == start.year()
@@ -63,6 +65,8 @@ $ ->
               start.add(1, "day")
               day
           $("#calendar").html monthlyTemplate obj
+
+      bindForPostCreation()
 
   $("#today-button").click (e) ->
     newDate = moment()
@@ -111,6 +115,7 @@ $ ->
 
   # campaign stuff
   campaignTemplate = _.template $("#campaign-template").html()
+  campaigns = []
 
   campaignShown = (campaignId) ->
     $.parseJSON($.cookie("show-campaign-#{campaignId}") || true)
@@ -120,6 +125,8 @@ $ ->
 
   $('#campaign-form').on 'ajax:success', (xhr, data, status) ->
     $(this)[0].reset()
+    data.shown = campaignShown(data.id)
+    campaigns.push data
     $("#campaign-list").append campaignTemplate data
     bindToCampaignSelection()
 
@@ -129,6 +136,7 @@ $ ->
     .success (data) ->
       _.each data, (c) ->
         c.shown = campaignShown(c.id)
+      campaigns = data
       campaignListItems = (campaignTemplate campaign for campaign in data)
       $("#campaign-list").html campaignListItems.join('')
       bindToCampaignSelection()
@@ -145,3 +153,13 @@ $ ->
       false
 
   fetchCampaigns() if $("#campaign-list").length
+
+  # post creation stuff
+  optionTemplate = _.template $("#campaign-option-template").html()
+  bindForPostCreation = () ->
+    $('.month-day-item, .week-day-item').unbind('click').click (e) ->
+      selectedDay = moment($(this).data('day'))
+      createPostModal = $('#create-post-modal')
+      createPostModal.find('#create-post-title').html "New post on #{selectedDay.format "MMMM Do YYYY"}"
+      createPostModal.foundation('reveal', 'open');
+      createPostModal.find("#campaign-select").html (optionTemplate c for c in campaigns)

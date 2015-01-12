@@ -15,21 +15,6 @@
 
 <div class='row'>
   <div class='small-2 columns'>
-    <%= link_to "Create Post", new_collaboration_post_url(@collaboration) %>
-  </div>
-  <div class='small-1 columns'>
-    <a class='time-scale-arrow' data-scale-amount="-1"><i class='fi-arrow-left'></i></a>
-  </div>
-  <div class='small-6 columns' id='time-scale-title'>
-    Loading...
-  </div>
-  <div class='small-1 end columns'>
-    <a class='time-scale-arrow float-right' data-scale-amount="1"><i class='fi-arrow-right'></i></a>
-  </div>
-</div>
-
-<div class='row'>
-  <div class='small-2 columns'>
     <h6 class='section-title'><strong>Campaigns</strong></h6>
     <%= form_for :campaign, url: collaboration_campaigns_url(@collaboration), remote: true, html: {id: "campaign-form"} do |f| %>
     <%= f.text_field :name, placeholder: "Create campaign" %>
@@ -38,6 +23,17 @@
     </ul>
   </div>
   <div class='small-8 columns'>
+    <div class='row'>
+      <div class='small-1 columns'>
+        <a class='time-scale-arrow' data-scale-amount="-1"><i class='fi-arrow-left'></i></a>
+      </div>
+      <div class='small-10 columns' id='time-scale-title'>
+        Loading...
+      </div>
+      <div class='small-1 end columns'>
+        <a class='time-scale-arrow float-right' data-scale-amount="1"><i class='fi-arrow-right'></i></a>
+      </div>
+    </div>
     <div id='calendar' data-collaboration-id="<%=@collaboration.id%>">
     </div>
   </div>
@@ -51,7 +47,47 @@
   </div>
 </div>
 
-<%= link_to "Back", collaborations_url %>
+<div id="create-post-modal" class="reveal-modal" data-reveal>
+  <div class='row'>
+    <div class='small-12 columns'>
+      <h4 id='create-post-title'></h4>
+    </div>
+  </div>
+  <%= form_for :post, url: collaboration_posts_url(@collaboration) do |f_post| %>
+    <%= f_post.hidden_field :collaboration_id, value: @collaboration.id %>
+    <%= f_post.hidden_field :user_id, value: current_user.id %>
+    <div class='row'>
+      <div class='small-3 columns'>
+        <%= f_post.label :name %>
+        <%= f_post.text_field :name, autofocus: true %>
+      </div>
+      <div class='small-3 columns'>
+        <%= f_post.label :campaign %>
+        <%= select_tag :campaign_id, nil, id: "campaign-select" %>
+      </div>
+      <div class='small-3 columns'>
+          <%= f_post.label :hour %>
+          <%= select_hour(Time.now, field_name: "post_hour") %>
+      </div>
+      <div class='small-3 columns'>
+        <%= f_post.label :minute %>
+        <%= select_minute(Time.now, minute_step: 15) %>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='small-12 columns text-right'>
+        <%= f_post.submit "Create Post", class: "button" %>
+      </div>
+    </div>
+  <% end %>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
+
+<script type='text/template' id='campaign-option-template'>
+  <option value="<%%= id %>">
+    <%%= name %>
+  </option>
+</script>
 
 <script type='text/template' id='campaign-template'>
   <li class='campaign-list-item' data-campaign-id="<%%= id %>" data-color='<%%= color %>'>
@@ -70,11 +106,15 @@
 
 <script type="text/template" id="weekly-template">
   <ul class='small-block-grid-7'>
-    <%% _.each(obj, function(day) { %>
+  <%% _.each(obj, function(day) { %>
     <li class='day-list-item'>
       <div class='day-title'>
         <%%= day.dayOfWeek %> <%%= day.month %>/<%%= day.date %>
       </div>
+    </li>
+    <%% }) %>
+    <%% _.each(obj, function(day) { %>
+    <li class='week-day-item' data-day="<%%= day.description %>">
       <ul class='post-list'>
       <%% _.each(day.posts, function(post) { %>
         <li class='post-list-item' data-campaign-id="<%%= post.campaign_id %>">
@@ -82,10 +122,10 @@
             <a href="/posts/<%%= post.id%>"><%%= post.name %></a>
           </div>
         </li>
-      <%% }) %>
+        <%% }) %>
       </ul>
     </li>
-    <%% }) %>
+  <%% }) %>
   </ul>
 </script>
 
@@ -99,7 +139,7 @@
     </li>
   <%% }) %>
   <%% _.each(days, function(day) { %>
-    <li class='month-day-item <%%= day.currentMonth ? "current-month" : "" %> <%%= day.today ? "today" : "" %>'>
+    <li class='month-day-item <%%= day.currentMonth ? "current-month" : "" %> <%%= day.today ? "today" : "" %>' data-day="<%%= day.description %>">
       <div class='month-day-title'>
         <%%= day.date %>
       </div>
