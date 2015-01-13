@@ -1,37 +1,3 @@
 // Place all the styles related to the campaigns controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
-.day-title {
-  text-align: center;
-  background-color: rgb(43, 166, 203);
-  color: white;
-}
-
-.post-list {
-  margin-left: 0;
-}
-
-.post-list-item {
-  display: block;
-}
-
-.post-title {
-  text-align: center;
-}
-
-
-
-@mixin arrow {
-  display: table;
-}
-
-#left-arrow {
-  @include arrow;
-  margin-right: auto;
-}
-
-#right-arrow {
-  @include arrow;
-  margin-left: auto;
-}

@@ -6,14 +6,12 @@ class CampaignsController < ApplicationController
 
   def create
     @collaboration = Collaboration.find(params[:collaboration_id])
-
     @campaign = @collaboration.campaigns.build(campaign_params)
 
     if @campaign.save
-      redirect_to collaboration_url(@collaboration)
+      render json: @campaign.to_json(methods: :color)
     else
-      flash[:notice] = @campaign.errors
-      redirect_to new_collaboration_campaign(@collaboration)
+      render json: nil, status: 400
     end
   end
 
@@ -24,17 +22,13 @@ class CampaignsController < ApplicationController
   end
 
   def index
+    @collaboration = Collaboration.find(params[:collaboration_id])
+    @campaigns = @collaboration.campaigns
+    render json: @campaigns.to_json(methods: :color)
   end
 
   def show
     @campaign = Campaign.find_by_id(params[:id])
-    @posts = @campaign.posts
-    @weekly_posts = Date.today.all_week(:sunday).map do |d|
-      p = @posts.select do |p|
-        p.scheduled_at.between?(d, d+1)
-      end
-      [d, p]
-    end
   end
 
   def destroy

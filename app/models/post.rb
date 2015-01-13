@@ -15,7 +15,12 @@ class Post < ActiveRecord::Base
   before_save :use_selected_time_zone
 
   def use_selected_time_zone
+    return unless self.time_zone
     time_zone = ActiveSupport::TimeZone.new self.time_zone
     self.scheduled_at -= time_zone.utc_offset
+  end
+
+  def campaign_color
+    campaign.color
   end
 end

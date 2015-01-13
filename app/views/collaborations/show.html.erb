@@ -1,15 +1,158 @@
 <h2><%= @collaboration.name %></h2>
 <p><%= @collaboration.description %></p>
 
-<%= link_to "Create Campaign", new_collaboration_campaign_url(@collaboration) %>
+<div class='row'>
+  <div class='small-2 small-offset-2 columns'>
+    <a class='tiny button success' id='today-button'>Today</a>
+  </div>
+  <div class='small-3 small-centered columns'>
+    <ul class="button-group even-3 text-center">
+      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='week'>Weekly</a></li>
+      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='month'>Monthly</a></li>
+    </ul>
+  </div>
+</div>
 
-<h5>Campaigns</h5>
-<ul>
-  <% @collaboration.campaigns.each do |campaign| %>
-    <li><%= link_to campaign.name, campaign_url(campaign) %></li>
+<div class='row'>
+  <div class='small-2 columns'>
+    <h6 class='section-title'><strong>Campaigns</strong></h6>
+    <%= form_for :campaign, url: collaboration_campaigns_url(@collaboration), remote: true, html: {id: "campaign-form"} do |f| %>
+    <%= f.text_field :name, placeholder: "Create campaign" %>
+    <% end %>
+    <ul id='campaign-list' data-collaboration-id="<%=@collaboration.id%>">
+    </ul>
+  </div>
+  <div class='small-8 columns'>
+    <div class='row'>
+      <div class='small-1 columns'>
+        <a class='time-scale-arrow' data-scale-amount="-1"><i class='fi-arrow-left'></i></a>
+      </div>
+      <div class='small-10 columns' id='time-scale-title'>
+        Loading...
+      </div>
+      <div class='small-1 end columns'>
+        <a class='time-scale-arrow float-right' data-scale-amount="1"><i class='fi-arrow-right'></i></a>
+      </div>
+    </div>
+    <div id='calendar' data-collaboration-id="<%=@collaboration.id%>">
+    </div>
+  </div>
+  <div class='small-2 columns'>
+    <h6 class='section-title'><strong>Members</strong></h6>
+    <%= form_for :member, url: collaboration_memberships_url(@collaboration), remote: true, html: {id: "membership-form"} do |f| %>
+    <%= f.text_field :email, placeholder: "Add member" %>
+    <% end %>
+    <ul id='membership-list' data-collaboration-id="<%= @collaboration.id %>">
+    </ul>
+  </div>
+</div>
+
+<div id="create-post-modal" class="reveal-modal" data-reveal>
+  <div class='row'>
+    <div class='small-12 columns'>
+      <h4 id='create-post-title'></h4>
+    </div>
+  </div>
+  <%= form_for :post, url: collaboration_posts_url(@collaboration) do |f_post| %>
+    <%= f_post.hidden_field :collaboration_id, value: @collaboration.id %>
+    <%= f_post.hidden_field :user_id, value: current_user.id %>
+    <div class='row'>
+      <div class='small-3 columns'>
+        <%= f_post.label :name %>
+        <%= f_post.text_field :name, autofocus: true %>
+      </div>
+      <div class='small-3 columns'>
+        <%= f_post.label :campaign %>
+        <%= select_tag :campaign_id, nil, id: "campaign-select" %>
+      </div>
+      <div class='small-3 columns'>
+          <%= f_post.label :hour %>
+          <%= select_hour(Time.now, field_name: "post_hour") %>
+      </div>
+      <div class='small-3 columns'>
+        <%= f_post.label :minute %>
+        <%= select_minute(Time.now, minute_step: 15) %>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='small-12 columns text-right'>
+        <%= f_post.submit "Create Post", class: "button" %>
+      </div>
+    </div>
   <% end %>
-</ul>
+  <a class="close-reveal-modal">&#215;</a>
+</div>
 
-<%= link_to "Invite Members", collaboration_memberships_url(@collaboration) %>
-<br>
-<%= link_to "Back", collaborations_url %>
+<script type='text/template' id='campaign-option-template'>
+  <option value="<%%= id %>">
+    <%%= name %>
+  </option>
+</script>
+
+<script type='text/template' id='campaign-template'>
+  <li class='campaign-list-item' data-campaign-id="<%%= id %>" data-color='<%%= color %>'>
+    <div class='campaign-selection' style="background-color: <%%= shown ? color : "" %>; border-color: <%%= color %>">
+    </div>
+    <%%= name %>
+  </li>
+</script>
+
+<script type="text/template" id="membership-template">
+  <li class='membership-list-item'>
+    <%%= user.email %>
+    <a href='/memberships/<%%= id %>' data-type='json' data-remote=true data-method='delete' rel='nofollow' class='membership-x'><i class='fi-x'></i></a>
+  </li>
+</script>
+
+<script type="text/template" id="weekly-template">
+  <ul class='small-block-grid-7'>
+  <%% _.each(obj, function(day) { %>
+    <li class='day-list-item'>
+      <div class='day-title'>
+        <%%= day.dayOfWeek %> <%%= day.month %>/<%%= day.date %>
+      </div>
+    </li>
+    <%% }) %>
+    <%% _.each(obj, function(day) { %>
+    <li class='week-day-item' data-day="<%%= day.description %>">
+      <ul class='post-list'>
+      <%% _.each(day.posts, function(post) { %>
+        <li class='post-list-item' data-campaign-id="<%%= post.campaign_id %>">
+          <div class='post-title'>
+            <a href="/posts/<%%= post.id%>"><%%= post.name %></a>
+          </div>
+        </li>
+        <%% }) %>
+      </ul>
+    </li>
+  <%% }) %>
+  </ul>
+</script>
+
+<script type="text/template" id="monthly-template">
+  <ul class='small-block-grid-7'>
+  <%% _.each(weekdays, function(weekday) { %>
+    <li class='day-list-item'>
+      <div class='day-title'>
+        <%%= weekday %>
+      </div>
+    </li>
+  <%% }) %>
+  <%% _.each(days, function(day) { %>
+    <li class='month-day-item <%%= day.currentMonth ? "current-month" : "" %> <%%= day.today ? "today" : "" %>' data-day="<%%= day.description %>">
+      <div class='month-day-title'>
+        <%%= day.date %>
+      </div>
+      <ul class='post-list'>
+      <%% _.each(day.posts, function(post) { %>
+        <li class='post-list-item' data-campaign-id="<%%= post.campaign_id %>">
+          <div class='post-title'>
+            <a href="/posts/<%%= post.id%>"><%%= post.name %></a>
+          </div>
+        </li>
+      <%% }) %>
+      </ul>
+    </li>
+  <%% }) %>
+  </ul>
+</script>

@@ -1,37 +1,30 @@
 class PostsController < ApplicationController
   def new
-    @campaign = Campaign.find_by_id(params[:campaign_id])
+    @collaboration = Collaboration.find_by_id(params[:collaboration_id])
     @post = Post.new
     @comment = @post.comments.build
     @content = @post.contents.build
   end
 
   def index
-    @campaign = Campaign.find_by_id(params[:campaign_id])
+    @collaboration = Collaboration.find_by_id(params[:collaboration_id])
 
-    date = params[:date].to_datetime
-    week = date.all_week(:sunday)
+    start_date = params[:start].to_datetime
+    end_date = params[:end].to_datetime
 
-    @weekly_posts = @campaign.posts.during(week)
+    @posts = @collaboration.posts.during(start_date..end_date)
 
-    @day_posts_pairs = week.map do |d|
-      p = @weekly_posts.select do |p|
-        p.scheduled_at.between?(d, d + 1)
-      end.sort(&:scheduled_at)
-      [d, p]
-    end
-
-    render json: @day_posts_pairs
+    render json: @posts
   end
 
   def create
-    @campaign = Campaign.find_by_id(params[:campaign_id])
+    @collaboration = Collaboration.find_by_id(params[:collaboration_id])
     @post = Post.new(post_params)
     if @post.save
-      redirect_to campaign_url(@campaign)
+      redirect_to collaboration_url(@collaboration)
     else
       flash[:notice] = @post.errors
-      redirect_to new_campaign_post_url
+      redirect_to new_collaboration_post_url
     end
   end
 
@@ -54,7 +47,7 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:user_id, :campaign_id, :name, :scheduled_at, :time_zone,
+    params.require(:post).permit(:user_id, :collaboration_id, :campaign_id, :name, :scheduled_at, :time_zone,
       :comments_attributes => [:id, :body, :user_id, :post_id],
       :contents_attributes => [:id, :body, :user_id, :post_id, :media])
   end

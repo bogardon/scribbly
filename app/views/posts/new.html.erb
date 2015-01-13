@@ -1,13 +1,13 @@
 <h2>Create Post</h2>
 
-<%= form_for @post, url: campaign_posts_url do |f_post| %>
-  <%= f_post.hidden_field :campaign_id, value: @campaign.id %>
+<%= form_for @post, url: collaboration_posts_url do |f_post| %>
+  <%= f_post.hidden_field :collaboration_id, value: @collaboration.id %>
   <%= f_post.hidden_field :user_id, value: current_user.id %>
   <div>
     <%= f_post.label :post %>
     <%= f_post.text_field :name, autofocus: true %>
   </div>
-  
+
   <div>
     <%= f_post.label :scheduled_at %>
     <%= f_post.datetime_select :scheduled_at %>
@@ -21,7 +21,7 @@
 		  <%= f_comment.text_area :body %>
     </div>
 	<% end %>
-  
+
   <%= f_post.fields_for :contents do |f_content| %>
     <%= f_content.hidden_field :user_id, value: current_user.id %>
     <div>

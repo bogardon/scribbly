@@ -1,3 +1,104 @@
 // Place all the styles related to the collaborations controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.day-title {
+  text-align: center;
+  background-color: rgb(43, 166, 203);
+  color: white;
+}
+
+.post-list {
+  margin-left: 0;
+}
+
+.post-list-item {
+  display: block;
+}
+
+.post-title {
+  font-size: 0.9em;
+  text-align: center;
+}
+
+.float-right {
+  float: right;
+}
+
+#membership-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.membership-list-item {
+  font-size: 0.75em;
+}
+
+.section-title {
+  text-decoration: underline;
+}
+
+#campaign-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.campaign-selection {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border-width: 1px;
+  border-style: solid;
+  vertical-align: middle;
+}
+
+.post-hide {
+  display: none
+}
+
+.campaign-list-item {
+  cursor: pointer;
+  font-size: 0.9em;
+}
+
+.month-day-title {
+  padding-left: 0.5em;
+  padding-top: 0.2em;
+}
+
+.week-day-item {
+  min-height: 6em;
+}
+
+.week-day-item:hover {
+  background: #efefef;
+}
+
+.month-day-item {
+  background-color: rgb(233, 233, 233);
+  min-height: 6em;
+  max-height: 6em
+}
+
+.month-day-item:hover {
+  background: #efefef;
+}
+
+.current-month {
+  background-color: white;
+}
+
+.today {
+  background-color: rgb(118, 223, 157);
+}
+
+#time-scale-title {
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.time-scale-arrow {
+  font-size: 1.5em;
+}

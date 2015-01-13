@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 20141005210730) do
     t.datetime "scheduled_at"
     t.integer  "user_id"
     t.integer  "campaign_id"
+    t.integer  "collaboration_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -109,5 +110,6 @@ ActiveRecord::Schema.define(version: 20141005210730) do
   add_foreign_key "memberships", "collaborations"
   add_foreign_key "memberships", "users"
   add_foreign_key "posts", "campaigns"
+  add_foreign_key "posts", "collaborations"
   add_foreign_key "posts", "users"
 end
