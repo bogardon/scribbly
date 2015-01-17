@@ -1,3 +1,13 @@
+GIT
+  remote: https://github.com/codebrew/backbone-rails
+  revision: 2d98d7157767dc04b00cac3f822f9576283ba921
+  specs:
+    rails-backbone (1.1.2)
+      coffee-script
+      ejs
+      jquery-rails
+      railties
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -74,6 +84,7 @@ GEM
     devise_invitable (1.4.0)
       actionmailer (>= 3.2.6, < 5)
       devise (>= 3.2.0)
+    ejs (1.1.1)
     erubis (2.7.0)
     execjs (2.2.2)
     figaro (1.0.0)
@@ -212,6 +223,7 @@ DEPENDENCIES
   puma
   pundit
   rails (= 4.2.0)
+  rails-backbone!
   sass-rails (~> 5.0.0)
   sdoc (~> 0.4.0)
   spring

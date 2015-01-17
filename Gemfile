@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby "2.2.0"
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
@@ -35,6 +36,9 @@ gem 'foundation-icons-sass-rails'
 
 # Pundit
 gem 'pundit'
+
+# Backbone
+gem "rails-backbone", git: "https://github.com/codebrew/backbone-rails"
 
 # Puma
 gem 'puma'
