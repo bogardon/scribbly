@@ -16,6 +16,10 @@
 //= require moment
 //= require underscore
 //= require foundation
+//= require backbone
+//= require backbone_rails_sync
+//= require backbone_datalink
+//= require backbone/scribbly
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
