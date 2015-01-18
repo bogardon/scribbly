@@ -9,3 +9,6 @@ window.Scribbly =
   Collections: {}
   Routers: {}
   Views: {}
+
+$ ->
+  window.Scribbly.Routers =

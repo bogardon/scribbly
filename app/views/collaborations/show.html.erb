@@ -37,11 +37,9 @@
     <div id='calendar' data-collaboration-id="<%=@collaboration.id%>">
     </div>
   </div>
-  <div class='small-2 columns'>
+  <div class='small-2 columns' id='membership-section'>
     <h6 class='section-title'><strong>Members</strong></h6>
-    <%= form_for :member, url: collaboration_memberships_url(@collaboration), remote: true, html: {id: "membership-form"} do |f| %>
-    <%= f.text_field :email, placeholder: "Add member" %>
-    <% end %>
+    <input id='membership-form' type='text' placeholder='Add member'>
     <ul id='membership-list' data-collaboration-id="<%= @collaboration.id %>">
     </ul>
   </div>
@@ -98,10 +96,8 @@
 </script>
 
 <script type="text/template" id="membership-template">
-  <li class='membership-list-item'>
-    <%%= user.email %>
-    <a href='/memberships/<%%= id %>' data-type='json' data-remote=true data-method='delete' rel='nofollow' class='membership-x'><i class='fi-x'></i></a>
-  </li>
+  <%%= user.email %>
+  <a><i class='fi-x'></i></a>
 </script>
 
 <script type="text/template" id="weekly-template">

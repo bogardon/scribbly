@@ -91,27 +91,93 @@ $ ->
     fetchPosts(dateRange(savedDate()))
 
   # membership stuff
-  membershipTemplate = _.template $("#membership-template").html()
+  # membershipTemplate = _.template $("#membership-template").html()
 
-  fetchMembers = () ->
-    membershipsUrl = "/collaborations/#{$("#membership-list").data('collaboration-id')}/memberships"
-    $.get membershipsUrl
-    .success (data) ->
-      membershipListItems = (membershipTemplate member for member in data)
-      $("#membership-list").html membershipListItems.join('')
-      bindToMembershipX()
+  Member = Backbone.Model.extend {
+    url: () ->
+      "/memberships/#{this.get("id")}"
+  }
 
-  $('#membership-form').on 'ajax:success', (xhr, data, status) ->
-    $(this)[0].reset()
-    $("#membership-list").append membershipTemplate data
-    bindToMembershipX()
+  MemberList = Backbone.Collection.extend {
+    model: Member,
+    initialize: (models, options) ->
+      this.collaborationId = options.collaborationId
+    ,
+    url: () ->
+      "/collaborations/#{this.collaborationId}/memberships"
+    ,
+  }
 
-  bindToMembershipX = () ->
-    $('.membership-x').off 'ajax:success'
-    .on 'ajax:success', (xhr, data, status) ->
-      $(this).parent().remove()
+  Members = new MemberList([], {collaborationId: $("#membership-list").data('collaboration-id')})
 
-  fetchMembers() if $("#membership-list").length
+  MemberView = Backbone.View.extend {
+    tagName: "li",
+    className: "membership-list-item"
+    template: _.template($("#membership-template").html()),
+    initialize: () ->
+      this.listenTo this.model, 'change', this.render
+      this.listenTo this.model, 'destroy', this.remove
+    ,
+    events: {
+      "click a" : "clear"
+    }
+    render: () ->
+      this.$el.html this.template(this.model.toJSON())
+      return this
+    ,
+    clear: () ->
+      this.model.destroy()
+  }
+
+  MemberSectionView = Backbone.View.extend {
+    el: $("#membership-section"),
+    initialize: () ->
+      this.input = $("#membership-form")
+      this.list = $("#membership-list")
+      this.listenTo Members, 'add', this.addOne
+      this.listenTo Members, 'all', this.render
+      Members.fetch {
+        data:
+          collaboration_id: $("membership-list").data
+      }
+    ,
+    events: {
+      "keypress #membership-form":  "createOnEnter",
+    },
+    createOnEnter: (e) ->
+      return unless e.keyCode == 13
+      Members.create {
+        user:
+          email: this.input.val()
+      }
+      this.input.val('')
+    ,
+    addOne: (member) ->
+      view = new MemberView({model: member})
+      this.list.append(view.render().el)
+  }
+
+  MembersView = new MemberSectionView
+
+  # fetchMembers = () ->
+  #   membershipsUrl = "/collaborations/#{$("#membership-list").data('collaboration-id')}/memberships"
+  #   $.get membershipsUrl
+  #   .success (data) ->
+  #     membershipListItems = (membershipTemplate member for member in data)
+  #     $("#membership-list").html membershipListItems.join('')
+  #     bindToMembershipX()
+  #
+  # $('#membership-form').on 'ajax:success', (xhr, data, status) ->
+  #   $(this)[0].reset()
+  #   $("#membership-list").append membershipTemplate data
+  #   bindToMembershipX()
+  #
+  # bindToMembershipX = () ->
+  #   $('.membership-x').off 'ajax:success'
+  #   .on 'ajax:success', (xhr, data, status) ->
+  #     $(this).parent().remove()
+
+  # fetchMembers() if $("#membership-list").length
 
   # campaign stuff
   campaignTemplate = _.template $("#campaign-template").html()
