@@ -94,8 +94,7 @@ $ ->
   # membershipTemplate = _.template $("#membership-template").html()
 
   Member = Backbone.Model.extend {
-    url: () ->
-      "/memberships/#{this.get("id")}"
+
   }
 
   MemberList = Backbone.Collection.extend {
@@ -146,6 +145,7 @@ $ ->
     },
     createOnEnter: (e) ->
       return unless e.keyCode == 13
+
       Members.create {
         user:
           email: this.input.val()

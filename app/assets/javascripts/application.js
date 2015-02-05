@@ -13,8 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.cookie
-//= require moment
 //= require underscore
+//= require moment
 //= require foundation
 //= require backbone
 //= require backbone_rails_sync
