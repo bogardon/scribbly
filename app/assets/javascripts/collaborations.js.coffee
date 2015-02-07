@@ -90,12 +90,11 @@ $ ->
     .toggleClass 'secondary'
     fetchPosts(dateRange(savedDate()))
 
-  # membership stuff
-  # membershipTemplate = _.template $("#membership-template").html()
-
+  # membership backboned
   Member = Backbone.Model.extend {
-
   }
+
+  collaborationId = location.pathname.split('/').pop()
 
   MemberList = Backbone.Collection.extend {
     model: Member,
@@ -107,7 +106,7 @@ $ ->
     ,
   }
 
-  Members = new MemberList([], {collaborationId: $("#membership-list").data('collaboration-id')})
+  Members = new MemberList([], {collaborationId: collaborationId})
 
   MemberView = Backbone.View.extend {
     tagName: "li",
@@ -137,7 +136,7 @@ $ ->
       this.listenTo Members, 'all', this.render
       Members.fetch {
         data:
-          collaboration_id: $("membership-list").data
+          collaboration_id: collaborationId
       }
     ,
     events: {
@@ -158,26 +157,6 @@ $ ->
   }
 
   MembersView = new MemberSectionView
-
-  # fetchMembers = () ->
-  #   membershipsUrl = "/collaborations/#{$("#membership-list").data('collaboration-id')}/memberships"
-  #   $.get membershipsUrl
-  #   .success (data) ->
-  #     membershipListItems = (membershipTemplate member for member in data)
-  #     $("#membership-list").html membershipListItems.join('')
-  #     bindToMembershipX()
-  #
-  # $('#membership-form').on 'ajax:success', (xhr, data, status) ->
-  #   $(this)[0].reset()
-  #   $("#membership-list").append membershipTemplate data
-  #   bindToMembershipX()
-  #
-  # bindToMembershipX = () ->
-  #   $('.membership-x').off 'ajax:success'
-  #   .on 'ajax:success', (xhr, data, status) ->
-  #     $(this).parent().remove()
-
-  # fetchMembers() if $("#membership-list").length
 
   # campaign stuff
   campaignTemplate = _.template $("#campaign-template").html()

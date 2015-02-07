@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :contents
     end
     resources :campaigns
-    resources :memberships, shallow: true
+    resources :memberships
   end
 
   # The priority is based upon order of creation: first created -> highest priority.
