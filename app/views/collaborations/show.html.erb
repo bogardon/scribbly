@@ -5,11 +5,14 @@
   <div class='small-2 small-offset-2 columns'>
     <a class='tiny button success' id='today-button'>Today</a>
   </div>
-  <div class='small-3 small-centered columns'>
+  <div class='small-4 columns'>
     <ul class="button-group even-3 text-center">
       <li><a href="#" class="tiny button secondary time-scale-select" data-scale='week'>Weekly</a></li>
       <li><a href="#" class="tiny button secondary time-scale-select" data-scale='month'>Monthly</a></li>
     </ul>
+  </div>
+  <div class='small-2 columns end text-right'>
+    <a class='tiny button success' id='create-post-button'>Create Post</a>
   </div>
 </div>
 
@@ -48,33 +51,51 @@
 <div id="create-post-modal" class="reveal-modal" data-reveal>
   <div class='row'>
     <div class='small-12 columns'>
-      <h4 id='create-post-title'></h4>
+      <h4 id='create-post-title'>
+        New Post
+      </h4>
     </div>
   </div>
   <%= form_for :post, url: collaboration_posts_url(@collaboration) do |f_post| %>
     <%= f_post.hidden_field :collaboration_id, value: @collaboration.id %>
     <%= f_post.hidden_field :user_id, value: current_user.id %>
+
     <div class='row'>
       <div class='small-3 columns'>
         <%= f_post.label :name %>
         <%= f_post.text_field :name, autofocus: true %>
       </div>
-      <div class='small-3 columns'>
+      <div class='small-3 columns end'>
         <%= f_post.label :campaign %>
-        <%= select_tag :campaign_id, nil, id: "campaign-select" %>
-      </div>
-      <div class='small-3 columns'>
-          <%= f_post.label :hour %>
-          <%= select_hour(Time.now, field_name: "post_hour") %>
-      </div>
-      <div class='small-3 columns'>
-        <%= f_post.label :minute %>
-        <%= select_minute(Time.now, minute_step: 15) %>
+        <%= f_post.select :campaign_id, [] %>
       </div>
     </div>
     <div class='row'>
-      <div class='small-12 columns text-right'>
-        <%= f_post.submit "Create Post", class: "button" %>
+      <%= hidden_field_tag :offset, nil, name: "scheduled_at[offset]" %>
+      <div class='small-2 columns'>
+        <%= f_post.label :year %>
+        <%= select_year Time.now, field_name: "year", prefix: "scheduled_at" %>
+      </div>
+      <div class='small-4 columns'>
+        <%= f_post.label :month %>
+        <%= select_month Time.now, field_name: "month", prefix: "scheduled_at" %>
+      </div>
+      <div class='small-1 columns'>
+        <%= f_post.label :date %>
+        <%= select_day Time.now, field_name: "date", prefix: "scheduled_at" %>
+      </div>
+      <div class='small-1 columns'>
+        <%= f_post.label :hour %>
+        <%= select_hour Time.now, field_name: "hour", prefix: "scheduled_at" %>
+      </div>
+      <div class='small-1 columns end'>
+        <%= f_post.label :minute %>
+        <%= select_minute Time.now, field_name: "minute", prefix: "scheduled_at" %>
+      </div>
+    </div>
+    <div class='row'>
+      <div class='small-12 columns text-left'>
+        <%= f_post.submit "Create", class: "button" %>
       </div>
     </div>
   <% end %>
@@ -135,7 +156,7 @@
     </li>
   <%% }) %>
   <%% _.each(days, function(day) { %>
-    <li class='month-day-item <%%= day.currentMonth ? "current-month" : "" %> <%%= day.today ? "today" : "" %>' data-day="<%%= day.description %>">
+    <li class='month-day-item <%%= day.currentMonth ? "current-month" : "" %> <%%= day.today ? "today" : "" %>'>
       <div class='month-day-title'>
         <%%= day.date %>
       </div>

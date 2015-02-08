@@ -66,8 +66,6 @@ $ ->
               day
           $("#calendar").html monthlyTemplate obj
 
-      bindForPostCreation()
-
   $("#today-button").click (e) ->
     newDate = moment()
     $.cookie 'saved_date', newDate
@@ -89,6 +87,15 @@ $ ->
       $(this).data('scale') == timeScale()
     .toggleClass 'secondary'
     fetchPosts(dateRange(savedDate()))
+
+  # post creation stuff
+  optionTemplate = _.template $("#campaign-option-template").html()
+
+  $("#create-post-button").click (e) ->
+    createPostModal = $('#create-post-modal')
+    createPostModal.foundation('reveal', 'open');
+    createPostModal.find("#offset").val(moment().zone() * 60)
+    createPostModal.find("#post_campaign_id").html (optionTemplate c for c in campaigns)
 
   # membership backboned
   Member = Backbone.Model.extend {
@@ -198,13 +205,3 @@ $ ->
       false
 
   fetchCampaigns() if $("#campaign-list").length
-
-  # post creation stuff
-  optionTemplate = _.template $("#campaign-option-template").html()
-  bindForPostCreation = () ->
-    $('.month-day-item, .week-day-item').unbind('click').click (e) ->
-      selectedDay = moment($(this).data('day'))
-      createPostModal = $('#create-post-modal')
-      createPostModal.find('#create-post-title').html "New post on #{selectedDay.format "MMMM Do YYYY"}"
-      createPostModal.foundation('reveal', 'open');
-      createPostModal.find("#campaign-select").html (optionTemplate c for c in campaigns)
