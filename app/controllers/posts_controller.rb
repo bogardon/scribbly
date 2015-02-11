@@ -29,12 +29,8 @@ class PostsController < ApplicationController
       date_params[:minute].to_i
     ).change(offset: (-date_params[:offset].to_f/(24*60*60)))
     @post.scheduled_at = scheduled_at
-    if @post.save
-      redirect_to collaboration_url(@collaboration)
-    else
-      flash[:notice] = @post.errors
-      redirect_to new_collaboration_post_url
-    end
+    @post.save
+    render json: @post
   end
 
   def edit

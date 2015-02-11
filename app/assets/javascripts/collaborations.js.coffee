@@ -97,6 +97,9 @@ $ ->
     createPostModal.find("#offset").val(moment().zone() * 60)
     createPostModal.find("#post_campaign_id").html (optionTemplate c for c in campaigns)
 
+  $("#post-form").on 'ajax:success', (xhr, data, status) ->
+    fetchPosts(dateRange(savedDate()))
+
   # membership backboned
   Member = Backbone.Model.extend {
   }

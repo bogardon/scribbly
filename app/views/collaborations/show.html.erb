@@ -56,7 +56,7 @@
       </h4>
     </div>
   </div>
-  <%= form_for :post, url: collaboration_posts_url(@collaboration) do |f_post| %>
+  <%= form_for :post, url: collaboration_posts_url(@collaboration), remote: true, html: {id: "post-form"} do |f_post| %>
     <%= f_post.hidden_field :collaboration_id, value: @collaboration.id %>
     <%= f_post.hidden_field :user_id, value: current_user.id %>
 
