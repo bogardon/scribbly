@@ -87,15 +87,17 @@ $ ->
       $(this).data('scale') == timeScale()
     .toggleClass 'secondary'
     fetchPosts(dateRange(savedDate()))
+    $('#create-post-modal').foundation("reveal", "close")
 
   # post creation stuff
   optionTemplate = _.template $("#campaign-option-template").html()
 
   $("#create-post-button").click (e) ->
-    createPostModal = $('#create-post-modal')
-    createPostModal.foundation('reveal', 'open');
-    createPostModal.find("#offset").val(moment().zone() * 60)
-    createPostModal.find("#post_campaign_id").html (optionTemplate c for c in campaigns)
+    $('#create-post-modal')
+    .foundation('reveal', 'open')
+    .find("#offset").val(moment().zone() * 60)
+    .end()
+    .find("#post_campaign_id").html (optionTemplate c for c in campaigns)
 
   $("#post-form").on 'ajax:success', (xhr, data, status) ->
     fetchPosts(dateRange(savedDate()))
