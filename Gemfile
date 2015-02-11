@@ -38,7 +38,7 @@ gem 'foundation-icons-sass-rails'
 gem 'pundit'
 
 # Backbone
-gem "rails-backbone", git: "https://github.com/codebrew/backbone-rails"
+gem "backbone-on-rails"
 
 # Puma
 gem 'puma'
