@@ -2,21 +2,6 @@
 <p><%= @collaboration.description %></p>
 
 <div class='row'>
-  <div class='small-2 small-offset-2 columns'>
-    <a class='tiny button success' id='today-button'>Today</a>
-  </div>
-  <div class='small-4 columns'>
-    <ul class="button-group even-3 text-center">
-      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='week'>Weekly</a></li>
-      <li><a href="#" class="tiny button secondary time-scale-select" data-scale='month'>Monthly</a></li>
-    </ul>
-  </div>
-  <div class='small-2 columns end text-right'>
-    <a class='tiny button success' id='create-post-button'>Create Post</a>
-  </div>
-</div>
-
-<div class='row'>
   <div class='small-2 columns'>
     <h6 class='section-title'><strong>Campaigns</strong></h6>
     <%= form_for :campaign, url: collaboration_campaigns_url(@collaboration), remote: true, html: {id: "campaign-form"} do |f| %>
@@ -24,8 +9,28 @@
     <% end %>
     <ul id='campaign-list' data-collaboration-id="<%=@collaboration.id%>">
     </ul>
+    <div id='membership-section'>
+      <h6 class='section-title'><strong>Members</strong></h6>
+      <input id='membership-form' type='text' placeholder='Add member'>
+      <ul id='membership-list' data-collaboration-id="<%= @collaboration.id %>">
+      </ul>
+    </div>
   </div>
-  <div class='small-8 columns'>
+  <div class='small-10 columns'>
+    <div class='row'>
+      <div class='small-2 columns'>
+        <a class='tiny button success' id='today-button'>Today</a>
+      </div>
+      <div class='small-4 small-offset-2 columns'>
+        <ul class="button-group even-3 text-center">
+          <li><a href="#" class="tiny button secondary time-scale-select" data-scale='week'>Weekly</a></li>
+          <li><a href="#" class="tiny button secondary time-scale-select" data-scale='month'>Monthly</a></li>
+        </ul>
+      </div>
+      <div class='small-2 columns text-right'>
+        <a class='tiny button success' id='create-post-button'>Create Post</a>
+      </div>
+    </div>
     <div class='row'>
       <div class='small-1 columns'>
         <a class='time-scale-arrow' data-scale-amount="-1"><i class='fi-arrow-left'></i></a>
@@ -39,12 +44,6 @@
     </div>
     <div id='calendar' data-collaboration-id="<%=@collaboration.id%>">
     </div>
-  </div>
-  <div class='small-2 columns' id='membership-section'>
-    <h6 class='section-title'><strong>Members</strong></h6>
-    <input id='membership-form' type='text' placeholder='Add member'>
-    <ul id='membership-list' data-collaboration-id="<%= @collaboration.id %>">
-    </ul>
   </div>
 </div>
 
