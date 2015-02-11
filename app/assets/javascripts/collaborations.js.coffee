@@ -87,7 +87,6 @@ $ ->
       $(this).data('scale') == timeScale()
     .toggleClass 'secondary'
     fetchPosts(dateRange(savedDate()))
-    $('#create-post-modal').foundation("reveal", "close")
 
   # post creation stuff
   optionTemplate = _.template $("#campaign-option-template").html()
@@ -101,6 +100,10 @@ $ ->
 
   $("#post-form").on 'ajax:success', (xhr, data, status) ->
     fetchPosts(dateRange(savedDate()))
+    $('#create-post-modal')
+    .find("#post_name").val("")
+    .end()
+    .foundation("reveal", "close")
 
   # membership backboned
   Member = Backbone.Model.extend {
