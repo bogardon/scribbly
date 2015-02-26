@@ -45,7 +45,7 @@ gem 'puma'
 
 # Attachments
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk', '< 2.0'
 
 # Figaro
 gem 'figaro'
