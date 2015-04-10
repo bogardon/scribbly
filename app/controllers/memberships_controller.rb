@@ -11,7 +11,7 @@ class MembershipsController < ApplicationController
 
   def create
     @collaboration = Collaboration.find_by_id(params[:collaboration_id])
-    @user = User.find_by_email(params[:member][:email]) || User.invite!(email: params[:member][:email])
+    @user = User.find_by_email(params[:user][:email]) || User.invite!(email: params[:user][:email])
     @membership = @collaboration.memberships.find_or_initialize_by(user_id: @user.id)
     if @membership.persisted?
       render json: nil, status: 400

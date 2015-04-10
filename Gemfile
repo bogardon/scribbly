@@ -38,14 +38,14 @@ gem 'foundation-icons-sass-rails'
 gem 'pundit'
 
 # Backbone
-gem "rails-backbone", git: "https://github.com/codebrew/backbone-rails"
+gem "backbone-on-rails"
 
 # Puma
 gem 'puma'
 
 # Attachments
 gem 'paperclip'
-gem 'aws-sdk'
+gem 'aws-sdk', '< 2.0'
 
 # Figaro
 gem 'figaro'

@@ -20,12 +20,17 @@ class PostsController < ApplicationController
   def create
     @collaboration = Collaboration.find_by_id(params[:collaboration_id])
     @post = Post.new(post_params)
-    if @post.save
-      redirect_to collaboration_url(@collaboration)
-    else
-      flash[:notice] = @post.errors
-      redirect_to new_collaboration_post_url
-    end
+    date_params = params[:scheduled_at]
+    scheduled_at = DateTime.new(
+      date_params[:year].to_i,
+      date_params[:month].to_i,
+      date_params[:date].to_i,
+      date_params[:hour].to_i,
+      date_params[:minute].to_i
+    ).change(offset: (-date_params[:offset].to_f/(24*60*60)))
+    @post.scheduled_at = scheduled_at
+    @post.save
+    render json: @post
   end
 
   def edit

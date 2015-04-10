@@ -66,8 +66,6 @@ $ ->
               day
           $("#calendar").html monthlyTemplate obj
 
-      bindForPostCreation()
-
   $("#today-button").click (e) ->
     newDate = moment()
     $.cookie 'saved_date', newDate
@@ -90,28 +88,90 @@ $ ->
     .toggleClass 'secondary'
     fetchPosts(dateRange(savedDate()))
 
-  # membership stuff
-  membershipTemplate = _.template $("#membership-template").html()
+  # post creation stuff
+  optionTemplate = _.template $("#campaign-option-template").html()
 
-  fetchMembers = () ->
-    membershipsUrl = "/collaborations/#{$("#membership-list").data('collaboration-id')}/memberships"
-    $.get membershipsUrl
-    .success (data) ->
-      membershipListItems = (membershipTemplate member for member in data)
-      $("#membership-list").html membershipListItems.join('')
-      bindToMembershipX()
+  $("#create-post-button").click (e) ->
+    $('#create-post-modal')
+    .foundation('reveal', 'open')
+    .find("#offset").val(moment().zone() * 60)
+    .end()
+    .find("#post_campaign_id").html (optionTemplate c for c in campaigns)
 
-  $('#membership-form').on 'ajax:success', (xhr, data, status) ->
-    $(this)[0].reset()
-    $("#membership-list").append membershipTemplate data
-    bindToMembershipX()
+  $("#post-form").on 'ajax:success', (xhr, data, status) ->
+    fetchPosts(dateRange(savedDate()))
+    $('#create-post-modal')
+    .find("#post_name").val("")
+    .end()
+    .foundation("reveal", "close")
 
-  bindToMembershipX = () ->
-    $('.membership-x').off 'ajax:success'
-    .on 'ajax:success', (xhr, data, status) ->
-      $(this).parent().remove()
+  # membership backboned
+  Member = Backbone.Model.extend {
+  }
 
-  fetchMembers() if $("#membership-list").length
+  collaborationId = location.pathname.split('/').pop()
+
+  MemberList = Backbone.Collection.extend {
+    model: Member,
+    initialize: (models, options) ->
+      this.collaborationId = options.collaborationId
+    ,
+    url: () ->
+      "/collaborations/#{this.collaborationId}/memberships"
+    ,
+  }
+
+  Members = new MemberList([], {collaborationId: collaborationId})
+
+  MemberView = Backbone.View.extend {
+    tagName: "li",
+    className: "membership-list-item"
+    template: _.template($("#membership-template").html()),
+    initialize: () ->
+      this.listenTo this.model, 'change', this.render
+      this.listenTo this.model, 'destroy', this.remove
+    ,
+    events: {
+      "click a" : "clear"
+    }
+    render: () ->
+      this.$el.html this.template(this.model.toJSON())
+      return this
+    ,
+    clear: () ->
+      this.model.destroy()
+  }
+
+  MemberSectionView = Backbone.View.extend {
+    el: $("#membership-section"),
+    initialize: () ->
+      this.input = $("#membership-form")
+      this.list = $("#membership-list")
+      this.listenTo Members, 'add', this.addOne
+      this.listenTo Members, 'all', this.render
+      Members.fetch {
+        data:
+          collaboration_id: collaborationId
+      }
+    ,
+    events: {
+      "keypress #membership-form":  "createOnEnter",
+    },
+    createOnEnter: (e) ->
+      return unless e.keyCode == 13
+
+      Members.create {
+        user:
+          email: this.input.val()
+      }
+      this.input.val('')
+    ,
+    addOne: (member) ->
+      view = new MemberView({model: member})
+      this.list.append(view.render().el)
+  }
+
+  MembersView = new MemberSectionView
 
   # campaign stuff
   campaignTemplate = _.template $("#campaign-template").html()
@@ -153,13 +213,3 @@ $ ->
       false
 
   fetchCampaigns() if $("#campaign-list").length
-
-  # post creation stuff
-  optionTemplate = _.template $("#campaign-option-template").html()
-  bindForPostCreation = () ->
-    $('.month-day-item, .week-day-item').unbind('click').click (e) ->
-      selectedDay = moment($(this).data('day'))
-      createPostModal = $('#create-post-modal')
-      createPostModal.find('#create-post-title').html "New post on #{selectedDay.format "MMMM Do YYYY"}"
-      createPostModal.foundation('reveal', 'open');
-      createPostModal.find("#campaign-select").html (optionTemplate c for c in campaigns)
