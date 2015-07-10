@@ -3,6 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
+  return unless $("#calendar").length
   # calendar stuff
   weeklyTemplate = _.template $("#weekly-template").html()
   monthlyTemplate = _.template $("#monthly-template").html()

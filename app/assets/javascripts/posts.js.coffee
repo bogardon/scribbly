@@ -3,19 +3,62 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 $ ->
-  $("a[data-content-index]").click (e) ->
-    selectedIndex = $(this).data("content-index")
-    $(".post-content").each (i, e) ->
-      ele = $(e)
-      if ele.data('content-index') == selectedIndex
-        ele.removeClass("hide")
-      else
-        ele.addClass("hide")
-    $('.content-button').each (i, e) ->
-      ele = $(e)
-      if ele.data('content-index') == selectedIndex
-        ele.removeClass('secondary')
-      else
-        ele.addClass('secondary')
-        
-    return false
+  Comment = Backbone.Model.extend {
+
+  }
+
+  postId = location.pathname.split('/').pop()
+
+  CommentList = Backbone.Collection.extend {
+    model: Comment,
+    initialize: (models, options) ->
+      this.postId = options.postId
+    ,
+    url: () ->
+      "/posts/#{this.postId}/comments"
+    ,
+  }
+
+  Comments = new CommentList([], {postId: postId})
+
+  CommentView = Backbone.View.extend {
+    tagName: "li",
+    className: "comment-list-item"
+    template: _.template($("#comment-template").html()),
+    initialize: () ->
+      this.listenTo this.model, 'change', this.render
+      this.listenTo this.model, 'destroy', this.remove
+    ,
+    events: {
+    }
+    render: () ->
+      this.$el.html this.template(this.model.toJSON())
+      return this
+    ,
+    clear: () ->
+      this.model.destroy()
+  }
+
+  CommentSectionView = Backbone.View.extend {
+    el: $("#comment-section"),
+    initialize: () ->
+      this.list = $("#comment-list")
+      this.listenTo Comments, 'add', this.addOne
+      this.listenTo Comments, 'all', this.render
+      Comments.fetch {
+        data:
+          post_id: postId
+      }
+    ,
+    events: {
+
+    },
+    createOnEnter: (e) ->
+      return unless e.keyCode == 13
+    ,
+    addOne: (comment) ->
+      view = new CommentView({model: comment})
+      this.list.append(view.render().el)
+  }
+
+  CommentsView = new CommentSectionView

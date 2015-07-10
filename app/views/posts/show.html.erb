@@ -4,28 +4,16 @@
   </div>
 </div>
 
-<div id='post-contents-stack'>
-  <% @post.contents.each_with_index do |c, i| %>
-    <div class='post-content row <%= i != @post.contents.size - 1 ? "hide" : ""%>' data-content-index="<%= i %>">
-      <div class='small-8 small-centered columns'>
-        <%= image_tag(c.media.url) %>
-      </div>
-    </div>
-  <% end %>
-  
-  <div class='row' id='contents-segmented-control'>
-    <div class='small-8 small-centered columns'>
-      <% @post.contents.size.times do |i| %>
-        <a href="#" class="content-button round button <%= i != @post.contents.size - 1 ? "secondary" : ""%>" data-content-index="<%= i %>"><%= i + 1 %></a>
-      <% end %>
+<div class='row'>
+  <div class='small-4 columns'>
+    <div id='comment-section'>
+      <ul id='comment-list'>
+      </ul>
     </div>
   </div>
-</div>
+  <div class='small-8 columns'>
 
-<div id='post-comments-list'>
-  <% @post.comments.each do |c| %>
-    <%= comment_row_html(c) %>
-  <% end %>
+  </div>
 </div>
 
 <div class='row'>
@@ -50,3 +38,7 @@
     </div>
   </div>
 </div>
+
+<script type="text/template" id="comment-template">
+  <%%= body %>
+</script>
