@@ -6,12 +6,9 @@ class CommentsController < ApplicationController
     @post = Post.find_by_id(params[:post_id])
     @comment = @post.comments.new(comment_params)
     if @comment.save
+      render json: @comment.to_json(include: :user)
     else
-      flash[:notice] = @comment.errors
-    end
-    
-    respond_to do |format|
-      format.js
+      render json: nil, status: 400
     end
   end
 
@@ -22,6 +19,9 @@ class CommentsController < ApplicationController
   end
 
   def index
+    @post = Post.find_by_id(params[:post_id])
+    @comments = @post.comments.includes(:user)
+    render json: @comments.to_json(include: :user)
   end
 
   def show

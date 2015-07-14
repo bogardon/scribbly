@@ -9,33 +9,12 @@
     <div id='comment-section'>
       <ul id='comment-list'>
       </ul>
+      <textarea id='new-comment-field' placeholder='Leave a comment'></textarea>
+      <a class='tiny button success right' id='post-button'>Post</a>
     </div>
   </div>
   <div class='small-8 columns'>
 
-  </div>
-</div>
-
-<div class='row'>
-  <div class='small-6 small-centered columns'>
-    <div class='row'>
-      <div class='small-6 columns'>
-        <%= form_for @comment, url: post_comments_url(@post), remote: true do |f| %>
-          <%= f.hidden_field :user_id, value: current_user.id %>
-          <%= f.hidden_field :post_id, value: @post.id %>
-          <%= f.text_field :body %>
-          <%= f.submit "Add Comment" %>
-        <% end %>
-      </div>
-      <div class='small-6 columns'>
-        <%= form_for @content, url: post_contents_url(@post) do |f| %>
-          <%= f.hidden_field :user_id, value: current_user.id %>
-          <%= f.hidden_field :post_id, value: @post.id %>
-          <%= f.file_field :media %>
-          <%= f.submit "Add Content" %>
-        <% end %>
-      </div>
-    </div>
   </div>
 </div>
 

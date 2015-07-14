@@ -46,15 +46,20 @@ $ ->
       this.listenTo Comments, 'add', this.addOne
       this.listenTo Comments, 'all', this.render
       Comments.fetch {
-        data:
-          post_id: postId
+
       }
     ,
     events: {
-
+      "click a#post-button": "createComment"
     },
-    createOnEnter: (e) ->
-      return unless e.keyCode == 13
+    createComment: (e) ->
+      textArea = $("#new-comment-field")
+      body = textArea.val()
+      textArea.val("")
+
+      Comments.create {
+        body: body
+      }
     ,
     addOne: (comment) ->
       view = new CommentView({model: comment})
