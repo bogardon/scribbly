@@ -1,1 +1,37 @@
-// collaborations router
+Scribbly.Routers.CollaborationsRouter = Backbone.Router.extend({
+  initialize: function ($rootEl, collaborations) {
+    this.$rootEl = $rootEl;
+    this.collaborations = collaborations;
+  },
+
+  routes: {
+    '': 'index',
+    ":id" : "collaborationShow"
+  },
+
+  index: function() {
+    var that = this;
+    var formView = new Scribbly.Views.CollaborationsIndexView({
+      collection: that.collaborations
+    });
+
+    that._swapView(formView);
+  },
+
+  collaborationShow: function (id) {
+    var that = this;
+
+    var collaboration = _(that.collaborations.models).findWhere({id: parseInt(id) });
+    var formView = new Scribbly.Views.CollaborationShowView({
+      model: collaboration
+    })
+
+    that._swapView(formView);
+  },
+
+  _swapView: function (view) {
+    this._currentView && this._currentView.remove();
+    this._currenView = view;
+    this.$rootEl.html(view.render().$el);
+  }
+});
