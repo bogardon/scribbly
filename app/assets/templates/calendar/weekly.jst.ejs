@@ -1,0 +1,22 @@
+<ul class='small-block-grid-7'>
+  <% _.each(days, function(day) { %>
+    <li class='day-list-item'>
+      <div class='day-title'>
+        <%= day.dayOfWeek %> <%= day.month %>/<%= day.date %>
+      </div>
+    </li>
+    <% }) %>
+    <% _.each(days, function(day) { %>
+    <li class='week-day-item' data-day="<%= day.description %>">
+      <ul class='post-list'>
+      <% _.each(day.posts, function(post) { %>
+        <li class='post-list-item' data-campaign-id="<%= post.campaign_id %>">
+          <div class='post-title'>
+            <a href="/posts/<%= post.id%>"><%= post.name %></a>
+          </div>
+        </li>
+        <% }) %>
+      </ul>
+    </li>
+  <% }) %>
+</ul>

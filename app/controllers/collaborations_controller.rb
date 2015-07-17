@@ -22,12 +22,16 @@ class CollaborationsController < ApplicationController
 
   def index
     @collaborations = current_user.collaborations
-    render json: @collaborations
+    if request.xhr?
+      render json: @collaborations
+    end
   end
 
   def show
     @collaboration = current_user.collaborations.find(params[:id])
-    render json: @collaboration
+    if request.xhr?
+      render json: @collaboration
+    end
   end
 
   def destroy
