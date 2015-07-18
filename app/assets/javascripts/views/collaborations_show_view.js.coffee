@@ -6,13 +6,10 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
   render: ->
     content = @template(collaboration: @model)
     @$el.html content
-<<<<<<< Updated upstream
-=======
 
     $('.time-scale-select').filter ->
       $(this).data('scale') == @timeScale()
     .toggleClass 'secondary'
->>>>>>> Stashed changes
     @fetchPosts(@dateRange(@savedDate()))
     this
 
