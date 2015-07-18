@@ -5,18 +5,37 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
   render: ->
     content = @template(collaboration: @model)
     @$el.html content
-    $('.time-scale-select').filter ->
-      $(this).data('scale') == @timeScale()
-    .toggleClass 'secondary'
     @fetchPosts(@dateRange(@savedDate()))
     this
+
+  events:
+    'click .time-scale-select': 'onTimeScaleSelectClick'
+    'click .b': 'c'
+
+  onCalendarLoad: () ->
+    self = this
+    btns = $('.time-scale-select')
+    _.each btns, (btn) ->
+      if $(btn).data('scale') == self.timeScale()
+        $(btn).removeClass 'secondary'
+      else
+        $(btn).addClass 'secondary'
+      return
+
+  onTimeScaleSelectClick: (event) ->
+    event.preventDefault()
+    $btn = $(event.currentTarget)
+    scale = $btn.data('scale')
+    $.cookie("time_scale", scale)
+    @fetchPosts(@dateRange(@savedDate()))
 
   savedDate: () ->
     date = $.cookie("saved_date")
     if date? then moment(date) else moment()
 
   dateRange: (date) ->
-    switch @timeScale()
+    self = this
+    switch self.timeScale()
       when "day" then {start: moment(date).startOf("day"), end: moment(date).endOf("day")}
       when "week" then {start: moment(date).startOf("week"), end: moment(date).endOf("week")}
       when "month" then {start: moment(date).startOf("month").startOf("week"), end: moment(date).endOf("month").endOf("week")}
@@ -55,21 +74,23 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
             day
           weeklyView = new (Scribbly.Views.CalendarWeeklyView)(collection: days)
           weeklyView.render()
+          self.onCalendarLoad()
         when "month"
-          $("#time-scale-title").html savedDate().format("MMMM YYYY")
+          $("#time-scale-title").html self.savedDate().format("MMMM YYYY")
           obj =
             weekdays: moment.weekdaysShort()
             days: while start < end
               day =
                 description: start.toString()
                 date: start.date()
-                currentMonth: savedDate().month() == start.month()
+                currentMonth: self.savedDate().month() == start.month()
                 today: moment().month() == start.month() && moment().date() == start.date() && moment().year() == start.year()
                 posts: _.filter data, (post) ->
                   moment(post.scheduled_at) >= moment(start).startOf("day") &&
                   moment(post.scheduled_at) <= moment(start).endOf('day')
               start.add(1, "day")
               day
-          monthlyView = new (Scribbly.Views.CalendarMonthlyView)(weekdays: obj)
+          monthlyView = new (Scribbly.Views.CalendarMonthlyView)(collection: obj)
           monthlyView.render()
+          self.onCalendarLoad()
 )

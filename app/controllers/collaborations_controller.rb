@@ -21,9 +21,13 @@ class CollaborationsController < ApplicationController
   end
 
   def index
-    @collaborations = current_user.collaborations
-    if request.xhr?
-      render json: @collaborations
+    if current_user
+      @collaborations = current_user.collaborations
+      if request.xhr?
+        render json: @collaborations
+      end
+    else
+      render json: 'Hello!'
     end
   end
 
