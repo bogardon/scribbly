@@ -1,0 +1,10 @@
+<h6 class='section-title'><strong>Members</strong></h6>
+<input id='membership-form' type='text' placeholder='Add member'>
+<ul id='membership-list'>
+  <% _.each(memberships, function(m) { %>
+    <li>
+      <%= m.user().email %>
+      <a><i class='fi-x'></i></a>
+    </li>
+  <% }) %>
+</ul>
