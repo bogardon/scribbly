@@ -61,7 +61,7 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
                 moment(post.scheduled_at) <= moment(start).endOf('day')
             start.add(1, "day")
             day
-          weeklyView = new (Scribbly.Views.CalendarWeeklyView)(collection: days)
+          weeklyView = new (Scribbly.Views.CalendarWeeklyView)(collection: days, model: self.model)
           weeklyView.render()
           self.onCalendarLoad()
         when "month"
