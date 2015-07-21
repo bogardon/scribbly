@@ -10,9 +10,9 @@
     <li class='week-day-item' data-day="<%= day.description %>">
       <ul class='post-list'>
       <% _.each(day.posts, function(post) { %>
-        <li class='post-list-item' data-campaign-id="<%= post.campaign_id %>">
+        <li class='post-list-item' data-campaign-id="<%= post.attributes.campaign_id %>">
           <div class='post-title'>
-            <a href="#<%= collab.id %>/posts/<%= post.id %>"><%= post.name %></a>
+            <a href="#<%= collab.id %>/posts/<%= post.attributes.id %>"><%= post.attributes.name %></a>
           </div>
         </li>
         <% }) %>

@@ -35,11 +35,13 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
 
   fetchPosts: (dateRange) ->
     self = this
-    postsUrl = '/collaborations/' + @model.id + '/posts'
     start = moment(dateRange.start)
     end = moment(dateRange.end)
-    $.get postsUrl, start: start.toString(), end: end.toString()
-    .success (data) ->
+    posts = new Scribbly.Collections.Posts (collaborationId: @model.id, startDate: start, endDate: end)
+    posts.fetch success: (data) ->
+    # postsUrl = '/collaborations/' + @model.id + '/posts'
+    # $.get postsUrl, start: start.toString(), end: end.toString()
+    # .success (data) ->
       # set new html for calendar div
       switch self.timeScale()
         when "week"
@@ -56,12 +58,12 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
               dayOfWeek: start.format("ddd")
               month: start.month() + 1
               date: start.date()
-              posts: _.filter data, (post) ->
-                moment(post.scheduled_at) >= moment(start).startOf("day") &&
-                moment(post.scheduled_at) <= moment(start).endOf('day')
+              posts: _.filter data.models, (post) ->
+                moment(post.attributes.scheduled_at) >= moment(start).startOf("day") &&
+                moment(post.attributes.scheduled_at) <= moment(start).endOf('day')
             start.add(1, "day")
             day
-          weeklyView = new (Scribbly.Views.CalendarWeeklyView)(collection: days, model: self.model)
+          weeklyView = new Scribbly.Views.CalendarWeeklyView (collection: days, model: self.model)
           weeklyView.render()
           self.onCalendarLoad()
         when "month"
@@ -74,12 +76,12 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
                 date: start.date()
                 currentMonth: self.savedDate().month() == start.month()
                 today: moment().month() == start.month() && moment().date() == start.date() && moment().year() == start.year()
-                posts: _.filter data, (post) ->
-                  moment(post.scheduled_at) >= moment(start).startOf("day") &&
-                  moment(post.scheduled_at) <= moment(start).endOf('day')
+                posts: _.filter data.models, (post) ->
+                  moment(post.attributes.scheduled_at) >= moment(start).startOf("day") &&
+                  moment(post.attributes.scheduled_at) <= moment(start).endOf('day')
               start.add(1, "day")
               day
-          monthlyView = new (Scribbly.Views.CalendarMonthlyView)(collection: obj, model: self.model)
+          monthlyView = new Scribbly.Views.CalendarMonthlyView (collection: obj, model: self.model)
           monthlyView.render()
           self.onCalendarLoad()
 
