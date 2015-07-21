@@ -40,10 +40,12 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.includes(:contents, comments: :user).find_by_id(params[:id])
-
-    @comment = Comment.new
-    @content = Content.new
+    @post = Post.includes(:contents, comments: :user).where(id: params[:id], collaboration_id: params[:collaboration_id]).first
+    if @post
+      render json: @post
+    end
+    # @comment = Comment.new
+    # @content = Content.new
   end
 
   def destroy

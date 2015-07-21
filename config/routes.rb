@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'welcome#index'
 
   resources :collaborations do
-    resources :posts, shallow: true do
+    resources :posts do
       resources :comments
       resources :contents
     end

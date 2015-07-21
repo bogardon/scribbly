@@ -15,7 +15,7 @@
       <% _.each(day.posts, function(post) { %>
         <li class='post-list-item' data-campaign-id="<%= post.campaign_id %>">
           <div class='post-title'>
-            <a href="/posts/<%= post.id %>"><%= post.name %></a>
+            <a href="#<%= collab.id %>/posts/<%= post.id %>"><%= post.name %></a>
           </div>
         </li>
       <% }) %>

@@ -15,24 +15,8 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
 
   events:
     'click .time-scale-select': 'onTimeScaleSelectClick'
-    'click .b': 'c'
-
-  onCalendarLoad: () ->
-    self = this
-    btns = $('.time-scale-select')
-    _.each btns, (btn) ->
-      if $(btn).data('scale') == self.timeScale()
-        $(btn).removeClass 'secondary'
-      else
-        $(btn).addClass 'secondary'
-      return
-
-  onTimeScaleSelectClick: (event) ->
-    event.preventDefault()
-    $btn = $(event.currentTarget)
-    scale = $btn.data('scale')
-    $.cookie("time_scale", scale)
-    @fetchPosts(@dateRange(@savedDate()))
+    'click .time-scale-arrow': 'onTimeScaleArrowClick'
+    'click #today-button': 'onTodayButtonClick'
 
   savedDate: () ->
     date = $.cookie("saved_date")
@@ -95,7 +79,42 @@ Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
                   moment(post.scheduled_at) <= moment(start).endOf('day')
               start.add(1, "day")
               day
-          monthlyView = new (Scribbly.Views.CalendarMonthlyView)(collection: obj)
+          monthlyView = new (Scribbly.Views.CalendarMonthlyView)(collection: obj, model: self.model)
           monthlyView.render()
           self.onCalendarLoad()
+
+  onCalendarLoad: () ->
+    self = this
+    btns = $('.time-scale-select')
+    _.each btns, (btn) ->
+      if $(btn).data('scale') == self.timeScale()
+        $(btn).removeClass 'secondary'
+      else
+        $(btn).addClass 'secondary'
+      return
+
+  onTimeScaleSelectClick: (event) ->
+    event.preventDefault()
+    $btn = $(event.currentTarget)
+    scale = $btn.data('scale')
+    $.cookie("time_scale", scale)
+    @fetchPosts(@dateRange(@savedDate()))
+
+  onTimeScaleArrowClick: (event) ->
+    event.preventDefault()
+    $btn = $(event.currentTarget)
+    newDate = @savedDate().add($btn.data('scale-amount'), @timeScale())
+    $.cookie 'saved_date', newDate
+    @fetchPosts(@dateRange(newDate))
+    false
+
+  onTodayButtonClick: (event) ->
+    event.preventDefault()
+    newDate = moment()
+    $.cookie 'saved_date', newDate
+    @fetchPosts(@dateRange(newDate))
+
+  onCreatePostButtonClick: (event) ->
+    event.preventDefault()
+
 )

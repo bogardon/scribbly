@@ -2,7 +2,7 @@
 <ul>
   <% collaborations.each(function (collab) { %>
     <li>
-      <a href="#/<%= collab.id %>"><%= collab.escape("name") %></a>
+      <a href="#<%= collab.id %>"><%= collab.escape("name") %></a>
     </li>
   <% }) %>
 </ul>
