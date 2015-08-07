@@ -1,14 +1,22 @@
 Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
   template: JST['collaborations/show']
-  initialize: (data) ->
-    @membershipsIndexView = new Scribbly.Views.MembershipsIndexView(@model.id)
+  initialize: () ->
+    @membershipsIndexView = new Scribbly.Views.MembershipsIndexView(@id)
+    @model = new Scribbly.Models.Collaboration(id: @id)
+    self = this
+    @model.fetch(
+      success: (data) ->
+        self.render()
+    )
+
+  el: $('#content')
 
   render: ->
     content = @template(collaboration: @model)
     @$el.html content
-
+    self = this
     $('.time-scale-select').filter ->
-      $(this).data('scale') == @timeScale()
+      $(this).data('scale') == self.timeScale()
     .toggleClass 'secondary'
     @fetchPosts(@dateRange(@savedDate()))
     this

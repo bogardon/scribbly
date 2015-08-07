@@ -4,12 +4,7 @@ window.Scribbly =
   Views: {},
   Routers: {},
   initialize: () ->
-    collaborations = new Scribbly.Collections.Collaborations
-    collaborations.fetch (
-      success: () ->
-        new Scribbly.Routers.CollaborationsRouter($('#content'), collaborations)
-        Backbone.history.start()
-    )
-
+    new Scribbly.Routers.CollaborationsRouter()
+    Backbone.history.start()
 $ ->
   Scribbly.initialize()
