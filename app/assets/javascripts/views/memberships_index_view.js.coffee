@@ -1,11 +1,30 @@
 Scribbly.Views.MembershipsIndexView = Backbone.View.extend (
-  el: $("#membership-section")
-  initialize: (collaborationId) ->
-    @collaborationId = collaborationId
-    @memberships = new Scribbly.Collections.Memberships(@collaborationId)
-    this.listenTo @memberships, 'add', this.addOne
-    @memberships.fetch {
-    }
+  initialize: () ->
+    @model = new Scribbly.Collections.Memberships(@id)
+    this.listenTo @model, 'add', this.addOne
+    @model.fetch (
+      success: (data) ->
+
+    )
+
+  events:
+    "keypress #membership-form" : "createMember"
+
+  createMember: (e) ->
+    return unless e.keyCode == 13
+
+    input = $(e.currentTarget)
+    @model.create(
+      {
+        user:
+          email: input.val()
+      },
+      {
+        wait: true
+      }
+    )
+    input.val('')
+
   addOne: (member) ->
     list = $("#membership-list")
     view = new Scribbly.Views.MembershipView(model: member)

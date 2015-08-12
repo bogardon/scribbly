@@ -2,8 +2,6 @@ Scribbly.Views.CollaborationsIndexView = Backbone.View.extend({
 
   template: JST['collaborations/index'],
 
-  el: $('#content'),
-
   initialize: function () {
     var that = this;
     this.collaborations = new Scribbly.Collections.Collaborations

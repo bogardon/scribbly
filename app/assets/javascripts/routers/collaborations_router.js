@@ -10,13 +10,16 @@ Scribbly.Routers.CollaborationsRouter = Backbone.Router.extend({
 
   index: function() {
     this.currentView && this.currentView.remove();
-    var indexView = new Scribbly.Views.CollaborationsIndexView();
+    this.currentView = new Scribbly.Views.CollaborationsIndexView({
+      el: $('#content')
+    });
   },
 
   show: function(id) {
     this.currentView && this.currentView.remove();
     this.currentView = new Scribbly.Views.CollaborationsShowView({
-      id: id
+      id: id,
+      el: $('#content')
     });
   },
 

@@ -14,5 +14,7 @@ Scribbly.Views.MembershipView = Backbone.View.extend(
     return this
   ,
   clear: () ->
-    this.model.destroy()
+    this.model.destroy(
+      wait: true
+    )
 )

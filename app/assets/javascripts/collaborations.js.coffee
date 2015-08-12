@@ -90,127 +90,127 @@ $ ->
   #   fetchPosts(dateRange(savedDate()))
 
   # post creation stuff
-  optionTemplate = _.template $("#campaign-option-template").html()
-
-  $("#create-post-button").click (e) ->
-    $('#create-post-modal')
-    .foundation('reveal', 'open')
-    .find("#offset").val(moment().zone() * 60)
-    .end()
-    .find("#post_campaign_id").html (optionTemplate c for c in campaigns)
-
-  $("#post-form").on 'ajax:success', (xhr, data, status) ->
-    fetchPosts(dateRange(savedDate()))
-    $('#create-post-modal')
-    .find("#post_name").val("")
-    .end()
-    .foundation("reveal", "close")
-
-  # membership backboned
-  Member = Backbone.Model.extend {
-  }
-
-  collaborationId = location.pathname.split('/').pop()
-
-  MemberList = Backbone.Collection.extend {
-    model: Member,
-    initialize: (models, options) ->
-      this.collaborationId = options.collaborationId
-    ,
-    url: () ->
-      "/collaborations/#{this.collaborationId}/memberships"
-    ,
-  }
-
-  Members = new MemberList([], {collaborationId: collaborationId})
-
-  MemberView = Backbone.View.extend {
-    tagName: "li",
-    className: "membership-list-item"
-    template: _.template($("#membership-template").html()),
-    initialize: () ->
-      this.listenTo this.model, 'change', this.render
-      this.listenTo this.model, 'destroy', this.remove
-    ,
-    events: {
-      "click a" : "clear"
-    }
-    render: () ->
-      this.$el.html this.template(this.model.toJSON())
-      return this
-    ,
-    clear: () ->
-      this.model.destroy()
-  }
-
-  MemberSectionView = Backbone.View.extend {
-    el: $("#membership-section"),
-    initialize: () ->
-      this.input = $("#membership-form")
-      this.list = $("#membership-list")
-      this.listenTo Members, 'add', this.addOne
-      this.listenTo Members, 'all', this.render
-      Members.fetch {
-        data:
-          collaboration_id: collaborationId
-      }
-    ,
-    events: {
-      "keypress #membership-form":  "createOnEnter",
-    },
-    createOnEnter: (e) ->
-      return unless e.keyCode == 13
-
-      Members.create {
-        user:
-          email: this.input.val()
-      }
-      this.input.val('')
-    ,
-    addOne: (member) ->
-      view = new MemberView({model: member})
-      this.list.append(view.render().el)
-  }
-
-  MembersView = new MemberSectionView
-
-  # campaign stuff
-  campaignTemplate = _.template $("#campaign-template").html()
-  campaigns = []
-
-  campaignShown = (campaignId) ->
-    $.parseJSON($.cookie("show-campaign-#{campaignId}") || true)
-
-  toggleCampaignShown = (campaignId) ->
-    $.cookie("show-campaign-#{campaignId}", !campaignShown(campaignId))
-
-  $('#campaign-form').on 'ajax:success', (xhr, data, status) ->
-    $(this)[0].reset()
-    data.shown = campaignShown(data.id)
-    campaigns.push data
-    $("#campaign-list").append campaignTemplate data
-    bindToCampaignSelection()
-
-  fetchCampaigns = () ->
-    campaignsUrl = "/collaborations/#{$("#campaign-list").data('collaboration-id')}/campaigns"
-    $.get campaignsUrl
-    .success (data) ->
-      _.each data, (c) ->
-        c.shown = campaignShown(c.id)
-      campaigns = data
-      campaignListItems = (campaignTemplate campaign for campaign in data)
-      $("#campaign-list").html campaignListItems.join('')
-      bindToCampaignSelection()
-
-  bindToCampaignSelection = () ->
-    $('.campaign-list-item').unbind('click').click (e) ->
-      campaignItem = $(this)
-      toggleCampaignShown(campaignItem.data('campaign-id'))
-      color = if campaignShown(campaignItem.data('campaign-id')) then campaignItem.data('color') else ""
-      campaignItem.find('.campaign-selection').css("background-color", color)
-      $(".post-list-item").filter (i, e) ->
-        $(this).data('campaign-id') == campaignItem.data('campaign-id')
-      .toggleClass 'post-hide'
-      false
-
-  fetchCampaigns() if $("#campaign-list").length
+  # optionTemplate = _.template $("#campaign-option-template").html()
+  #
+  # $("#create-post-button").click (e) ->
+  #   $('#create-post-modal')
+  #   .foundation('reveal', 'open')
+  #   .find("#offset").val(moment().zone() * 60)
+  #   .end()
+  #   .find("#post_campaign_id").html (optionTemplate c for c in campaigns)
+  #
+  # $("#post-form").on 'ajax:success', (xhr, data, status) ->
+  #   fetchPosts(dateRange(savedDate()))
+  #   $('#create-post-modal')
+  #   .find("#post_name").val("")
+  #   .end()
+  #   .foundation("reveal", "close")
+  #
+  # # membership backboned
+  # Member = Backbone.Model.extend {
+  # }
+  #
+  # collaborationId = location.pathname.split('/').pop()
+  #
+  # MemberList = Backbone.Collection.extend {
+  #   model: Member,
+  #   initialize: (models, options) ->
+  #     this.collaborationId = options.collaborationId
+  #   ,
+  #   url: () ->
+  #     "/collaborations/#{this.collaborationId}/memberships"
+  #   ,
+  # }
+  #
+  # Members = new MemberList([], {collaborationId: collaborationId})
+  #
+  # MemberView = Backbone.View.extend {
+  #   tagName: "li",
+  #   className: "membership-list-item"
+  #   template: _.template($("#membership-template").html()),
+  #   initialize: () ->
+  #     this.listenTo this.model, 'change', this.render
+  #     this.listenTo this.model, 'destroy', this.remove
+  #   ,
+  #   events: {
+  #     "click a" : "clear"
+  #   }
+  #   render: () ->
+  #     this.$el.html this.template(this.model.toJSON())
+  #     return this
+  #   ,
+  #   clear: () ->
+  #     this.model.destroy()
+  # }
+  #
+  # MemberSectionView = Backbone.View.extend {
+  #   el: $("#membership-section"),
+  #   initialize: () ->
+  #     this.input = $("#membership-form")
+  #     this.list = $("#membership-list")
+  #     this.listenTo Members, 'add', this.addOne
+  #     this.listenTo Members, 'all', this.render
+  #     Members.fetch {
+  #       data:
+  #         collaboration_id: collaborationId
+  #     }
+  #   ,
+  #   events: {
+  #     "keypress #membership-form":  "createOnEnter",
+  #   },
+  #   createOnEnter: (e) ->
+  #     return unless e.keyCode == 13
+  #
+  #     Members.create {
+  #       user:
+  #         email: this.input.val()
+  #     }
+  #     this.input.val('')
+  #   ,
+  #   addOne: (member) ->
+  #     view = new MemberView({model: member})
+  #     this.list.append(view.render().el)
+  # }
+  #
+  # MembersView = new MemberSectionView
+  #
+  # # campaign stuff
+  # campaignTemplate = _.template $("#campaign-template").html()
+  # campaigns = []
+  #
+  # campaignShown = (campaignId) ->
+  #   $.parseJSON($.cookie("show-campaign-#{campaignId}") || true)
+  #
+  # toggleCampaignShown = (campaignId) ->
+  #   $.cookie("show-campaign-#{campaignId}", !campaignShown(campaignId))
+  #
+  # $('#campaign-form').on 'ajax:success', (xhr, data, status) ->
+  #   $(this)[0].reset()
+  #   data.shown = campaignShown(data.id)
+  #   campaigns.push data
+  #   $("#campaign-list").append campaignTemplate data
+  #   bindToCampaignSelection()
+  #
+  # fetchCampaigns = () ->
+  #   campaignsUrl = "/collaborations/#{$("#campaign-list").data('collaboration-id')}/campaigns"
+  #   $.get campaignsUrl
+  #   .success (data) ->
+  #     _.each data, (c) ->
+  #       c.shown = campaignShown(c.id)
+  #     campaigns = data
+  #     campaignListItems = (campaignTemplate campaign for campaign in data)
+  #     $("#campaign-list").html campaignListItems.join('')
+  #     bindToCampaignSelection()
+  #
+  # bindToCampaignSelection = () ->
+  #   $('.campaign-list-item').unbind('click').click (e) ->
+  #     campaignItem = $(this)
+  #     toggleCampaignShown(campaignItem.data('campaign-id'))
+  #     color = if campaignShown(campaignItem.data('campaign-id')) then campaignItem.data('color') else ""
+  #     campaignItem.find('.campaign-selection').css("background-color", color)
+  #     $(".post-list-item").filter (i, e) ->
+  #       $(this).data('campaign-id') == campaignItem.data('campaign-id')
+  #     .toggleClass 'post-hide'
+  #     false
+  #
+  # fetchCampaigns() if $("#campaign-list").length
