@@ -1,8 +1,9 @@
 Scribbly.Collections.Memberships = Backbone.Collection.extend(
-  initialize: (collaborationId) ->
-    @collaborationId = collaborationId
+  model: Scribbly.Models.Membership
 
-  model: Scribbly.Models.Membership,
+  initialize: (attributes, options) ->
+    @collaborationId = options.collaborationId
+
   url: () ->
     "/collaborations/#{@collaborationId}/memberships"
 )

@@ -1,6 +1,6 @@
 Scribbly.Views.MembershipsIndexView = Backbone.View.extend (
   initialize: () ->
-    @model = new Scribbly.Collections.Memberships(@id)
+    @model = new Scribbly.Collections.Memberships([], collaborationId: @id)
     this.listenTo @model, 'add', this.addOne
     @model.fetch (
       success: (data) ->
