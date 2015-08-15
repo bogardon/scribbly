@@ -1,4 +1,4 @@
-``<ul class='small-block-grid-7'>
+<ul class='small-block-grid-7'>
   <% _.each(weekdays, function(weekday) { %>
     <li class='day-list-item'>
       <div class='day-title'>
@@ -12,13 +12,6 @@
         <%= day.date %>
       </div>
       <ul class='post-list'>
-      <% _.each(day.posts, function(post) { %>
-        <li class='post-list-item' data-campaign-id="<%= post.attributes.campaign_id %>">
-          <div class='post-title'>
-            <a href="#<%= collab.id %>/posts/<%= post.attributes.id %>"><%= post.attributes.name %></a>
-          </div>
-        </li>
-      <% }) %>
       </ul>
     </li>
   <% }) %>

@@ -8,17 +8,27 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
 
 
   render: () ->
-    # $('.time-scale-select').filter ->
-    #   $(this).data('scale') == self.timeScale()
-    # .toggleClass 'secondary'
+    @$el.html(@template(timeScaleTitle: @savedDate().format("MMMM YYYY")))
+
+    timeScale = @timeScale()
+    savedDate = @savedDate()
+    dateRange = @dateRange(savedDate)
+    $('.time-scale-select').each ->
+      if $(this).data('scale') == timeScale
+        $(this).removeClass('secondary')
+      else
+        $(this).addClass('secondary')
+
     @calendarView && @calendarView.remove()
-    @calendarView = switch @timeScale()
-      when 'week' then
+    @calendarView = switch timeScale
+      when 'week'
         new Scribbly.Views.CalendarWeeklyView()
       when 'month'
-        new Scribbly.Views.CalendarMonthlyView()
-
-    $el.html @calendarView.render()
+        new Scribbly.Views.CalendarMonthlyView(
+          el: $("#calendar")
+          dateRange: dateRange
+          savedDate: savedDate
+        )
     this
 
   events:
@@ -49,78 +59,28 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
         start: start.toString()
         end: end.toString()
       success: (data) ->
-        debugger
-        switch self.timeScale()
-          when "week"
-            if start.month() == end.month() && start.year() == end.year()
-              $("#time-scale-title").html "#{start.format("MMM")} #{start.date()} - #{end.date()}, #{start.format("YYYY")}"
-            else if start.month() != end.month() && start.year() == end.year()
-              $("#time-scale-title").html "#{start.format("MMM")} #{start.date()} - #{end.format("MMM")} #{end.date()}, #{start.format("YYYY")}"
-            else
-              $("#time-scale-title").html "#{start.format("MMM")} #{start.date()}, #{start.format("YYYY")} - #{end.format("MMM")} #{end.date()}, #{end.format("YYYY")}"
-
-            days = while start < end
-              day =
-                description: start.toString()
-                dayOfWeek: start.format("ddd")
-                month: start.month() + 1
-                date: start.date()
-                posts: _.filter data.models, (post) ->
-                  moment(post.attributes.scheduled_at) >= moment(start).startOf("day") &&
-                  moment(post.attributes.scheduled_at) <= moment(start).endOf('day')
-              start.add(1, "day")
-              day
-            weeklyView = new Scribbly.Views.CalendarWeeklyView (collection: days, model: self.model)
-            weeklyView.render()
-            self.onCalendarLoad()
-          when "month"
-            $("#time-scale-title").html self.savedDate().format("MMMM YYYY")
-            obj =
-              weekdays: moment.weekdaysShort()
-              days: while start < end
-                day =
-                  description: start.toString()
-                  date: start.date()
-                  currentMonth: self.savedDate().month() == start.month()
-                  today: moment().month() == start.month() && moment().date() == start.date() && moment().year() == start.year()
-                  posts: _.filter data.models, (post) ->
-                    moment(post.attributes.scheduled_at) >= moment(start).startOf("day") &&
-                    moment(post.attributes.scheduled_at) <= moment(start).endOf('day')
-                start.add(1, "day")
-                day
-            monthlyView = new Scribbly.Views.CalendarMonthlyView (collection: obj, model: self.model)
-            monthlyView.render()
-            self.onCalendarLoad()
     )
 
-  onCalendarLoad: () ->
-    self = this
-    btns = $('.time-scale-select')
-    _.each btns, (btn) ->
-      if $(btn).data('scale') == self.timeScale()
-        $(btn).removeClass 'secondary'
-      else
-        $(btn).addClass 'secondary'
-      return
-
   onTimeScaleSelectClick: (event) ->
-    event.preventDefault()
     $btn = $(event.currentTarget)
     scale = $btn.data('scale')
     $.cookie("time_scale", scale)
+    @render()
     @fetchPosts(@dateRange(@savedDate()))
+    false
 
   onTimeScaleArrowClick: (event) ->
-    event.preventDefault()
     $btn = $(event.currentTarget)
     newDate = @savedDate().add($btn.data('scale-amount'), @timeScale())
     $.cookie 'saved_date', newDate
-    @fetchPosts(@dateRange(newDate))
+    @render()
+    @fetchPosts(@dateRange(@savedDate()))
     false
 
   onTodayButtonClick: (event) ->
-    event.preventDefault()
     newDate = moment()
     $.cookie 'saved_date', newDate
-    @fetchPosts(@dateRange(newDate))
+    @render()
+    @fetchPosts(@dateRange(@savedDate()))
+    false
 )
