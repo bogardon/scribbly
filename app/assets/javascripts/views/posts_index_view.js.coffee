@@ -6,7 +6,6 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     @render()
     @fetchPosts(@dateRange(@savedDate()))
 
-
   render: () ->
     @$el.html(@template(timeScaleTitle: @savedDate().format("MMMM YYYY")))
 
@@ -28,6 +27,7 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
           el: $("#calendar")
           dateRange: dateRange
           savedDate: savedDate
+          model: @model
         )
     this
 
