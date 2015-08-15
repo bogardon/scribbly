@@ -7,11 +7,27 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     @fetchPosts(@dateRange(@savedDate()))
 
   render: () ->
-    @$el.html(@template(timeScaleTitle: @savedDate().format("MMMM YYYY")))
+
 
     timeScale = @timeScale()
     savedDate = @savedDate()
     dateRange = @dateRange(savedDate)
+
+    timeScaleTitle = switch timeScale
+      when 'week'
+        start = dateRange.start
+        end = dateRange.end
+        if start.month() == end.month() && start.year() == end.year()
+          "#{start.format("MMM")} #{start.date()} - #{end.date()}, #{start.format("YYYY")}"
+        else if start.month() != end.month() && start.year() == end.year()
+          "#{start.format("MMM")} #{start.date()} - #{end.format("MMM")} #{end.date()}, #{start.format("YYYY")}"
+        else
+          "#{start.format("MMM")} #{start.date()}, #{start.format("YYYY")} - #{end.format("MMM")} #{end.date()}, #{end.format("YYYY")}"
+      when 'month'
+        savedDate.format("MMMM YYYY")
+
+    @$el.html(@template(timeScaleTitle: timeScaleTitle))
+
     $('.time-scale-select').each ->
       if $(this).data('scale') == timeScale
         $(this).removeClass('secondary')
@@ -21,7 +37,12 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     @calendarView && @calendarView.remove()
     @calendarView = switch timeScale
       when 'week'
-        new Scribbly.Views.CalendarWeeklyView()
+        new Scribbly.Views.CalendarWeeklyView(
+          el: $("#calendar")
+          dateRange: dateRange
+          savedDate: savedDate
+          model: @model
+        )
       when 'month'
         new Scribbly.Views.CalendarMonthlyView(
           el: $("#calendar")
@@ -29,6 +50,7 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
           savedDate: savedDate
           model: @model
         )
+
     this
 
   events:

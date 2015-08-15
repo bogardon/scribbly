@@ -1,21 +1,10 @@
 <ul class='small-block-grid-7'>
-  <% _.each(days, function(day) { %>
-    <li class='day-list-item'>
+  <% _.each(weekdays, function(weekday) { %>
+    <li class='day-list-item' id='weekday-<%= weekday.day %>'>
       <div class='day-title'>
-        <%= day.dayOfWeek %> <%= day.month %>/<%= day.date %>
+        <%= weekday.day %> <%= weekday.month %>/<%= weekday.date %>
       </div>
-    </li>
-    <% }) %>
-    <% _.each(days, function(day) { %>
-    <li class='week-day-item' data-day="<%= day.description %>">
       <ul class='post-list'>
-      <% _.each(day.posts, function(post) { %>
-        <li class='post-list-item' data-campaign-id="<%= post.attributes.campaign_id %>">
-          <div class='post-title'>
-            <a href="#<%= collab.id %>/posts/<%= post.attributes.id %>"><%= post.attributes.name %></a>
-          </div>
-        </li>
-        <% }) %>
       </ul>
     </li>
   <% }) %>
