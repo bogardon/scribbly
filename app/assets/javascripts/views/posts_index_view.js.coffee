@@ -10,7 +10,6 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     timeScale = @timeScale()
     savedDate = @savedDate()
     dateRange = @dateRange(savedDate)
-
     timeScaleTitle = switch timeScale
       when 'day'
         savedDate.format("dddd MM/DD")
@@ -87,7 +86,6 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
       data:
         start: start.toString()
         end: end.toString()
-      success: (data) ->
     )
 
   onTimeScaleSelectClick: (event) ->

@@ -17,7 +17,7 @@ Scribbly.Routers.CollaborationsRouter = Backbone.Router.extend({
 
   show: function(id) {
     this.currentView && this.currentView.remove();
-    this.currentView = new Scribbly.Views.CollaborationsShowView({
+    this.currentView = new Scribbly.Views.CollaborationShowView({
       id: id,
       el: $('#content')
     });

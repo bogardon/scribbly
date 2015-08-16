@@ -1,4 +1,4 @@
-Scribbly.Views.CollaborationsShowView = Backbone.View.extend(
+Scribbly.Views.CollaborationShowView = Backbone.View.extend(
   template: JST['collaborations/show']
   initialize: () ->
     @model = new Scribbly.Models.Collaboration(id: @id)

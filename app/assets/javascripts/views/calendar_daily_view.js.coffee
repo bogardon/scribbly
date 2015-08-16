@@ -6,19 +6,27 @@ Scribbly.Views.CalendarDailyView = Backbone.View.extend(
     @render()
     this.listenTo @model, 'add', this.addOne
 
-    @listViews && _.each @listViews, (listView) ->
-      listView.remove()
+    @listViews = []
+
     self = this
     @model.each (post) ->
-      self.addOne(post)
+      scheduledAt = moment(post.get("scheduled_at"))
+      inRange = self.dateRange.start <= scheduledAt && self.dateRange.end >= scheduledAt
+      self.addOne(post) if inRange
+
+  remove: ->
+    _.each @listViews, (listView) ->
+      listView.remove()
 
   render: ->
     content = @template()
-    $('#calendar').html content
+    @$el.html content
     this
 
   addOne: (post) ->
-    postListItem = new Scribbly.Views.PostListItemView(model: post)
+    postListItemView = new Scribbly.Views.PostListItemView(model: post)
     postList = @$el.find(".post-list")
-    postList.append postListItem.render().el
+    postList.append postListItemView.render().el
+
+    @listViews.push postListItemView
 )
