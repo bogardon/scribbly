@@ -7,13 +7,13 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     @fetchPosts(@dateRange(@savedDate()))
 
   render: () ->
-
-
     timeScale = @timeScale()
     savedDate = @savedDate()
     dateRange = @dateRange(savedDate)
 
     timeScaleTitle = switch timeScale
+      when 'day'
+        savedDate.format("dddd MM/DD")
       when 'week'
         start = dateRange.start
         end = dateRange.end
@@ -36,6 +36,13 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
 
     @calendarView && @calendarView.remove()
     @calendarView = switch timeScale
+      when 'day'
+        new Scribbly.Views.CalendarDailyView(
+          el: $("#calendar")
+          dateRange: dateRange
+          savedDate: savedDate
+          model: @model
+        )
       when 'week'
         new Scribbly.Views.CalendarWeeklyView(
           el: $("#calendar")

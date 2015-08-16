@@ -6,6 +6,12 @@ Scribbly.Views.CalendarMonthlyView = Backbone.View.extend(
     @render()
     this.listenTo @model, 'add', this.addOne
 
+    @listViews && _.each @listViews, (listView) ->
+      listView.remove()
+    self = this
+    @model.each (post) ->
+      self.addOne(post)
+
   render: ->
     start = @dateRange.start
     end = @dateRange.end
