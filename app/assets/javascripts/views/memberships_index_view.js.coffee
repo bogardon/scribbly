@@ -26,7 +26,7 @@ Scribbly.Views.MembershipsIndexView = Backbone.View.extend (
     input.val('')
 
   addOne: (member) ->
-    list = $("#membership-list")
+    list = @$el.find("#membership-list")
     view = new Scribbly.Views.MembershipView(model: member)
     list.append(view.render().el)
 )

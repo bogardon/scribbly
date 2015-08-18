@@ -16,14 +16,6 @@ ActiveRecord::Schema.define(version: 20141005210730) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "campaigns", force: :cascade do |t|
-    t.string   "name",             null: false
-    t.integer  "collaboration_id"
-    t.text     "description"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "collaborations", force: :cascade do |t|
     t.string   "name",        null: false
     t.text     "description"
@@ -62,7 +54,6 @@ ActiveRecord::Schema.define(version: 20141005210730) do
     t.string   "name"
     t.datetime "scheduled_at"
     t.integer  "user_id"
-    t.integer  "campaign_id"
     t.integer  "collaboration_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -102,14 +93,12 @@ ActiveRecord::Schema.define(version: 20141005210730) do
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "campaigns", "collaborations"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
   add_foreign_key "contents", "posts"
   add_foreign_key "contents", "users"
   add_foreign_key "memberships", "collaborations"
   add_foreign_key "memberships", "users"
-  add_foreign_key "posts", "campaigns"
   add_foreign_key "posts", "collaborations"
   add_foreign_key "posts", "users"
 end

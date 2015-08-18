@@ -13,14 +13,15 @@ Scribbly.Views.CollaborationShowView = Backbone.View.extend(
       id: @id
       el: $("#membership-section")
     )
-    self.campaignsIndexView = new Scribbly.Views.CampaignsIndexView(
-      id: @id
-      el: $("#campaign-section")
-    )
+
     self.postsIndexView = new Scribbly.Views.PostsIndexView(
       id: @id
       el: $("#post-section")
     )
 
     this
+
+  remove: ->
+    self.membershipsIndexView && self.membershipsIndexView.remove()
+    self.postsIndexView && self.postsIndexView.remove()
 )

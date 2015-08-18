@@ -4,12 +4,10 @@ class CreatePosts < ActiveRecord::Migration
       t.string :name
       t.datetime :scheduled_at
       t.integer :user_id
-      t.integer :campaign_id
       t.integer :collaboration_id
       t.timestamps
     end
     add_foreign_key :posts, :users
-    add_foreign_key :posts, :campaigns
     add_foreign_key :posts, :collaborations
   end
 end

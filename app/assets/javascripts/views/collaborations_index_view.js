@@ -4,16 +4,17 @@ Scribbly.Views.CollaborationsIndexView = Backbone.View.extend({
 
   initialize: function () {
     var that = this;
-    this.collaborations = new Scribbly.Collections.Collaborations
-    this.collaborations.fetch({
+    this.model = new Scribbly.Collections.Collaborations;
+    self = this;
+    this.model.fetch({
       success: function () {
-        that.render();
-      },
+        self.render()
+      }
     });
   },
 
   render: function () {
-    var content = this.template({ collaborations: this.collection });
+    var content = this.template({ collaborations: this.model });
     this.$el.html(content);
     return this;
   },
@@ -21,5 +22,4 @@ Scribbly.Views.CollaborationsIndexView = Backbone.View.extend({
   events: {
 
   }
-
 })
