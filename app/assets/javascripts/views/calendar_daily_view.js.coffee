@@ -1,9 +1,10 @@
 Scribbly.Views.CalendarDailyView = Backbone.View.extend(
   template: JST['calendar/daily']
+  id: "calendar"
   initialize: (options) ->
     @dateRange = options.dateRange
     @savedDate = options.savedDate
-    @render()
+
     this.listenTo @model, 'add', this.addOne
 
     @listViews = []

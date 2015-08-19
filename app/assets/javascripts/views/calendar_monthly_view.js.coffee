@@ -1,9 +1,9 @@
 Scribbly.Views.CalendarMonthlyView = Backbone.View.extend(
   template: JST['calendar/monthly']
+  id: "calendar"
   initialize: (options) ->
     @dateRange = options.dateRange
     @savedDate = options.savedDate
-    @render()
 
     this.listenTo @model, 'add', this.addOne
 
@@ -39,7 +39,7 @@ Scribbly.Views.CalendarMonthlyView = Backbone.View.extend(
     postListItemView = new Scribbly.Views.PostListItemView(model: post)
     postDate = moment(post.get("scheduled_at"))
     selector = "#date-#{postDate.date()}"
-    postList = $(selector).find(".post-list")
+    postList = @$el.find(selector).find(".post-list")
     postList.append postListItemView.render().el
     @listViews.push postListItemView
 )

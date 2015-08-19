@@ -1,3 +1,30 @@
 // Place all the styles related to the posts controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.modal-container {
+  position: absolute;
+  z-index: 999;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.create-post-modal {
+  position: absolute;
+  padding: 2em;
+  z-index: 1000;
+  width: 80%;
+  max-width: 40em;
+  margin: 0 auto;
+  top: 5em;
+  left: 0;
+  right: 0;
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.cancel {
+  margin-bottom: 0;
+}

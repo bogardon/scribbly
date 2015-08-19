@@ -1,27 +1,28 @@
 Scribbly.Views.CollaborationShowView = Backbone.View.extend(
   template: JST['collaborations/show']
-  initialize: () ->
-    @model = new Scribbly.Models.Collaboration(id: @id)
+  initialize: (options) ->
+    @model = new Scribbly.Models.Collaboration(id: options.collaborationId)
     @listenTo @model, 'change', @render
     @model.fetch()
+
+    @membershipsIndexView = new Scribbly.Views.MembershipsIndexView(
+      collaborationId: options.collaborationId
+    )
+
+    @postsIndexView = new Scribbly.Views.PostsIndexView(
+      collaborationId: options.collaborationId
+    )
 
   render: ->
     content = @template(collaboration: @model)
     @$el.html content
 
-    self.membershipsIndexView = new Scribbly.Views.MembershipsIndexView(
-      id: @id
-      el: $("#membership-section")
-    )
-
-    self.postsIndexView = new Scribbly.Views.PostsIndexView(
-      id: @id
-      el: $("#post-section")
-    )
+    @$el.find("#left-column").html @membershipsIndexView.render().el
+    @$el.find("#right-column").html @postsIndexView.render().el
 
     this
 
   remove: ->
-    self.membershipsIndexView && self.membershipsIndexView.remove()
-    self.postsIndexView && self.postsIndexView.remove()
+    @membershipsIndexView && @membershipsIndexView.remove()
+    @postsIndexView && @postsIndexView.remove()
 )

@@ -1,9 +1,8 @@
 Scribbly.Views.PostsIndexView = Backbone.View.extend(
   template: JST['posts/index']
-
-  initialize: () ->
-    @model = new Scribbly.Collections.Posts([], collaborationId: @id)
-    @render()
+  id: "post-section"
+  initialize: (options) ->
+    @model = new Scribbly.Collections.Posts([], collaborationId: options.collaborationId)
     @fetchPosts(@dateRange(@savedDate()))
 
   render: () ->
@@ -26,8 +25,8 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
         savedDate.format("MMMM YYYY")
 
     @$el.html(@template(timeScaleTitle: timeScaleTitle))
-
-    $('.time-scale-select').each ->
+    
+    @$el.find('.time-scale-select').each ->
       if $(this).data('scale') == timeScale
         $(this).removeClass('secondary')
       else
@@ -37,25 +36,24 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     @calendarView = switch timeScale
       when 'day'
         new Scribbly.Views.CalendarDailyView(
-          el: $("#calendar")
           dateRange: dateRange
           savedDate: savedDate
           model: @model
         )
       when 'week'
         new Scribbly.Views.CalendarWeeklyView(
-          el: $("#calendar")
           dateRange: dateRange
           savedDate: savedDate
           model: @model
         )
       when 'month'
         new Scribbly.Views.CalendarMonthlyView(
-          el: $("#calendar")
           dateRange: dateRange
           savedDate: savedDate
           model: @model
         )
+
+    @$el.append @calendarView.render().el
 
     this
 
@@ -63,6 +61,7 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     'click .time-scale-select': 'onTimeScaleSelectClick'
     'click .time-scale-arrow': 'onTimeScaleArrowClick'
     'click #today-button': 'onTodayButtonClick'
+    'click #create-post-button': 'onCreatePost'
 
   savedDate: () ->
     date = $.cookie("saved_date")
@@ -109,5 +108,11 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     $.cookie 'saved_date', newDate
     @render()
     @fetchPosts(@dateRange(@savedDate()))
+    false
+
+  onCreatePost: (event) ->
+    @modalView && @modalView.remove()
+    @modalView = new Scribbly.Views.PostCreateView(model: @model)
+    $("body").append @modalView.render().el
     false
 )
