@@ -25,7 +25,7 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
         savedDate.format("MMMM YYYY")
 
     @$el.html(@template(timeScaleTitle: timeScaleTitle))
-    
+
     @$el.find('.time-scale-select').each ->
       if $(this).data('scale') == timeScale
         $(this).removeClass('secondary')
@@ -54,6 +54,8 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
         )
 
     @$el.append @calendarView.render().el
+
+    @delegateEvents()
 
     this
 

@@ -21,6 +21,7 @@ Scribbly.Views.PostCreateView = Backbone.View.extend(
       scheduled_at: scheduled_at
       timezone_offset: moment().zone() * 60
     )
+    @onClose()
 
   onClose: () ->
     @remove()

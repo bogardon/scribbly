@@ -3,12 +3,12 @@ Scribbly.Routers.CollaborationsRouter = Backbone.Router.extend({
   },
 
   routes: {
-    'collaborations': 'index',
-    'collaborations/:id' : 'show',
-    'collaborations/:id/posts/:postId': 'showPost'
+    'collaborations': 'collaborationsIndex',
+    'collaborations/:collaborationId' : 'collaborationShow',
+    'collaborations/:collaborationId/posts/:postId': 'postShow'
   },
 
-  index: function() {
+  collaborationsIndex: function() {
     this.currentView && this.currentView.remove();
     this.currentView = new Scribbly.Views.CollaborationsIndexView({
     });
@@ -16,16 +16,22 @@ Scribbly.Routers.CollaborationsRouter = Backbone.Router.extend({
     $("#content").html(this.currentView.render().el)
   },
 
-  show: function(id) {
+  collaborationShow: function(collaborationId) {
     this.currentView && this.currentView.remove();
     this.currentView = new Scribbly.Views.CollaborationShowView({
-      collaborationId: id,
+      collaborationId: collaborationId,
     });
 
     $("#content").html(this.currentView.render().el)
   },
 
-  showPost: function(id, postId) {
-    // Implement.
+  postShow: function(collaborationId, postId) {
+    this.currentView && this.currentView.remove();
+    this.currentView = new Scribbly.Views.PostShowView({
+      collaborationId: collaborationId,
+      postId: postId
+    });
+
+    $("#content").html(this.currentView.render().el)
   },
 });

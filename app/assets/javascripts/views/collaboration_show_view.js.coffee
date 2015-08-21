@@ -20,6 +20,8 @@ Scribbly.Views.CollaborationShowView = Backbone.View.extend(
     @$el.find("#left-column").html @membershipsIndexView.render().el
     @$el.find("#right-column").html @postsIndexView.render().el
 
+    @delegateEvents()
+
     this
 
   remove: ->

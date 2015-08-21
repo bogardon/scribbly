@@ -1,9 +1,9 @@
 Scribbly.Views.PostShowView = Backbone.View.extend(
   template: JST['posts/show']
-  initialize: ->
+  initialize: (options)->
 
   render: ->
-    content = @template(post: @model)
+    content = @template()
     @$el.html content
     this
 
