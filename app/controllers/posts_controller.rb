@@ -36,10 +36,11 @@ class PostsController < ApplicationController
   def show
     @post = Post.includes(:contents, comments: :user).where(id: params[:id], collaboration_id: params[:collaboration_id]).first
     if @post
-      render json: @post
+      render json: @post.to_json(include: {
+        :contents => {},
+        :comments => {include: :user}
+      })
     end
-    # @comment = Comment.new
-    # @content = Content.new
   end
 
   def destroy

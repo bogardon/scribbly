@@ -14,7 +14,6 @@ Scribbly.Views.MembershipsIndexView = Backbone.View.extend (
     this
 
   createMember: (e) ->
-    debugger
     return unless e.keyCode == 13
 
     input = $(e.currentTarget)

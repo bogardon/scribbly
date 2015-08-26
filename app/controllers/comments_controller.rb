@@ -5,6 +5,7 @@ class CommentsController < ApplicationController
   def create
     @post = Post.find_by_id(params[:post_id])
     @comment = @post.comments.new(comment_params)
+    @comment.user = current_user
     if @comment.save
       render json: @comment.to_json(include: :user)
     else
