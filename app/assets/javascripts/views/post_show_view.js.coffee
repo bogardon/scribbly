@@ -2,8 +2,8 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
   template: JST['posts/show']
   initialize: (options)->
     @model = new Scribbly.Models.Post(collaboration_id: options.collaborationId, id: options.postId)
-    @listenTo @model, 'change', @render
     @listenTo @model.comments, 'add', @addComment
+    @commentViews = []
     @model.fetch()
 
   render: ->
@@ -38,7 +38,14 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
       }
     )
 
-  addComment: (c) ->
-    
+    @input.val("")
 
+  remove: ->
+    _.each @commentViews, (commentView) ->
+      commentView.remove()
+
+  addComment: (c) ->
+    commentView = new Scribbly.Views.CommentListItemView(model: c)
+    @commentViews.push commentView
+    @$el.find("#comment-list").append commentView.render().$el
 )

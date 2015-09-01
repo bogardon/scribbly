@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141005210730) do
+ActiveRecord::Schema.define(version: 20150901060631) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,17 +31,16 @@ ActiveRecord::Schema.define(version: 20141005210730) do
     t.datetime "updated_at"
   end
 
-  create_table "contents", force: :cascade do |t|
-    t.text     "body"
-    t.string   "media_file_name"
-    t.string   "media_content_type"
-    t.integer  "media_file_size"
-    t.datetime "media_updated_at"
-    t.integer  "user_id"
-    t.integer  "post_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+  create_table "images", force: :cascade do |t|
+    t.string   "attachment_file_name"
+    t.string   "attachment_content_type"
+    t.integer  "attachment_file_size"
+    t.datetime "attachment_updated_at"
+    t.integer  "imageable_id"
+    t.string   "imageable_type"
   end
+
+  add_index "images", ["imageable_type", "imageable_id"], name: "index_images_on_imageable_type_and_imageable_id", using: :btree
 
   create_table "memberships", force: :cascade do |t|
     t.integer  "user_id"
@@ -83,10 +82,6 @@ ActiveRecord::Schema.define(version: 20141005210730) do
     t.integer  "invitation_limit"
     t.integer  "invited_by_id"
     t.string   "invited_by_type"
-    t.string   "avatar_file_name"
-    t.string   "avatar_content_type"
-    t.integer  "avatar_file_size"
-    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -95,8 +90,6 @@ ActiveRecord::Schema.define(version: 20141005210730) do
 
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
-  add_foreign_key "contents", "posts"
-  add_foreign_key "contents", "users"
   add_foreign_key "memberships", "collaborations"
   add_foreign_key "memberships", "users"
   add_foreign_key "posts", "collaborations"
