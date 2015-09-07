@@ -1,5 +1,5 @@
 class Post < ActiveRecord::Base
-  belongs_to :campaign
+  belongs_to :collaboration
   belongs_to :user
   has_many :comments, dependent: :destroy
   has_many :assets, dependent: :destroy

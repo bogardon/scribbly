@@ -3,13 +3,15 @@ Rails.application.routes.draw do
 
   root 'welcome#index'
 
-  resources :collaborations do
-    resources :posts do
-      resources :comments
-      resources :contents
+  shallow do
+    resources :collaborations do
+      resources :posts do
+        resources :comments
+        resources :assets
+      end
+      resources :campaigns
+      resources :memberships
     end
-    resources :campaigns
-    resources :memberships
   end
 
   # The priority is based upon order of creation: first created -> highest priority.

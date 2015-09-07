@@ -34,10 +34,10 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.includes(:contents, comments: :user).where(id: params[:id], collaboration_id: params[:collaboration_id]).first
+    @post = Post.includes(:assets, comments: :user).find_by_id(params[:id])
     if @post
       render json: @post.to_json(include: {
-        :contents => {},
+        :assets => {},
         :comments => {include: :user}
       })
     end

@@ -2,7 +2,7 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
   template: JST['posts/show']
   initialize: (options)->
     @model = new Scribbly.Models.Post(collaboration_id: options.collaborationId, id: options.postId)
-    @listenTo @model.comments, 'add', @addComment
+    @listenTo @model.comments(), 'add', @addComment
     @commentViews = []
     @model.fetch()
 
@@ -11,11 +11,15 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
     @$el.html content
     @delegateEvents
     @input = @$el.find("#new-comment-field")
+    @upload = @$el.find("#upload-asset")
+    @delegateEvents()
     this
 
   events:
     'keypress #new-comment-field': 'onCommentField'
     'click #post-comment-button': 'onPostButton'
+    'click #upload-content-button': 'onUploadButton'
+    'change #upload-asset': 'onFileSelect'
 
   onCommentField: (e) ->
     return unless e.keyCode == 13
@@ -25,10 +29,20 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
   onPostButton: () ->
     @createComment @input.val()
 
+  onUploadButton: () ->
+    @upload.trigger('click')
+
+  onFileSelect: () ->
+    @model.assets().create(
+      asset:
+        image:
+          attachment: @upload.val()
+    )
+
   createComment: (body) ->
     return unless body.length > 0
 
-    @model.comments.create(
+    @model.comments().create(
       {
         comment:
           body: body
