@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 20150906004049) do
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
-    t.integer  "type",        default: 0
+    t.integer  "kind",        default: 0
     t.datetime "approved_at"
     t.integer  "user_id"
     t.integer  "post_id"

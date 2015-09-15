@@ -3,6 +3,7 @@ Scribbly.Views.PostListItemView = Backbone.View.extend(
   className: "post-list-item"
   template: JST['posts/list_item']
   initialize: () ->
+    @listenTo @model, 'change', @render
   ,
   events: {
   }

@@ -18,8 +18,6 @@ Scribbly.Models.Post = Backbone.Model.extend({
     return this._assets;
   },
 
-  urlRoot: "/posts",
-
   parse: function(response) {
     if (response.comments) {
       this.comments().set(response.comments);

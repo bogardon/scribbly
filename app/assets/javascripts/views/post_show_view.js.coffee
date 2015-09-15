@@ -2,6 +2,7 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
   template: JST['posts/show']
   initialize: (options)->
     @model = new Scribbly.Models.Post(collaboration_id: options.collaborationId, id: options.postId)
+    @model.urlRoot = '/posts'
     @listenTo @model.comments(), 'add', @addComment
     @commentViews = []
     @model.fetch()
@@ -33,11 +34,7 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
     @upload.trigger('click')
 
   onFileSelect: () ->
-    @model.assets().create(
-      asset:
-        image:
-          attachment: @upload.val()
-    )
+    @$el.find('#upload-submit').trigger('click')
 
   createComment: (body) ->
     return unless body.length > 0
