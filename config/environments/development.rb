@@ -34,11 +34,11 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  
+
   # Devise
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
   config.action_mailer.raise_delivery_errors = true
-  
+
   config.action_mailer.smtp_settings = {
     address: "smtp.gmail.com",
     port: 587,
@@ -48,14 +48,14 @@ Rails.application.configure do
     user_name: "bogardon123",
     password: "hehehoho"
   }
-  
+
   # Paperclip
   config.paperclip_defaults = {
     storage: :s3,
-    bucket: ENV['s3_bucket'],
+    bucket: Rails.application.secrets.s3_bucket,
     s3_credentials: {
-      access_key_id: ENV['s3_access_key_id'],
-      secret_access_key: ENV['s3_secret_access_key']
+      access_key_id: Rails.application.secrets.s3_access_key_id,
+      secret_access_key: Rails.application.secrets.s3_secret_access_key
     }
   }
 end
