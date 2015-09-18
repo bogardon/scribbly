@@ -4,6 +4,7 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
     @model = new Scribbly.Models.Post(collaboration_id: options.collaborationId, id: options.postId)
     @model.urlRoot = '/posts'
     @listenTo @model.comments(), 'add', @addComment
+    @listenTo @model.assets(), 'add', @addAsset
     @commentViews = []
     @model.fetch()
 
@@ -34,7 +35,22 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
     @upload.trigger('click')
 
   onFileSelect: () ->
-    @$el.find('#upload-submit').trigger('click')
+
+    file = @upload[0].files[0]
+    formData = new FormData()
+    formData.append('asset[image][attachment]', file, file.name)
+
+    @model.assets().create(
+      {
+
+      },
+      {
+        wait: true,
+        data: formData,
+        processData: false
+        contentType: false
+      }
+    )
 
   createComment: (body) ->
     return unless body.length > 0
@@ -54,6 +70,9 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
   remove: ->
     _.each @commentViews, (commentView) ->
       commentView.remove()
+
+  addAsset: (a) ->
+    console.log a
 
   addComment: (c) ->
     commentView = new Scribbly.Views.CommentListItemView(model: c)
