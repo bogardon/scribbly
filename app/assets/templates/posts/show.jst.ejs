@@ -9,11 +9,8 @@
   </div>
   <div id='content-section' class='small-9 columns'>
     <a class='tiny button success right' id='upload-content-button'>Upload Content</a>
-    <form target='upload-iframe' id='upload-form' method="post" action="posts/1/assets" enctype="multipart/form-data">
-      <input type="file" id="upload-asset" name="asset[image][attachment]" accept="image/png,image/jpeg" />
-      <input type="submit" value="Submit" id='upload-submit'>
-    </form>
-    <iframe id='upload-iframe' name='upload-iframe'></iframe>
-    <div id='upload-preview'></div>
+    <input type="file" id="upload-asset" name="asset[image][attachment]" accept="image/png,image/jpeg" />
+    <ul id='asset-list'>
+    </ul>
   </div>
 </div>
