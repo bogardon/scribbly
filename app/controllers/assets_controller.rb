@@ -1,6 +1,4 @@
 class AssetsController < ApplicationController
-  skip_before_filter  :verify_authenticity_token
-
   def create
     @post = Post.find_by_id(params[:post_id])
     @asset = @post.assets.new(asset_params)
@@ -10,11 +8,10 @@ class AssetsController < ApplicationController
     @asset.image = image
     @asset.user = current_user
     if @asset.save
-      render json: @asset
+      render json: @asset.to_json(include: {image: {methods: :url}})
     else
       render json: nil, status: 400
     end
-
   end
 
   def asset_params
