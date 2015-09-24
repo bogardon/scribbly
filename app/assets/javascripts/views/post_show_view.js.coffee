@@ -36,11 +36,11 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
     @upload.trigger('click')
 
   onFileSelect: () ->
-
     file = @upload[0].files[0]
     formData = new FormData()
     formData.append('asset[image][attachment]', file, file.name)
 
+    self = this
     @model.assets().create(
       {
 
@@ -50,6 +50,8 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
         data: formData,
         processData: false
         contentType: false
+        success: ->
+          self.model.comments().fetch()
       }
     )
 

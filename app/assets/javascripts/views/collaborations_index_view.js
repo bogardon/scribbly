@@ -16,6 +16,7 @@ Scribbly.Views.CollaborationsIndexView = Backbone.View.extend({
   render: function () {
     var content = this.template({ collaborations: this.model });
     this.$el.html(content);
+    this.delegateEvents();;
     return this;
   },
 
