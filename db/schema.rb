@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20150925015742) do
     t.string   "type"
     t.string   "body"
     t.integer  "user_id"
+    t.integer  "asset_id"
     t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -98,9 +99,10 @@ ActiveRecord::Schema.define(version: 20150925015742) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "assets", "posts"
-  add_foreign_key "assets", "posts"
   add_foreign_key "assets", "users"
-  add_foreign_key "assets", "users"
+  add_foreign_key "feed_items", "assets"
+  add_foreign_key "feed_items", "posts"
+  add_foreign_key "feed_items", "users"
   add_foreign_key "memberships", "collaborations"
   add_foreign_key "memberships", "users"
   add_foreign_key "posts", "collaborations"

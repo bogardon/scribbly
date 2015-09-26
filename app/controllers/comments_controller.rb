@@ -21,8 +21,8 @@ class CommentsController < ApplicationController
 
   def index
     @post = Post.find_by_id(params[:post_id])
-    @comments = @post.comments.includes(:user)
-    render json: @comments.to_json(include: :user)
+    @feed_items = @post.feed_items.includes(:user)
+    render json: @feed_items.to_json(include: :user)
   end
 
   def show

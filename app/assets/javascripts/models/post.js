@@ -19,9 +19,9 @@ Scribbly.Models.Post = Backbone.Model.extend({
   },
 
   parse: function(response) {
-    if (response.comments) {
-      this.comments().set(response.comments);
-      delete response.comments;
+    if (response.feed_items) {
+      this.comments().set(response.feed_items);
+      delete response.feed_items;
     }
     if (response.assets) {
       this.assets().set(response.assets);
