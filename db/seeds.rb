@@ -12,7 +12,7 @@ u.password = "hehehoho"
 u.confirmed_at = Time.now
 u.save
 
-c = u.collaborations.new
+c = Collaboration.new
 c.name = "Cloud 9"
 c.description = "Best CS:GO team in NA"
 c.save

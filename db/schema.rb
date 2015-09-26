@@ -11,13 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150906004049) do
+ActiveRecord::Schema.define(version: 20150925015742) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
-    t.integer  "kind",        default: 0
     t.datetime "approved_at"
     t.integer  "user_id"
     t.integer  "post_id"
@@ -32,8 +31,9 @@ ActiveRecord::Schema.define(version: 20150906004049) do
     t.datetime "updated_at"
   end
 
-  create_table "comments", force: :cascade do |t|
-    t.text     "body"
+  create_table "feed_items", force: :cascade do |t|
+    t.string   "type"
+    t.string   "body"
     t.integer  "user_id"
     t.integer  "post_id"
     t.datetime "created_at"
@@ -98,9 +98,9 @@ ActiveRecord::Schema.define(version: 20150906004049) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "assets", "posts"
+  add_foreign_key "assets", "posts"
   add_foreign_key "assets", "users"
-  add_foreign_key "comments", "posts"
-  add_foreign_key "comments", "users"
+  add_foreign_key "assets", "users"
   add_foreign_key "memberships", "collaborations"
   add_foreign_key "memberships", "users"
   add_foreign_key "posts", "collaborations"

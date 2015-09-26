@@ -1,10 +1,11 @@
 class Post < ActiveRecord::Base
   belongs_to :collaboration
   belongs_to :user
+  has_many :feed_items, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :assets, dependent: :destroy
 
-  accepts_nested_attributes_for :comments
+  accepts_nested_attributes_for :feed_items
   accepts_nested_attributes_for :assets
 
   scope :during, ->(time_frame) {
@@ -18,9 +19,5 @@ class Post < ActiveRecord::Base
     return unless self.time_zone
     time_zone = ActiveSupport::TimeZone.new self.time_zone
     self.scheduled_at -= time_zone.utc_offset
-  end
-
-  def campaign_color
-    campaign.color
   end
 end
