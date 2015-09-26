@@ -9,12 +9,6 @@ Scribbly.Views.CalendarMonthlyView = Backbone.View.extend(
 
     @listViews = []
 
-    self = this
-    @model.each (post) ->
-      scheduledAt = moment(post.get("scheduled_at"))
-      inRange = self.dateRange.start <= scheduledAt && self.dateRange.end >= scheduledAt
-      self.addOne(post) if inRange
-
   remove: ->
     _.each @listViews, (listView) ->
       listView.remove()
@@ -33,6 +27,13 @@ Scribbly.Views.CalendarMonthlyView = Backbone.View.extend(
 
     content = @template(weekdays: moment.weekdaysShort(), days: days)
     @$el.html content
+
+    self = this
+    @model.each (post) ->
+      scheduledAt = moment(post.get("scheduled_at"))
+      inRange = self.dateRange.start <= scheduledAt && self.dateRange.end >= scheduledAt
+      self.addOne(post) if inRange
+
     this
 
   addOne: (post) ->
