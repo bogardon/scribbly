@@ -4,7 +4,7 @@ Scribbly.Views.AssetListItemView = Backbone.View.extend(
   className: "asset-list-item"
 
   render: ->
-    @$el.html @template(asset: @model)
-    @delegateEvents
+    @$el.append @template(asset: @model)
+    @delegateEvents()
     this
 )

@@ -12,7 +12,6 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
   render: ->
     content = @template()
     @$el.html content
-    @delegateEvents
     @input = @$el.find("#new-comment-field")
     @upload = @$el.find("#upload-asset")
     @delegateEvents()

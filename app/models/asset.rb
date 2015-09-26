@@ -2,7 +2,7 @@ class Asset < ActiveRecord::Base
   belongs_to :post
   belongs_to :user
   has_one :image, as: :imageable, dependent: :destroy
-  has_many :actions
+  has_many :actions, dependent: :destroy
 
   after_create :create_action
 
