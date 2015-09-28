@@ -21,7 +21,7 @@ class AssetsController < ApplicationController
       render json: @asset.to_json(include: {image: {methods: :url}})
     else
       render json: nil, status: 400
-    end
+    end 
   end
 
   def asset_params

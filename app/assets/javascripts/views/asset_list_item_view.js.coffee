@@ -15,6 +15,7 @@ Scribbly.Views.AssetListItemView = Backbone.View.extend(
         approved_at: moment().toString()
       },
       {
+        wait: true
         patch: true
       }
     )

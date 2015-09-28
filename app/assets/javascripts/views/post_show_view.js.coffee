@@ -50,7 +50,7 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
         processData: false
         contentType: false
         success: ->
-          self.model.comments().fetch()
+          self.refreshComments()
       }
     )
 
@@ -76,7 +76,11 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
     _.each @assetViews, (assetView) ->
       assetView.remove()
 
+  refreshComments: ->
+    @model.comments().fetch()
+
   addAsset: (a) ->
+    @listenTo a, "change", @refreshComments
     assetView = new Scribbly.Views.AssetListItemView(model: a)
     @assetViews.push assetView
     @$el.find("#asset-list").append assetView.render().$el
