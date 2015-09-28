@@ -14,7 +14,17 @@ class AssetsController < ApplicationController
     end
   end
 
+  def update
+    @asset = Asset.find(params[:id])
+    @asset.update(asset_params)
+    if @asset.save
+      render json: @asset.to_json(include: {image: {methods: :url}})
+    else
+      render json: nil, status: 400
+    end
+  end
+
   def asset_params
-    params.require(:asset).permit(:id)
+    params.require(:asset).permit(:id, :approved_at)
   end
 end
