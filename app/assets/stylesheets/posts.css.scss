@@ -32,3 +32,21 @@
 #upload-asset {
   display: none;
 }
+
+.menu-container {
+  position: relative;
+}
+
+.menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+}
+
+.hide {
+  display: none;
+}
+
+.menu li:hover {
+  background-color: red;
+}

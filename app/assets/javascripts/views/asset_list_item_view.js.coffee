@@ -8,6 +8,10 @@ Scribbly.Views.AssetListItemView = Backbone.View.extend(
 
   events:
     "click .asset-check": "onCheck"
+    "click .asset-action-button": 'onAction'
+
+  onAction: (e) ->
+    @$el.find(".menu").toggleClass("hide");
 
   onCheck: (e) ->
     this.model.save(
