@@ -7,7 +7,7 @@
     </li>
   <% }) %>
   <% _.each(days, function(day) { %>
-    <li class='month-day-item <%= day.currentMonth ? "current-month" : "" %> <%= day.today ? "today" : "" %>' id='date-<%= day.date %>'>
+    <li class='month-day-item <%= day.currentMonth ? "current-month" : "" %> <%= day.today ? "today" : "" %>' id='date-<%= day.month%>-<%= day.date %>'>
       <div class='month-day-title'>
         <%= day.date %>
       </div>

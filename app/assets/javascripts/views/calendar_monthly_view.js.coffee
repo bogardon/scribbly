@@ -20,6 +20,7 @@ Scribbly.Views.CalendarMonthlyView = Backbone.View.extend(
       day =
         description: start.toString()
         date: start.date()
+        month: start.month()
         currentMonth: @savedDate.month() == start.month()
         today: moment().month() == start.month() && moment().date() == start.date() && moment().year() == start.year()
       start.add(1, "day")
@@ -39,7 +40,7 @@ Scribbly.Views.CalendarMonthlyView = Backbone.View.extend(
   addOne: (post) ->
     postListItemView = new Scribbly.Views.PostListItemView(model: post)
     postDate = moment(post.get("scheduled_at"))
-    selector = "#date-#{postDate.date()}"
+    selector = "#date-#{postDate.month()}-#{postDate.date()}"
     postList = @$el.find(selector).find(".post-list")
     postList.append postListItemView.render().el
     @listViews.push postListItemView
