@@ -74,4 +74,17 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  # Paperclip
+  config.paperclip_defaults = {
+    storage: :s3,
+    bucket: Rails.application.secrets.s3_bucket,
+    s3_credentials: {
+      access_key_id: Rails.application.secrets.s3_access_key_id,
+      secret_access_key: Rails.application.secrets.s3_secret_access_key
+    },
+    url: ':s3_alias_url',
+    s3_host_alias: Rails.application.secrets.s3_host_alias,
+    path: ":class/:attachment/:id.:style.:extension"
+  }
 end

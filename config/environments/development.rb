@@ -58,7 +58,7 @@ Rails.application.configure do
       secret_access_key: Rails.application.secrets.s3_secret_access_key
     },
     url: ':s3_alias_url',
-    s3_host_alias: 'd25olzfbgz4ud1.cloudfront.net',
+    s3_host_alias: Rails.application.secrets.s3_host_alias,
     path: ":class/:attachment/:id.:style.:extension"
   }
 end
