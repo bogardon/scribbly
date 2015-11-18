@@ -11,15 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150925015742) do
+ActiveRecord::Schema.define(version: 20151024233604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "assets", force: :cascade do |t|
-    t.datetime "approved_at"
-    t.integer  "user_id"
-    t.integer  "post_id"
+    t.string   "type"
+    t.string   "body"
+    t.integer  "content_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -31,11 +31,16 @@ ActiveRecord::Schema.define(version: 20150925015742) do
     t.datetime "updated_at"
   end
 
+  create_table "contents", force: :cascade do |t|
+    t.integer  "post_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "feed_items", force: :cascade do |t|
     t.string   "type"
     t.string   "body"
     t.integer  "user_id"
-    t.integer  "asset_id"
     t.integer  "post_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -60,7 +65,8 @@ ActiveRecord::Schema.define(version: 20150925015742) do
   end
 
   create_table "posts", force: :cascade do |t|
-    t.string   "name"
+    t.string   "title"
+    t.string   "description"
     t.datetime "scheduled_at"
     t.integer  "user_id"
     t.integer  "collaboration_id"
@@ -98,9 +104,8 @@ ActiveRecord::Schema.define(version: 20150925015742) do
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  add_foreign_key "assets", "posts"
-  add_foreign_key "assets", "users"
-  add_foreign_key "feed_items", "assets"
+  add_foreign_key "assets", "contents"
+  add_foreign_key "contents", "posts"
   add_foreign_key "feed_items", "posts"
   add_foreign_key "feed_items", "users"
   add_foreign_key "memberships", "collaborations"

@@ -3,10 +3,11 @@ class Post < ActiveRecord::Base
   belongs_to :user
   has_many :feed_items, dependent: :destroy
   has_many :comments, dependent: :destroy
-  has_many :assets, dependent: :destroy
+  has_many :contents, dependent: :destroy
+  has_many :photos, dependent: :destroy
 
   accepts_nested_attributes_for :feed_items
-  accepts_nested_attributes_for :assets
+  accepts_nested_attributes_for :contents
 
   scope :during, ->(time_frame) {
     where scheduled_at: time_frame

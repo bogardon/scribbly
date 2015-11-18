@@ -1,7 +1,8 @@
 Scribbly.Views.PostCreateView = Backbone.View.extend(
   template: JST['posts/create']
   className: "modal-container"
-  initialize: () ->
+  initialize: (options) ->
+    @collaborationId = options.collaborationId
 
   events: {
     'click #cancel-create-button': "onClose"
@@ -13,11 +14,11 @@ Scribbly.Views.PostCreateView = Backbone.View.extend(
     this
 
   onCreate: () ->
-    name = @$el.find("#post-name").val()
+    title = @$el.find("#post-title").val()
     scheduled_at = @$el.find("#post-scheduled-at").val()
     @model.create(
-      name: name
-      collaboration_id: @model.collaborationId
+      title: title
+      collaboration_id: @collaborationId
       scheduled_at: scheduled_at
       timezone_offset: moment().zone() * 60
     )

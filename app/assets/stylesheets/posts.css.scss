@@ -50,3 +50,30 @@
 .menu li:hover {
   background-color: red;
 }
+
+#media-section {
+  border: 1px solid black;
+}
+
+#asset-list {
+  border: 1px solid yellow;
+}
+
+#comment-section {
+  border: 1px solid black;
+}
+
+.content-list-item {
+  display: inline-block;
+  position: relative;
+  width: 6em;
+  height: 3em;
+  text-align: center;
+  margin-right: 1em;
+  line-height: 3em;
+  border: 1px solid red;
+}
+
+.content-selected {
+  border: 1px solid green;
+}

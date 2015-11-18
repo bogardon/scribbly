@@ -2,9 +2,13 @@ Scribbly.Views.MembershipsIndexView = Backbone.View.extend (
   template: JST['memberships/index']
   id: "membership-section"
   initialize: (options) ->
-    @model = new Scribbly.Collections.Memberships([], collaborationId: options.collaborationId)
+    @collaborationId = options.collaborationId
+    @model = new Scribbly.Collections.Memberships()
     this.listenTo @model, 'add', this.addOne
-    @model.fetch()
+    @model.fetch(
+      data:
+        collaboration_id: @collaborationId
+    )
 
   events:
     "keypress #membership-form" : "createMember"
@@ -19,6 +23,7 @@ Scribbly.Views.MembershipsIndexView = Backbone.View.extend (
     input = $(e.currentTarget)
     @model.create(
       {
+        collaboration_id: @collaborationId
         user:
           email: input.val()
       },

@@ -4,12 +4,10 @@ class CreateFeedItem < ActiveRecord::Migration
       t.string :type
       t.string :body
       t.integer :user_id
-      t.integer :asset_id
       t.integer :post_id
       t.timestamps
     end
     add_foreign_key :feed_items, :users
     add_foreign_key :feed_items, :posts
-    add_foreign_key :feed_items, :assets
   end
 end

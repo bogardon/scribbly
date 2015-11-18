@@ -2,7 +2,8 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
   template: JST['posts/index']
   id: "post-section"
   initialize: (options) ->
-    @model = new Scribbly.Collections.Posts([], collaborationId: options.collaborationId)
+    @collaborationId = options.collaborationId
+    @model = new Scribbly.Collections.Posts()
     @fetchPosts(@dateRange(@savedDate()))
 
   render: () ->
@@ -33,6 +34,7 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
         $(this).addClass('secondary')
 
     @calendarView && @calendarView.remove()
+    @calendarView && @calendarView.unbind()
     @calendarView = switch timeScale
       when 'day'
         new Scribbly.Views.CalendarDailyView(
@@ -54,7 +56,7 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
         )
 
     @$el.append @calendarView.render().el
-
+    
     @delegateEvents()
 
     this
@@ -85,6 +87,7 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
     end = moment(dateRange.end)
     @model.fetch(
       data:
+        collaboration_id: @collaborationId
         start: start.toString()
         end: end.toString()
     )
@@ -114,7 +117,8 @@ Scribbly.Views.PostsIndexView = Backbone.View.extend(
 
   onCreatePost: (event) ->
     @modalView && @modalView.remove()
-    @modalView = new Scribbly.Views.PostCreateView(model: @model)
+    @modalView && @modalView.unbind()
+    @modalView = new Scribbly.Views.PostCreateView(model: @model, collaborationId: @collaborationId)
     $("body").append @modalView.render().el
     false
 )

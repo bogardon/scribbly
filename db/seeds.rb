@@ -23,7 +23,7 @@ m.collaboration = c
 m.save
 
 p = Post.new
-p.name = "Cluj"
+p.title = "Cluj"
 p.collaboration = c
 p.user = u
 p.scheduled_at = Time.now

@@ -2,7 +2,7 @@ Scribbly.Views.CollaborationShowView = Backbone.View.extend(
   template: JST['collaborations/show']
   initialize: (options) ->
     @model = new Scribbly.Models.Collaboration(id: options.collaborationId)
-    @listenTo @model, 'change', @render
+    @listenTo @model, 'change', @updateTitle
     @model.fetch()
 
     @membershipsIndexView = new Scribbly.Views.MembershipsIndexView(
@@ -23,6 +23,10 @@ Scribbly.Views.CollaborationShowView = Backbone.View.extend(
     @delegateEvents()
 
     this
+
+  updateTitle: ->
+    @$el.find("#collaboration-name").html @model.escape("name")
+    @$el.find("#collaboration-description").html @model.escape("description")
 
   remove: ->
     @membershipsIndexView && @membershipsIndexView.remove()

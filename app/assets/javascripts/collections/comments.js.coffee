@@ -4,5 +4,5 @@ Scribbly.Collections.Comments = Backbone.Collection.extend(
   initialize: (attributes, options) ->
 
   url: () ->
-    "/posts/#{@postId}/comments"
+    "/comments"
 )

@@ -1,12 +1,17 @@
 class AssetsController < ApplicationController
+  def index
+    @content = Content.find_by_id(params[:content_id])
+    @assets = @content.assets
+    render json: @assets.to_json(include: {image: {methods: :url}})
+  end
+
   def create
-    @post = Post.find_by_id(params[:post_id])
-    @asset = @post.assets.new(asset_params)
+    @content = Content.find_by_id(params[:asset][:content_id])
+    @asset = @content.assets.new(asset_params)
     attachment = params[:asset][:image][:attachment]
     image = Image.new
     image.attachment = attachment.tempfile
     @asset.image = image
-    @asset.user = current_user
     if @asset.save
       render json: @asset.to_json(include: {image: {methods: :url}})
     else
@@ -21,7 +26,7 @@ class AssetsController < ApplicationController
       render json: @asset.to_json(include: {image: {methods: :url}})
     else
       render json: nil, status: 400
-    end 
+    end
   end
 
   def asset_params
