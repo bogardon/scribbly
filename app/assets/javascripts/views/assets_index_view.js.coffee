@@ -4,10 +4,10 @@ Scribbly.Views.AssetsIndexView = Backbone.View.extend(
   id: "asset-section"
 
   initialize: ->
-    @model = new Scribbly.Collections.Assets()
+    @collection = new Scribbly.Collections.Assets()
     @assetViews = []
-    @listenTo @model, "add", @addAsset
-    @listenTo @model, "remove", @removeAsset
+    @listenTo @collection, "add", @addAsset
+    @listenTo @collection, "remove", @removeAsset
 
   events:
     'click #upload-content-button': 'onUploadButton'
@@ -16,7 +16,11 @@ Scribbly.Views.AssetsIndexView = Backbone.View.extend(
   render: ->
     @$el.append @template(asset: @model)
     @upload = @$el.find("#upload-asset")
-    @delegateEvents()
+
+    self = this
+    @collection.each (a) ->
+      self.addAsset(a)
+
     this
 
   onUploadButton: () ->
@@ -40,13 +44,6 @@ Scribbly.Views.AssetsIndexView = Backbone.View.extend(
         success: ->
 
       }
-    )
-
-  setContentId: (contentId) ->
-    @contentId = contentId
-    @model.fetch(
-      data:
-        content_id: @contentId
     )
 
   removeAsset: (a) ->

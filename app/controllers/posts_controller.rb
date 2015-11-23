@@ -13,7 +13,7 @@ class PostsController < ApplicationController
     end_date = params[:end].to_datetime
 
     @posts = @collaboration.posts.during(start_date..end_date)
-    
+
     render json: @posts
   end
 
@@ -37,7 +37,7 @@ class PostsController < ApplicationController
     @post = Post.includes(contents: {assets: :image}, feed_items: :user).find_by_id(params[:id])
     if @post
       render json: @post.to_json(include: {
-        contents: {assets: {include: {image: {methods: :url}}}},
+        contents: {include: {assets: {include: {image: {methods: :url}}}}},
         feed_items: {include: :user}
       })
     end

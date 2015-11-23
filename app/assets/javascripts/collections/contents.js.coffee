@@ -5,4 +5,7 @@ Scribbly.Collections.Contents = Backbone.Collection.extend(
 
   url: () ->
     "/contents"
+
+  parse: (response) ->
+    response
 )

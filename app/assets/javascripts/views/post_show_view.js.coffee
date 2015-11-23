@@ -15,16 +15,22 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
     @$el.find("#post-title").html @model.escape("title")
     @commentsIndexView = new Scribbly.Views.CommentsIndexView(
       postId: @postId
+      collection: @model.comments()
     )
     @contentsIndexView = new Scribbly.Views.ContentsIndexView(
       postId: @postId
+      collection: @model.contents()
     )
-    @listenTo @contentsIndexView, 'content-change', @onContentChange
-    @assetsIndexView = new Scribbly.Views.AssetsIndexView()
+    @assetsIndexView = new Scribbly.Views.AssetsIndexView(
+    )
     @$el.find("#left-column").html @commentsIndexView.render().el
     @$el.find("#right-column").append @assetsIndexView.render().el
     @$el.find('#right-column').append @contentsIndexView.render().el
 
-  onContentChange: (c) ->
-    @assetsIndexView.setContentId(c.get("id"))
+    @listenTo @contentsIndexView, 'content-select', @onContentSelect
+    @contentsIndexView.selectFirstContent()
+
+  onContentSelect: (content) ->
+    @assetsIndexView.collection.set content.assets().toJSON(), parse: true
+
 )

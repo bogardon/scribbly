@@ -3,14 +3,8 @@ Scribbly.Views.ContentsIndexView = Backbone.View.extend (
   id: "content-section"
   initialize: (options) ->
     @postId = options.postId
-    @model = new Scribbly.Collections.Contents()
-    @listenTo @model, 'add', @addComment
+    @listenTo @collection, 'add', @addContent
     @contentViews = []
-    this.listenTo @model, 'add', this.addContent
-    @model.fetch(
-      data:
-        post_id: @postId
-    )
 
   events:
     'click #add-new-content': 'onAddNewContent',
@@ -24,7 +18,10 @@ Scribbly.Views.ContentsIndexView = Backbone.View.extend (
         c.el == e.target
     )
     @selectedContent && @selectedContent.$el.toggleClass('content-selected')
-    @trigger("content-change", @selectedContent.model)
+    @trigger("content-select", @selectedContent.model)
+
+  selectFirstContent: ->
+    @contentViews[0].$el.trigger('click')
 
   onAddNewContent: (e) ->
     @model.create(
@@ -37,7 +34,10 @@ Scribbly.Views.ContentsIndexView = Backbone.View.extend (
   render: () ->
     @$el.html @template()
     @input = @$el.find("#new-comment-field")
-    @delegateEvents()
+    self = this
+    @collection.each (c) ->
+      self.addContent(c)
+
     this
 
   addContent: (c) ->

@@ -8,6 +8,5 @@ Scribbly.Views.ContentListItemView = Backbone.View.extend(
 
   render: ->
     @$el.append @template(content: @model)
-    @delegateEvents()
     this
 )

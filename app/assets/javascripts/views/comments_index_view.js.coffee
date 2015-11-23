@@ -3,14 +3,8 @@ Scribbly.Views.CommentsIndexView = Backbone.View.extend (
   id: "comment-section"
   initialize: (options) ->
     @postId = options.postId
-    @model = new Scribbly.Collections.Comments()
-    @listenTo @model, 'add', @addComment
+    @listenTo @collection, 'add', @addComment
     @commentViews = []
-    this.listenTo @model, 'add', this.addOne
-    @model.fetch(
-      data:
-        post_id: @postId
-    )
 
   events:
     'keypress #new-comment-field': 'onCommentField'
@@ -20,6 +14,11 @@ Scribbly.Views.CommentsIndexView = Backbone.View.extend (
     @$el.html @template()
     @input = @$el.find("#new-comment-field")
     @delegateEvents()
+
+    self = this
+    @collection.each (c) ->
+      self.addComment(c)
+
     this
 
   addComment: (c) ->
@@ -38,7 +37,7 @@ Scribbly.Views.CommentsIndexView = Backbone.View.extend (
   createComment: (body) ->
     return unless body.length > 0
 
-    @model.create(
+    @collection.create(
       {
         post_id: @postId
         comment:
