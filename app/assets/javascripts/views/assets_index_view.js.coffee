@@ -54,6 +54,7 @@ Scribbly.Views.AssetsIndexView = Backbone.View.extend(
     )
     assetView.remove()
     assetView.unbind()
+    @assetViews.splice(@assetViews.indexOf(assetView), 1)
 
   addAsset: (a) ->
     assetView = new Scribbly.Views.AssetListItemView(model: a)

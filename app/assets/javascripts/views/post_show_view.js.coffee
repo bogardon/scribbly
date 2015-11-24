@@ -31,6 +31,5 @@ Scribbly.Views.PostShowView = Backbone.View.extend(
     @contentsIndexView.selectFirstContent()
 
   onContentSelect: (content) ->
-    @assetsIndexView.collection.set content.assets().toJSON(), parse: true
-
+    @assetsIndexView.collection.set content.assets().models
 )
