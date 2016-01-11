@@ -40,6 +40,10 @@ gem 'pundit'
 # Backbone
 gem "backbone-on-rails"
 
+# React
+gem 'react-rails'
+gem 'react-router-rails'
+
 # Puma
 gem 'puma'
 

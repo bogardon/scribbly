@@ -16,13 +16,12 @@
 //= require underscore
 //= require moment
 //= require foundation
-//= require backbone
+//= require react
+//= require react_ujs
+//= require components
+//= require react_router
+//= require react_router_ujs
 //= require scribbly
-//= require_tree ../templates
-//= require_tree ./models
-//= require_tree ./collections
-//= require_tree ./views
-//= require_tree ./routers
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
