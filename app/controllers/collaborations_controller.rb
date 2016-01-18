@@ -7,10 +7,12 @@ class CollaborationsController < ApplicationController
   def create
     @user = current_user
 
-    if @user.collaborations.create!(collab_params)
-      redirect_to collaborations_url
+    if @user.collaborations.create!(name: params[:name], description: params[:description])
+      render json: @user.collaborations
+      # redirect_to collaborations_url
     else
-      redirect_to collaborations_url
+      render json: {error: "Collab create failed"}, status: 400
+      # redirect_to collaborations_url
     end
   end
 
@@ -25,7 +27,7 @@ class CollaborationsController < ApplicationController
       @collaborations = current_user.collaborations
       render json: @collaborations
     else
-      render json: 'Hello!'
+      render json: {error: "collab index failed"}, status: 400
     end
   end
 

@@ -3,7 +3,6 @@ var Route = ReactRouter.Route;
 this.routes = (
   <Route handler={App}>
     <Route path='/' name='collaborations' handler={Collaborations} />
-    ...
   </Route>
 );
 
