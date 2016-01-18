@@ -1,8 +1,18 @@
 var App = React.createClass({
-  render: function() {
+  getInitialState() {
+    return {
+
+    }
+  },
+
+  componentDidMount() {
+
+  },
+
+  render() {
     return (
       <div className="app">
-
+        <Collaborations {...this.props} />
       </div>
     );
   }

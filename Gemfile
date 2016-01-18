@@ -43,6 +43,9 @@ gem "backbone-on-rails"
 # React
 gem 'react-rails'
 gem 'react-router-rails'
+source 'https://rails-assets.org' do
+  gem 'rails-assets-alt'
+end
 
 # Puma
 gem 'puma'

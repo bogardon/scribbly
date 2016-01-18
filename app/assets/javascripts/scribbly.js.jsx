@@ -2,7 +2,11 @@ var Route = ReactRouter.Route;
 
 this.routes = (
   <Route handler={App}>
-    <Route name='home' handler={Home} path='/' />
+    <Route path='/' name='collaborations' handler={Collaborations} />
     ...
   </Route>
 );
+
+// ReactRouter.run(routes, ReactRouter.HistoryLocation, function (Handler) {
+//   ReactDOM.render(<Handler/>, document.getElementById('content'));
+// });
