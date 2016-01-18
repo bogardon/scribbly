@@ -1,9 +1,6 @@
 var Collaborations = React.createClass({
   getInitialState() {
-    return {
-      collabStore: CollaborationStore.getState(),
-      showNewCollabForm: false
-    };
+    return CollaborationStore.getState()
   },
 
   componentWillMount() {
@@ -17,16 +14,16 @@ var Collaborations = React.createClass({
   },
 
   handleStoreChange(state) {
-    this.setState({ collabStore: state });
+    this.setState(state);
   },
 
   onNewCollaborationClick(e) {
     if (e) { e.preventDefault(); }
-    this.setState({ showNewCollabForm: !this.state.showNewCollabForm });
+    CollaborationActions.showNewCollabForm(!this.state.showNewCollabForm);
   },
 
   renderCollabs() {
-    return this.state.collabStore.collaborations.map(function(collab, i) {
+    return this.state.collaborations.map(function(collab, i) {
       return (
         <div className="Collaboration" key={i}>
           <div className="Collaboration-name">name: {collab.name}</div>
@@ -50,7 +47,7 @@ var Collaborations = React.createClass({
         <h1>Your Collaborations</h1>
         <a className="large button" href="#" onClick={ this.onNewCollaborationClick }>New Collaboration</a>
         { this.state.showNewCollabForm ? <NewCollaborationForm closeForm={ this.onNewCollaborationClick } /> : null }
-        { this.state.collabStore.collaborations.length ? this.renderCollabs() : null }
+        { this.state.collaborations.length ? this.renderCollabs() : null }
       </div>
     )
   }
@@ -73,8 +70,7 @@ var NewCollaborationForm = React.createClass({
   },
 
   onSaveButtonClick(e) {
-    this.props.closeForm();
-    CollaborationActions.newCollaboration(this.state);
+    CollaborationActions.createCollaboration(this.state);
   },
 
   onBackButtonClick(e) {

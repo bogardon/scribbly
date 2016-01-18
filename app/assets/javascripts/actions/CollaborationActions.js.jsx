@@ -28,7 +28,11 @@
       });
     }
 
-    newCollaboration(collab) {
+    showNewCollabForm(state) {
+      return state;
+    }
+
+    createCollaboration(collab) {
       console.log('newCollaboration', collab);
       var self = this;
 
@@ -39,6 +43,7 @@
         dataType: "json",
         success: function(collaborations) {
           self.updateCollaborations(collaborations);
+          self.showNewCollabForm(false);
         },
         error: function(xhr, status, err) {
 					console.log('newcollab error!', err.toString());

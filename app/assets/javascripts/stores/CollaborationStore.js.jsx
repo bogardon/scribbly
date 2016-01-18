@@ -3,10 +3,12 @@
     constructor() {
       this.collaborations = [];
       this.errorMessage = null;
+      this.showNewCollabForm = false;
       this.bindListeners({
         handleUpdateCollaborations: CollaborationActions.UPDATE_COLLABORATIONS,
         handleFetchCollaborations: CollaborationActions.FETCH_COLLABORATIONS,
-        handleCollaborationsFailed: CollaborationActions.COLLABORATIONS_FAILED
+        handleCollaborationsFailed: CollaborationActions.COLLABORATIONS_FAILED,
+        handleShowNewCollabForm: CollaborationActions.SHOW_NEW_COLLAB_FORM
       });
     }
 
@@ -23,6 +25,10 @@
 
     handleCollaborationsFailed(errorMessage) {
       this.errorMessage = errorMessage;
+    }
+
+    handleShowNewCollabForm(state) {
+      this.showNewCollabForm = state;
     }
   };
 
