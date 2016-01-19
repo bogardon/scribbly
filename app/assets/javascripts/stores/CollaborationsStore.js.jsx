@@ -1,14 +1,14 @@
 (() => {
-  class CollaborationStore {
+  class CollaborationsStore {
     constructor() {
       this.collaborations = [];
       this.errorMessage = null;
       this.showNewCollabForm = false;
       this.bindListeners({
-        handleUpdateCollaborations: CollaborationActions.UPDATE_COLLABORATIONS,
-        handleFetchCollaborations: CollaborationActions.FETCH_COLLABORATIONS,
-        handleCollaborationsFailed: CollaborationActions.COLLABORATIONS_FAILED,
-        handleShowNewCollabForm: CollaborationActions.SHOW_NEW_COLLAB_FORM
+        handleUpdateCollaborations: CollaborationsActions.UPDATE_COLLABORATIONS,
+        handleFetchCollaborations: CollaborationsActions.FETCH_COLLABORATIONS,
+        handleCollaborationsFailed: CollaborationsActions.COLLABORATIONS_FAILED,
+        handleShowNewCollabForm: CollaborationsActions.SHOW_NEW_COLLAB_FORM
       });
     }
 
@@ -32,5 +32,5 @@
     }
   };
 
-  this.CollaborationStore = alt.createStore(CollaborationStore, 'CollaborationStore');
+  this.CollaborationsStore = alt.createStore(CollaborationsStore, 'CollaborationsStore');
 })();

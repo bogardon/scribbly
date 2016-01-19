@@ -1,5 +1,5 @@
 (() => {
-  class CollaborationActions {
+  class CollaborationsActions {
     updateCollaborations(collaborations) {
       return collaborations;
     }
@@ -57,5 +57,5 @@
     }
   };
 
-  this.CollaborationActions = alt.createActions(CollaborationActions);
+  this.CollaborationsActions = alt.createActions(CollaborationsActions);
 })();

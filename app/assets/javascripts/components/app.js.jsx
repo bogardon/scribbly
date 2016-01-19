@@ -1,18 +1,17 @@
+var RouteHandler = ReactRouter.RouteHandler;
+
 var App = React.createClass({
   getInitialState() {
-    return {
-
-    }
+    return {}
   },
 
   componentDidMount() {
-
   },
 
   render() {
     return (
       <div className="app">
-        <Collaborations {...this.props} />
+        <RouteHandler {...this.props}/>
       </div>
     );
   }

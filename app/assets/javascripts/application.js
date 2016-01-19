@@ -18,10 +18,10 @@
 //= require foundation
 //= require react
 //= require react_ujs
-//= require alt
-//= require components
 //= require react_router
 //= require react_router_ujs
+//= require alt
+//= require components
 //= require scribbly
 //= require_self
 //= require_tree .

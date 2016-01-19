@@ -1,16 +1,20 @@
+var Navigation = ReactRouter.Navigation;
+
 var Collaborations = React.createClass({
+  mixins: [Navigation],
+
   getInitialState() {
-    return CollaborationStore.getState()
+    return CollaborationsStore.getState()
   },
 
   componentWillMount() {
-    CollaborationStore.listen(this.handleStoreChange);
+    CollaborationsStore.listen(this.handleStoreChange);
 
-    CollaborationActions.fetchCollaborations();
+    CollaborationsActions.fetchCollaborations();
   },
 
   componentWillUnmount() {
-    CollaborationStore.unlisten(this.handleStoreChange);
+    CollaborationsStore.unlisten(this.handleStoreChange);
   },
 
   handleStoreChange(state) {
@@ -19,13 +23,15 @@ var Collaborations = React.createClass({
 
   onNewCollaborationClick(e) {
     if (e) { e.preventDefault(); }
-    CollaborationActions.showNewCollabForm(!this.state.showNewCollabForm);
+    CollaborationsActions.showNewCollabForm(!this.state.showNewCollabForm);
   },
 
   renderCollabs() {
+    var self = this;
+
     return this.state.collaborations.map(function(collab, i) {
       return (
-        <div className="Collaboration" key={i}>
+        <div className="Collaboration" onClick={ self.onCollabClick.bind(self, collab.id) } key={i}>
           <div className="Collaboration-name">name: {collab.name}</div>
           <div className="Collaboration-description">description: {collab.description}</div>
         </div>
@@ -33,9 +39,13 @@ var Collaborations = React.createClass({
     })
   },
 
-  render() {
-    console.log('collaborations!', this);
+  onCollabClick(id) {
+    console.log('id!', id);
+    this.transitionTo('collaboration', {id: id});
+  },
 
+  render() {
+    console.log('collaborations view!', this);
     if (this.state.errorMessage) {
       return (
         <div>Something is wrong</div>
@@ -43,7 +53,7 @@ var Collaborations = React.createClass({
     }
 
     return (
-      <div className="row">
+      <div className="row Collaborations">
         <h1>Your Collaborations</h1>
         <a className="large button" href="#" onClick={ this.onNewCollaborationClick }>New Collaboration</a>
         { this.state.showNewCollabForm ? <NewCollaborationForm closeForm={ this.onNewCollaborationClick } /> : null }
@@ -70,7 +80,7 @@ var NewCollaborationForm = React.createClass({
   },
 
   onSaveButtonClick(e) {
-    CollaborationActions.createCollaboration(this.state);
+    CollaborationsActions.createCollaboration(this.state);
   },
 
   onBackButtonClick(e) {
