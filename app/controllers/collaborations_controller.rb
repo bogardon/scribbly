@@ -32,8 +32,10 @@ class CollaborationsController < ApplicationController
   end
 
   def show
-    @collaboration = current_user.collaborations.find(params[:id])
-    render json: @collaboration
+    if request.xhr?
+      @collaboration = current_user.collaborations.find(params[:id])
+      render json: @collaboration
+    end
   end
 
   def destroy

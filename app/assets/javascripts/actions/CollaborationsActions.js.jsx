@@ -26,6 +26,8 @@
           self.collaborationsFailed(err.toString());
         }
       });
+
+      return true;
     }
 
     showNewCollabForm(state) {
@@ -49,7 +51,9 @@
 					console.log('newcollab error!', err.toString());
           self.collaborationsFailed(err.toString());
 				}
-      })
+      });
+
+      return true;
     }
 
     collaborationsFailed(errorMessage) {

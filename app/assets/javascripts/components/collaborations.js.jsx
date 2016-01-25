@@ -1,8 +1,7 @@
 var Navigation = ReactRouter.Navigation;
 
-var Collaborations = React.createClass({
-  mixins: [Navigation],
-
+// CollaborationsContainer
+var CollaborationsContainer = React.createClass({
   getInitialState() {
     return CollaborationsStore.getState()
   },
@@ -31,10 +30,7 @@ var Collaborations = React.createClass({
 
     return this.state.collaborations.map(function(collab, i) {
       return (
-        <div className="Collaboration" onClick={ self.onCollabClick.bind(self, collab.id) } key={i}>
-          <div className="Collaboration-name">name: {collab.name}</div>
-          <div className="Collaboration-description">description: {collab.description}</div>
-        </div>
+        <CollaborationBadge collab={collab} key={i} />
       )
     })
   },
@@ -63,6 +59,26 @@ var Collaborations = React.createClass({
   }
 });
 
+// CollaborationBadge
+var CollaborationBadge = React.createClass({
+  mixins: [Navigation],
+
+  onCollabClick(id) {
+    console.log('id!', id);
+    this.transitionTo('collaboration', {id: id});
+  },
+
+  render() {
+    return (
+      <div className="Collaboration" onClick={ this.onCollabClick.bind(this, this.props.collab.id) }>
+        <div className="Collaboration-name">name: {this.props.collab.name}</div>
+        <div className="Collaboration-description">description: {this.props.collab.description}</div>
+      </div>
+    )
+  }
+});
+
+// NewCollaborationForm
 var NewCollaborationForm = React.createClass({
   getInitialState() {
     return {
@@ -80,6 +96,7 @@ var NewCollaborationForm = React.createClass({
   },
 
   onSaveButtonClick(e) {
+    if (!this.state.name.length || $.trim(this.state.name) === "") { return }
     CollaborationsActions.createCollaboration(this.state);
   },
 

@@ -3,8 +3,8 @@ var DefaultRoute = ReactRouter.DefaultRoute;
 
 this.routes = (
   <Route handler={App} path='/'>
-    <DefaultRoute handler={Collaborations}/>
-    <Route path='collaborations/:id' name='collaboration' handler={Collaboration}/>
+    <DefaultRoute handler={CollaborationsContainer}/>
+    <Route path='collaborations/:id' name='collaboration' handler={CollaborationContainer}/>
   </Route>
 );
 

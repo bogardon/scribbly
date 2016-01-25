@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
 
-  root 'welcome#index'
+  root to: 'welcome#index'
+  # get '*path', to: 'welcome#index'
 
   resources :collaborations
   resources :posts
@@ -9,6 +10,11 @@ Rails.application.routes.draw do
   resources :contents
   resources :assets
   resources :memberships
+
+  # API routes
+  namespace :api, defaults: {format: :json} do
+
+  end
 
   # shallow do
   #   resources :collaborations do

@@ -1,11 +1,26 @@
-var Collaboration = React.createClass({
+var CollaborationContainer = React.createClass({
   getInitialState() {
-    return {}
+    return {
+
+    }
   },
-  
+
+  componentDidMount() {
+
+  },
+
+  componentWillUnmount() {
+
+  },
+
   render() {
+    console.log('collab view', this);
     return (
-      <Calendar />
+      <div className='row'>
+        <h1 id="collaboration-name">{"name"}</h1>
+        <p id="collaboration-description">{"desc"}</p>
+        <CalendarContainer />
+      </div>
     )
   }
 });
