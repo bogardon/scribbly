@@ -14,7 +14,7 @@ var CalendarMonth = React.createClass({
   renderDays() {
     return this.props.days.map(function(day, i) {
       var currentMonth = day.currentMonth ? "current-month" : "";
-      var today = day.today ? "today" : "";
+      var today = day.today ? " today" : "";
       var classes = 'month-day-item ' + currentMonth + today;
       var id = 'date-' + day.month + '-' + day.date;
 

@@ -10,7 +10,8 @@
 
       this.bindListeners({
         handleUpdateTimeScale: CalendarActions.UPDATE_TIME_SCALE,
-        handleOnTimeScaleArrowClick: CalendarActions.ON_TIME_SCALE_ARROW_CLICK
+        handleOnTimeScaleArrowClick: CalendarActions.ON_TIME_SCALE_ARROW_CLICK,
+        handleOnTodayButtonClick: CalendarActions.ON_TODAY_BUTTON_CLICK
       });
 
       this.on('init', () => {
@@ -52,6 +53,12 @@
     handleOnTimeScaleArrowClick(scaleAmount) {
       var newDate = this.savedDate.add(scaleAmount, this.timeScale);
       console.log('newData', newDate);
+      $.cookie('saved_date', newDate);
+      this.handleUpdateSavedDate(newDate);
+    }
+
+    handleOnTodayButtonClick() {
+      var newDate = moment();
       $.cookie('saved_date', newDate);
       this.handleUpdateSavedDate(newDate);
     }

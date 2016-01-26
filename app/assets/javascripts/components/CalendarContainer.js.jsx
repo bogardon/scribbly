@@ -20,7 +20,7 @@ var CalendarContainer = React.createClass({
 
   onTodayButtonClick(e) {
     e.preventDefault();
-
+    CalendarActions.onTodayButtonClick();
   },
 
   onTimeScaleSelectClick(timeScale, e) {
