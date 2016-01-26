@@ -7,8 +7,6 @@
       this.timeScaleTitle = null;
       this.days = [];
       this.weekdays = [];
-      this.start = null;
-      this.end = null;
 
       this.bindListeners({
         handleUpdateTimeScale: CalendarActions.UPDATE_TIME_SCALE
@@ -22,11 +20,12 @@
 
     handleUpdateTimeScale(timeScale) {
       this.timeScale = timeScale;
+      this.getDateRange(timeScale);
     }
 
     getTimeScale() {
-      var scale;
-      scale = $.cookie("time_scale");
+      var scale = $.cookie("time_scale");
+
       if (scale != null) {
         this.handleUpdateTimeScale(scale);
       } else {
@@ -39,22 +38,25 @@
     }
 
     getSavedDate() {
-      var date;
-      date = $.cookie("saved_date");
+      var date = $.cookie("saved_date");
+
       if (date != null) {
-        this.savedDate = moment(date);
+        this.handleUpdateSavedDate(moment(date));
       } else {
-        this.savedDate = moment();
+        this.handleUpdateSavedDate(moment());
       }
     }
 
     handleUpdateDateRange(range) {
       this.dateRange = range;
+      this.getDays();
+      this.getWeekdays();
+      this.getTimeScaleTitle();
     }
 
-    getDateRange() {
+    getDateRange(timeScale) {
       var date = this.savedDate;
-      var timeScale = this.timeScale;
+      var timeScale = timeScale || this.timeScale;
 
       if (!timeScale) {return}
 
@@ -82,23 +84,25 @@
     }
 
     getTimeScaleTitle() {
+      if (!this.savedDate) {return}
+
       switch (this.timeScale) {
         case 'day':
-          return this.savedDate.format("dddd MM/DD");
+          return this.handleUpdateTimeScaleTitle(this.savedDate.format("dddd MM/DD"));
         case 'week':
           var start = this.dateRange.start;
           var end = this.dateRange.end;
 
           if (start.month() === end.month() && start.year() === end.year()) {
-            return (start.format("MMM")) + " " + (start.date()) + " - " + (end.date()) + ", " + (start.format("YYYY"));
+            return this.handleUpdateTimeScaleTitle((start.format("MMM")) + " " + (start.date()) + " - " + (end.date()) + ", " + (start.format("YYYY")));
           } else if (start.month() !== end.month() && start.year() === end.year()) {
-            return (start.format("MMM")) + " " + (start.date()) + " - " + (end.format("MMM")) + " " + (end.date()) + ", " + (start.format("YYYY"));
+            return this.handleUpdateTimeScaleTitle((start.format("MMM")) + " " + (start.date()) + " - " + (end.format("MMM")) + " " + (end.date()) + ", " + (start.format("YYYY")));
           } else {
-            return (start.format("MMM")) + " " + (start.date()) + ", " + (start.format("YYYY")) + " - " + (end.format("MMM")) + " " + (end.date()) + ", " + (end.format("YYYY"));
+            return this.handleUpdateTimeScaleTitle((start.format("MMM")) + " " + (start.date()) + ", " + (start.format("YYYY")) + " - " + (end.format("MMM")) + " " + (end.date()) + ", " + (end.format("YYYY")));
           }
           break;
         case 'month':
-          this.handleUpdateTimeScaleTitle(this.savedDate.format("MMMM YYYY"));
+          return this.handleUpdateTimeScaleTitle(this.savedDate.format("MMMM YYYY"));
       }
     }
 
@@ -110,6 +114,8 @@
       var start = moment(this.dateRange.start);
       var end = moment(this.dateRange.end);
       var results = [];
+      var day;
+
       while (start < end) {
         day = {
           description: start.toString(),
@@ -121,6 +127,7 @@
         start.add(1, "day");
         results.push(day);
       }
+
       this.handleUpdateDays(results);
     }
 
@@ -132,8 +139,9 @@
       if (this.timeScale === "week") {
         var start = moment(this.dateRange.start);
         var end = moment(this.dateRange.end);
-        var day, results;
-        results = [];
+        var results = [];
+        var day = {};
+
         while (start < end) {
           day = {
             description: start.toString(),
@@ -141,7 +149,7 @@
             month: start.month() + 1,
             date: start.date()
           };
-          this.start.add(1, "day");
+          start.add(1, "day");
           results.push(day);
         }
         this.handleUpdateWeekdays(results);
@@ -153,8 +161,8 @@
     setInitialData() {
       this.getTimeScale();
       this.getSavedDate();
-      this.getDateRange();
       this.getTimeScaleTitle();
+      this.getDateRange();
       this.getDays();
       this.getWeekdays();
     }
