@@ -9,7 +9,8 @@
       this.weekdays = [];
 
       this.bindListeners({
-        handleUpdateTimeScale: CalendarActions.UPDATE_TIME_SCALE
+        handleUpdateTimeScale: CalendarActions.UPDATE_TIME_SCALE,
+        handleOnTimeScaleArrowClick: CalendarActions.ON_TIME_SCALE_ARROW_CLICK
       });
 
       this.on('init', () => {
@@ -24,7 +25,7 @@
     }
 
     getTimeScale() {
-      var scale = $.cookie("time_scale");
+      var scale = this.timeScale || $.cookie("time_scale");
 
       if (scale != null) {
         this.handleUpdateTimeScale(scale);
@@ -35,6 +36,7 @@
 
     handleUpdateSavedDate(date) {
       this.savedDate = date;
+      this.getTimeScale();
     }
 
     getSavedDate() {
@@ -45,6 +47,13 @@
       } else {
         this.handleUpdateSavedDate(moment());
       }
+    }
+
+    handleOnTimeScaleArrowClick(scaleAmount) {
+      var newDate = this.savedDate.add(scaleAmount, this.timeScale);
+      console.log('newData', newDate);
+      $.cookie('saved_date', newDate);
+      this.handleUpdateSavedDate(newDate);
     }
 
     handleUpdateDateRange(range) {

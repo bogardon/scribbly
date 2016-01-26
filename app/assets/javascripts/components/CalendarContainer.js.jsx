@@ -33,9 +33,9 @@ var CalendarContainer = React.createClass({
     // go to create post route
   },
 
-  onTimeScaleArrowClick(e) {
+  onTimeScaleArrowClick(scaleAmount, e) {
     e.preventDefault();
-
+    CalendarActions.onTimeScaleArrowClick(scaleAmount);
   },
 
   renderCalendarControls() {
@@ -45,19 +45,25 @@ var CalendarContainer = React.createClass({
     var monthlyClasses = this.state.calendarStore.timeScale === 'month' ? classes : (classes + ' secondary');
 
     return (
-      <div className='row'>
-        <div className='small-2 columns'>
-          <a className='tiny button success' id='today-button' onClick={this.onTodayButtonClick}>Today</a>
+      <div>
+        <div className='row'>
+          <div className='small-2 columns'>
+            <a className='tiny button success' id='today-button' onClick={this.onTodayButtonClick}>Today</a>
+          </div>
+          <div className='small-4 small-offset-2 columns'>
+            <ul className="button-group even-3 text-center">
+              <li><a href="#" className={dailyClasses} onClick={this.onTimeScaleSelectClick.bind(this, 'day')}>Daily</a></li>
+              <li><a href="#" className={weeklyClasses} onClick={this.onTimeScaleSelectClick.bind(this, 'week')}>Weekly</a></li>
+              <li><a href="#" className={monthlyClasses} onClick={this.onTimeScaleSelectClick.bind(this, 'month')}>Monthly</a></li>
+            </ul>
+          </div>
+          <div className='small-2 columns text-right'>
+            <a className='tiny button success' id='create-post-button' onClick={this.onCreatePostButtonClick}>Create Post</a>
+          </div>
         </div>
-        <div className='small-4 small-offset-2 columns'>
-          <ul className="button-group even-3 text-center">
-            <li><a href="#" className={dailyClasses} onClick={this.onTimeScaleSelectClick.bind(this, 'day')}>Daily</a></li>
-            <li><a href="#" className={weeklyClasses} onClick={this.onTimeScaleSelectClick.bind(this, 'week')}>Weekly</a></li>
-            <li><a href="#" className={monthlyClasses} onClick={this.onTimeScaleSelectClick.bind(this, 'month')}>Monthly</a></li>
-          </ul>
-        </div>
-        <div className='small-2 columns text-right'>
-          <a className='tiny button success' id='create-post-button' onClick={this.onCreatePostButtonClick}>Create Post</a>
+        <div>
+          <a className='time-scale-arrow' onClick={this.onTimeScaleArrowClick.bind(this, -1)}><i className='fi-arrow-left'></i></a>
+          <a className='time-scale-arrow float-right' onClick={this.onTimeScaleArrowClick.bind(this, 1)}><i className='fi-arrow-right'></i></a>
         </div>
       </div>
     )
