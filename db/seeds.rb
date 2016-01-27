@@ -22,9 +22,19 @@ m.user = u
 m.collaboration = c
 m.save
 
+t = Tag.new
+t.name = "memes"
+t.save
+
 p = Post.new
-p.title = "Cluj"
+p.title = "Tweet of the century"
 p.collaboration = c
+p.copy = "AYY LMAO?"
 p.user = u
 p.scheduled_at = Time.now
 p.save
+
+tagging = Tagging.new
+tagging.tag = t
+tagging.post = p
+tagging.save
