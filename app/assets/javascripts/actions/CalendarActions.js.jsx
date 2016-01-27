@@ -11,6 +11,10 @@
     onTodayButtonClick() {
       return true;
     }
+
+    fetchPosts(id) {
+      return id;
+    }
   };
 
   this.CalendarActions = alt.createActions(CalendarActions);

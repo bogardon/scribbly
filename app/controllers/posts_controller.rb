@@ -1,9 +1,9 @@
 class PostsController < ApplicationController
   def new
-    @collaboration = Collaboration.find_by_id(params[:collaboration_id])
-    @post = Post.new
-    @comment = @post.comments.build
-    @content = @post.contents.build
+    # @collaboration = Collaboration.find_by_id(params[:collaboration_id])
+    # @post = Post.new
+    # @comment = @post.comments.build
+    # @content = @post.contents.build
   end
 
   def index

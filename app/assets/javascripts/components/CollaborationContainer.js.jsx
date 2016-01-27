@@ -1,4 +1,8 @@
+var Navigation = ReactRouter.Navigation;
+
 var CollaborationContainer = React.createClass({
+  mixins: [Navigation],
+
   getInitialState() {
     return {
       collaboration: {name: null, description: null}
@@ -7,6 +11,7 @@ var CollaborationContainer = React.createClass({
 
   componentDidMount() {
     this.getCollaboration();
+    CalendarActions.fetchPosts(this.props.params.id);
   },
 
   getCollaboration() {
@@ -25,13 +30,24 @@ var CollaborationContainer = React.createClass({
 
   },
 
+  onBackButtonClick(e) {
+    e.preventDefault();
+    // this.context.router.goBack(); // does not work if you land on collab page first
+    this.transitionTo('/');
+  },
+
+  onCreatePostButtonClick() {
+    this.transitionTo('new-post', {collaboration_id: this.props.params.id});
+  },
+
   render() {
     console.log('collab view', this);
     return (
       <div className='row'>
+        <a className="button" onClick={this.onBackButtonClick}>Back</a>
         <h1 id="collaboration-name">{this.state.collaboration.name ? this.state.collaboration.name : null}</h1>
         <p id="collaboration-description">{this.state.collaboration.description ? this.state.collaboration.description : null}</p>
-        <CalendarContainer />
+        <CalendarContainer onCreatePostButtonClick={this.onCreatePostButtonClick} />
       </div>
     )
   }

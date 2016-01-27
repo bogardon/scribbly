@@ -5,6 +5,7 @@ this.routes = (
   <Route handler={App} path='/'>
     <DefaultRoute handler={CollaborationsContainer}/>
     <Route path='collaborations/:id' name='collaboration' handler={CollaborationContainer}/>
+    <Route path='collaborations/:collaboration_id/new-post' name='new-post' handler={PostCreateContainer}/>
   </Route>
 );
 

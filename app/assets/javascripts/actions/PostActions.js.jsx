@@ -1,9 +1,8 @@
 (() => {
   class PostActions {
-    updatePosts(posts) {
-      return posts;
+    updatePost(post) {
+      return post;
     }
-
   };
 
   this.PostActions = alt.createActions(PostActions);

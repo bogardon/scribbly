@@ -1,8 +1,7 @@
 var CalendarContainer = React.createClass({
   getInitialState() {
     return {
-      calendarStore: CalendarStore.getState(),
-      postStore: null
+      calendarStore: CalendarStore.getState()
     }
   },
 
@@ -31,6 +30,7 @@ var CalendarContainer = React.createClass({
   onCreatePostButtonClick(e) {
     e.preventDefault();
     // go to create post route
+    this.props.onCreatePostButtonClick();
   },
 
   onTimeScaleArrowClick(scaleAmount, e) {
@@ -73,7 +73,6 @@ var CalendarContainer = React.createClass({
     console.log('calendarcontainer', this);
     return (
       <div>
-        <h1>Calendar!</h1>
         <h3>{this.state.calendarStore.timeScaleTitle}</h3>
         { this.renderCalendarControls() }
         { this.state.calendarStore.dateRange ?

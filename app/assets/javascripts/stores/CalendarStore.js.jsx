@@ -8,10 +8,13 @@
       this.days = [];
       this.weekdays = [];
 
+      this.posts = [];
+
       this.bindListeners({
         handleUpdateTimeScale: CalendarActions.UPDATE_TIME_SCALE,
         handleOnTimeScaleArrowClick: CalendarActions.ON_TIME_SCALE_ARROW_CLICK,
-        handleOnTodayButtonClick: CalendarActions.ON_TODAY_BUTTON_CLICK
+        handleOnTodayButtonClick: CalendarActions.ON_TODAY_BUTTON_CLICK,
+        handleFetchPosts: CalendarActions.FETCH_POSTS
       });
 
       this.on('init', () => {
@@ -172,6 +175,34 @@
       } else {
         this.handleUpdateWeekdays(moment.weekdaysShort());
       }
+    }
+
+    handleUpdatePosts(posts) {
+      this.posts = posts;
+    }
+
+    handleFetchPosts(id) {
+      if (!this.dateRange) {return};
+
+      var self = this;
+      var start = moment(this.dateRange.start);
+      var end = moment(this.dateRange.end);
+
+      var data = {
+        collaboration_id: id,
+        start: start.toString(),
+        end: end.toString()
+      };
+
+      $.ajax({
+        url: "/posts",
+        method: "GET",
+        data: data,
+        dataType: 'json',
+        success: function(posts) {
+          self.handleUpdatePosts(posts);
+        }
+      });
     }
 
     setInitialData() {

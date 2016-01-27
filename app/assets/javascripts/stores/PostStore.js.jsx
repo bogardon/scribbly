@@ -1,13 +1,13 @@
 (() => {
   class PostStore {
     constructor() {
-      this.posts = [];
+      this.post = {};
       this.bindListeners({
-        handleUpdatePosts: PostActions.UPDATE_POSTS
+        handleUpdatePost: PostActions.UPDATE_POST
       });
     }
 
-    handleUpdatePosts(posts) {
+    handleUpdatePost(post) {
 
     }
   };
