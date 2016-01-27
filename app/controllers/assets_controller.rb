@@ -1,13 +1,13 @@
 class AssetsController < ApplicationController
   def index
-    @content = Content.find_by_id(params[:content_id])
-    @assets = @content.assets
+    @post = Post.find_by_id(params[:post_id])
+    @assets = @post.assets
     render json: @assets.to_json(include: {image: {methods: :url}})
   end
 
   def create
-    @content = Content.find_by_id(params[:asset][:content_id])
-    @asset = @content.assets.new(asset_params)
+    @post = Post.find_by_id(params[:asset][:post_id])
+    @asset = @post.assets.new(asset_params)
     attachment = params[:asset][:image][:attachment]
     image = Image.new
     image.attachment = attachment.tempfile

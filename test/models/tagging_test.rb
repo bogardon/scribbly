@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class CampaignsControllerTest < ActionController::TestCase
+class TaggingTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
