@@ -17,6 +17,14 @@ var CollaborationCreateForm = React.createClass({
   onSaveButtonClick(e) {
     if (!this.state.name.length || $.trim(this.state.name) === "") { return }
     CollaborationsActions.createCollaboration(this.state);
+    this.resetForm();
+  },
+
+  resetForm() {
+    this.setState({
+      name: '',
+      description: ''
+    });
   },
 
   onBackButtonClick(e) {
@@ -24,6 +32,8 @@ var CollaborationCreateForm = React.createClass({
   },
 
   render() {
+    if (!this.props.showForm) {return null}
+
     return (
       <div>
         <h3>Name</h3>

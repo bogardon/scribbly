@@ -4,6 +4,8 @@
       this.collaborations = [];
       this.errorMessage = null;
       this.showNewCollabForm = false;
+      this.loaded = false;
+
       this.bindListeners({
         handleUpdateCollaborations: CollaborationsActions.UPDATE_COLLABORATIONS,
         handleFetchCollaborations: CollaborationsActions.FETCH_COLLABORATIONS,
@@ -15,12 +17,14 @@
     handleUpdateCollaborations(collaborations) {
       this.collaborations = collaborations;
       this.errorMessage = null;
+      this.loaded = true;
     }
 
     handleFetchCollaborations() {
       // reset the array while we're fetching new collaborations so React can
       // be smart and render a spinner for us since the data is empty.
       this.collaborations = [];
+      this.loaded = false;
     }
 
     handleCollaborationsFailed(errorMessage) {

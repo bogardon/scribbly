@@ -23,8 +23,6 @@ var CollaborationsContainer = React.createClass({
   },
 
   renderCollabs() {
-    var self = this;
-
     return this.state.collaborations.map(function(collab, i) {
       return (
         <CollaborationLink collab={collab} key={i} />
@@ -33,7 +31,7 @@ var CollaborationsContainer = React.createClass({
   },
 
   onCollabClick(id) {
-    console.log('id!', id);
+    console.log('onCollabClick id!', id);
     this.transitionTo('collaboration', {id: id});
   },
 
@@ -49,8 +47,8 @@ var CollaborationsContainer = React.createClass({
       <div className="row Collaborations">
         <h1>Your Collaborations</h1>
         <a className="large button" href="#" onClick={ this.onNewCollaborationClick }>New Collaboration</a>
-        { this.state.showNewCollabForm ? <CollaborationCreateForm closeForm={ this.onNewCollaborationClick } /> : null }
-        { this.state.collaborations.length ? this.renderCollabs() : <Loader /> }
+        <CollaborationCreateForm showForm={this.state.showNewCollabForm} closeForm={ this.onNewCollaborationClick } />
+        { this.state.loaded ? this.renderCollabs() : <Loader /> }
       </div>
     )
   }
