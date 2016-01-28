@@ -30,11 +30,6 @@ var CollaborationsContainer = React.createClass({
     })
   },
 
-  onCollabClick(id) {
-    console.log('onCollabClick id!', id);
-    this.transitionTo('collaboration', {id: id});
-  },
-
   render() {
     console.log('collaborations view!', this);
     if (this.state.errorMessage) {
