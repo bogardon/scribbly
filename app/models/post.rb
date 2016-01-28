@@ -1,6 +1,7 @@
 class Post < ActiveRecord::Base
   belongs_to :collaboration
   belongs_to :user
+  belongs_to :platform
   has_many :feed_items, dependent: :destroy
   has_many :comments, dependent: :destroy
   has_many :assets, dependent: :destroy

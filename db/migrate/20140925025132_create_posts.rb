@@ -8,6 +8,7 @@ class CreatePosts < ActiveRecord::Migration
       t.datetime :scheduled_at
       t.integer :user_id
       t.integer :collaboration_id
+      t.integer :platform_id
       t.timestamps
     end
     add_foreign_key :posts, :users
