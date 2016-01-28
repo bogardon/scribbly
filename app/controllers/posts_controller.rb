@@ -49,8 +49,8 @@ class PostsController < ApplicationController
   private
 
   def post_params
-    params.require(:post).permit(:user_id, :collaboration_id, :campaign_id, :title, :description, :scheduled_at, :time_zone,
+    params.require(:post).permit(:user_id, :collaboration_id, :platform_id, :copy, :title, :description, :scheduled_at, :time_zone,
       :comments_attributes => [:id, :body, :user_id, :post_id],
-      :contents_attributes => [:id, :body, :user_id, :post_id, :media])
+      :assets_attributes => [:id, :post_id, :image])
   end
 end
