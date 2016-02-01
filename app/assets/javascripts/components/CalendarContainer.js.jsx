@@ -7,6 +7,8 @@ var CalendarContainer = React.createClass({
 
   componentDidMount() {
     CalendarStore.listen(this.handleCalendarStoreChange);
+
+    CalendarActions.fetchPosts(this.props.collaborationId);
   },
 
   componentWillUnmount() {
@@ -62,8 +64,12 @@ var CalendarContainer = React.createClass({
           </div>
         </div>
         <div>
-          <a className='time-scale-arrow' onClick={this.onTimeScaleArrowClick.bind(this, -1)}><i className='fi-arrow-left'></i></a>
-          <a className='time-scale-arrow float-right' onClick={this.onTimeScaleArrowClick.bind(this, 1)}><i className='fi-arrow-right'></i></a>
+          <a className='time-scale-arrow' onClick={this.onTimeScaleArrowClick.bind(this, -1)}>
+            <i className='large material-icons'>skip_previous</i>
+          </a>
+          <a className='time-scale-arrow float-right' onClick={this.onTimeScaleArrowClick.bind(this, 1)}>
+            <i className='large material-icons'>skip_next</i>
+          </a>
         </div>
       </div>
     )
@@ -81,7 +87,8 @@ var CalendarContainer = React.createClass({
             dateRange={this.state.calendarStore.dateRange}
             savedDate={this.state.calendarStore.savedDate}
             days={this.state.calendarStore.days}
-            weekdays={this.state.calendarStore.weekdays} /> : <Loader /> }
+            weekdays={this.state.calendarStore.weekdays}
+            posts={this.state.calendarStore.posts} /> : <Loader /> }
       </div>
     )
   }

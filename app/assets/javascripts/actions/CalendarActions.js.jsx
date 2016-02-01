@@ -15,6 +15,10 @@
     fetchPosts(id) {
       return id;
     }
+
+    updatePosts(posts) {
+      return posts;
+    }
   };
 
   this.CalendarActions = alt.createActions(CalendarActions);

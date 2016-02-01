@@ -11,7 +11,6 @@ var CollaborationContainer = React.createClass({
 
   componentDidMount() {
     this.getCollaboration();
-    CalendarActions.fetchPosts(this.props.params.id);
   },
 
   getCollaboration() {
@@ -47,7 +46,7 @@ var CollaborationContainer = React.createClass({
         <a className="button" onClick={this.onBackButtonClick}>Back</a>
         <h1 id="collaboration-name">{this.state.collaboration.name ? this.state.collaboration.name : null}</h1>
         <p id="collaboration-description">{this.state.collaboration.description ? this.state.collaboration.description : null}</p>
-        <CalendarContainer onCreatePostButtonClick={this.onCreatePostButtonClick} />
+        <CalendarContainer collaborationId={this.props.params.id} onCreatePostButtonClick={this.onCreatePostButtonClick} />
       </div>
     )
   }

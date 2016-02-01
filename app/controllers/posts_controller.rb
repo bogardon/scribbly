@@ -18,7 +18,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @collaboration = Collaboration.find_by_id(params[:collaboration_id])
+    # @collaboration = Collaboration.find_by_id(params[:collaboration_id])
     @post = Post.new(post_params)
     @post.user_id = current_user.id
     scheduled_at = DateTime.parse(params[:scheduled_at]).change(offset: (-params[:timezone_offset].to_f/(24*60*60)))

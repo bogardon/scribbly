@@ -2,6 +2,18 @@
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
+.Platforms-Container {
+
+}
+
+.Platform {
+  border: 1px solid black;
+}
+
+.Platform.selected {
+  font-weight: bold;
+}
+
 .modal-container {
   position: absolute;
   z-index: 999;

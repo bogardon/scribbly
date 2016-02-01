@@ -12,6 +12,8 @@ var CalendarMonth = React.createClass({
   },
 
   renderDays() {
+    var self = this;
+
     return this.props.days.map(function(day, i) {
       var currentMonth = day.currentMonth ? "current-month" : "";
       var today = day.today ? " today" : "";
@@ -24,9 +26,31 @@ var CalendarMonth = React.createClass({
             {day.date}
           </div>
           <ul className='post-list'>
+            { self.renderPosts(day) }
           </ul>
         </li>
       )
+    })
+  },
+
+  renderPosts(day) {
+    var self = this;
+
+    return this.props.posts.map(function(post, i) {
+      var scheduledAt = moment(post.scheduled_at).format('MMMM do YYYY');
+      var currentDay = moment(day.description).format('MMMM Do YYYY');
+
+      if (currentDay === scheduledAt) {
+        return (
+          <li className='post-list-item' key={i}>
+            <div className='post-title'>
+              <a key={i}>
+                { post.title }
+              </a>
+            </div>
+          </li>
+        )
+      }
     })
   },
 

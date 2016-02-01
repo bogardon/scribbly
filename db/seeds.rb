@@ -43,3 +43,9 @@ tagging = Tagging.new
 tagging.tag = tag
 tagging.post = post
 tagging.save
+
+platforms = ["Facebook", "Instagram"]
+platforms.each do |name|
+  p = Platform.new(name: name)
+  p.save!
+end

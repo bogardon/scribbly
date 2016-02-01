@@ -47,6 +47,9 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-alt'
 end
 
+# Materialize CSS
+gem 'materialize-sass'
+
 # Puma
 gem 'puma'
 

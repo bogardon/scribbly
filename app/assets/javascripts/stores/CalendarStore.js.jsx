@@ -14,7 +14,8 @@
         handleUpdateTimeScale: CalendarActions.UPDATE_TIME_SCALE,
         handleOnTimeScaleArrowClick: CalendarActions.ON_TIME_SCALE_ARROW_CLICK,
         handleOnTodayButtonClick: CalendarActions.ON_TODAY_BUTTON_CLICK,
-        handleFetchPosts: CalendarActions.FETCH_POSTS
+        handleFetchPosts: CalendarActions.FETCH_POSTS,
+        handleUpdatePosts: CalendarActions.UPDATE_POSTS
       });
 
       this.on('init', () => {

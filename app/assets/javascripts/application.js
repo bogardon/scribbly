@@ -15,7 +15,7 @@
 //= require jquery.cookie
 //= require underscore
 //= require moment
-//= require foundation
+//= require materialize-sprockets
 //= require react
 //= require react_ujs
 //= require react_router
@@ -27,5 +27,3 @@
 //= require_tree .
 
 var alt = new Alt();
-
-$(function(){ $(document).foundation(); });

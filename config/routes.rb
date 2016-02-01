@@ -15,7 +15,7 @@ Rails.application.routes.draw do
 
   # API routes
   namespace :api, defaults: {format: :json} do
-
+    get '/platforms' => 'platforms#index'
   end
 
   # shallow do
