@@ -65,10 +65,10 @@ var CalendarContainer = React.createClass({
         </div>
         <div>
           <a className='time-scale-arrow' onClick={this.onTimeScaleArrowClick.bind(this, -1)}>
-            <i className='large material-icons'>skip_previous</i>
+            <i className='medium material-icons'>skip_previous</i>
           </a>
           <a className='time-scale-arrow float-right' onClick={this.onTimeScaleArrowClick.bind(this, 1)}>
-            <i className='large material-icons'>skip_next</i>
+            <i className='medium material-icons'>skip_next</i>
           </a>
         </div>
       </div>
@@ -88,7 +88,8 @@ var CalendarContainer = React.createClass({
             savedDate={this.state.calendarStore.savedDate}
             days={this.state.calendarStore.days}
             weekdays={this.state.calendarStore.weekdays}
-            posts={this.state.calendarStore.posts} /> : <Loader /> }
+            posts={this.state.calendarStore.posts}
+            onPostButtonClick={this.props.onPostButtonClick} /> : <Loader /> }
       </div>
     )
   }

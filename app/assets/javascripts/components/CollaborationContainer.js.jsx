@@ -39,6 +39,10 @@ var CollaborationContainer = React.createClass({
     this.transitionTo('new-post', {collaboration_id: this.props.params.id});
   },
 
+  onPostButtonClick(post) {
+    this.transitionTo('post', {collaboration_id: this.props.params.id, post_id: post.id});
+  },
+
   render() {
     console.log('collab view', this);
     return (
@@ -46,7 +50,10 @@ var CollaborationContainer = React.createClass({
         <a className="button" onClick={this.onBackButtonClick}>Back</a>
         <h1 id="collaboration-name">{this.state.collaboration.name ? this.state.collaboration.name : null}</h1>
         <p id="collaboration-description">{this.state.collaboration.description ? this.state.collaboration.description : null}</p>
-        <CalendarContainer collaborationId={this.props.params.id} onCreatePostButtonClick={this.onCreatePostButtonClick} />
+        <CalendarContainer
+          collaborationId={this.props.params.id}
+          onCreatePostButtonClick={this.onCreatePostButtonClick}
+          onPostButtonClick={this.onPostButtonClick} />
       </div>
     )
   }

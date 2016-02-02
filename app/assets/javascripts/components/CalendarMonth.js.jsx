@@ -42,7 +42,7 @@ var CalendarMonth = React.createClass({
 
       if (currentDay === scheduledAt) {
         return (
-          <li className='post-list-item' key={i}>
+          <li className='post-list-item' key={i} onClick={self.onPostButtonClick.bind(self, post)}>
             <div className='post-title'>
               <a key={i}>
                 { post.title }
@@ -52,6 +52,10 @@ var CalendarMonth = React.createClass({
         )
       }
     })
+  },
+
+  onPostButtonClick(post, e) {
+    this.props.onPostButtonClick(post);
   },
 
   render() {

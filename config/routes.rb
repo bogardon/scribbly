@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :memberships
 
   get '/collaborations/:id/new-post' => 'posts#new'
+  get '/collaborations/:collaboration_id/posts/:id' => 'posts#show'
 
   # API routes
   namespace :api, defaults: {format: :json} do

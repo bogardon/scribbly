@@ -41,6 +41,8 @@
 
     handleUpdateSavedDate(date) {
       this.savedDate = date;
+      $.cookie('saved_date', date);
+
       this.getTimeScale();
     }
 
@@ -56,7 +58,7 @@
 
     handleOnTimeScaleArrowClick(scaleAmount) {
       var newDate = this.savedDate.add(scaleAmount, this.timeScale);
-      console.log('newData', newDate);
+
       $.cookie('saved_date', newDate);
       this.handleUpdateSavedDate(newDate);
     }
