@@ -34,10 +34,10 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.includes(contents: {assets: :image}, feed_items: :user).find_by_id(params[:id])
-    if @post
+    @post = Post.includes(assets: {assets: :image}, feed_items: :user).find_by_id(params[:id])
+    if @post && request.xhr?
       render json: @post.to_json(include: {
-        contents: {include: {assets: {include: {image: {methods: :url}}}}},
+        assets: {include: {assets: {include: {image: {methods: :url}}}}},
         feed_items: {include: :user}
       })
     end

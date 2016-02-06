@@ -41,7 +41,7 @@ var CollaborationsContainer = React.createClass({
     return (
       <div className="row Collaborations">
         <h1>Your Collaborations</h1>
-        <a className="large button" href="#" onClick={ this.onNewCollaborationClick }>New Collaboration</a>
+        <button className="waves-effect waves-light btn" onClick={this.onNewCollaborationClick}>New Collaboration</button>
         <CollaborationCreateForm showForm={this.state.showNewCollabForm} closeForm={ this.onNewCollaborationClick } />
         { this.state.loaded ? this.renderCollabs() : <Loader /> }
       </div>

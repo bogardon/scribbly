@@ -45,7 +45,7 @@ var PostCreateContainer = React.createClass({
     console.log('new-post', this);
     return (
       <div>
-        <a className="button" onClick={this.onBackButtonClick}>Back</a>
+        <button className="waves-effect waves-light btn" onClick={this.onBackButtonClick}>Back</button>
         <h1>Create Post</h1>
         <PostPlatforms platform={this.state.platform} platforms={this.state.platforms}/>
         {this.state.platform ? this.renderPostCreateForm() : null}

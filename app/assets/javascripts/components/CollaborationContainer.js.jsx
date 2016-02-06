@@ -47,7 +47,7 @@ var CollaborationContainer = React.createClass({
     console.log('collab view', this);
     return (
       <div className='row'>
-        <a className="button" onClick={this.onBackButtonClick}>Back</a>
+        <button className="waves-effect waves-light btn" onClick={this.onBackButtonClick}>Back</button>
         <h1 id="collaboration-name">{this.state.collaboration.name ? this.state.collaboration.name : null}</h1>
         <p id="collaboration-description">{this.state.collaboration.description ? this.state.collaboration.description : null}</p>
         <CalendarContainer

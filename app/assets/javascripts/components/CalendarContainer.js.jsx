@@ -8,7 +8,7 @@ var CalendarContainer = React.createClass({
   componentDidMount() {
     CalendarStore.listen(this.handleCalendarStoreChange);
 
-    CalendarActions.fetchPosts(this.props.collaborationId);
+    CalendarActions.fetchPosts(this.props.collaborationId, this.state.calendarStore.dateRange);
   },
 
   componentWillUnmount() {

@@ -1,7 +1,9 @@
 (() => {
   class PostStore {
     constructor() {
-      this.post = null;
+      this.post = {};
+      this.feedItems = [];
+
       this.platforms = [];
       this.platform = null;
       this.collaboration_id = null;
@@ -11,7 +13,8 @@
         handleUpdatePost: PostActions.UPDATE_POST,
         handleUpdatePlatforms: PostActions.UPDATE_PLATFORMS,
         handleSelectPlatform: PostActions.SELECT_PLATFORM,
-        handleSubmitPost: PostActions.SUBMIT_POST
+        handleSubmitPost: PostActions.SUBMIT_POST,
+        handleFetchPost: PostActions.FETCH_POST
       });
 
       this.on('init', () => {
@@ -21,7 +24,11 @@
     }
 
     handleUpdatePost(post) {
-      $.extend(this.post, post);
+      this.post = post;
+    }
+
+    handleFetchPost(post) {
+      this.post = {};
     }
 
     handleUpdatePlatforms(platforms) {
@@ -32,24 +39,8 @@
       this.platform = platform;
     }
 
-    handleSubmitPost(post) {
-      console.log('handleSubmitPost', post);
-      this.post = post;
-      var data = {
-        post: post,
-        scheduled_at: post.scheduled_at,
-        timezone_offset: this.timezone_offset
-      };
-
-      $.ajax({
-        url: '/posts',
-        type: 'POST',
-        data: data,
-        dataType: 'json',
-        success: function(data) {
-          console.log('yay!', data);
-        }
-      });
+    handleSubmitPost(post, timezone_offset) {
+      this.post = {};
     }
 
     getInitialData() {

@@ -184,28 +184,8 @@
       this.posts = posts;
     }
 
-    handleFetchPosts(id) {
-      if (!this.dateRange) {return};
-
-      var self = this;
-      var start = moment(this.dateRange.start);
-      var end = moment(this.dateRange.end);
-
-      var data = {
-        collaboration_id: id,
-        start: start.toString(),
-        end: end.toString()
-      };
-
-      $.ajax({
-        url: "/posts",
-        method: "GET",
-        data: data,
-        dataType: 'json',
-        success: function(posts) {
-          self.handleUpdatePosts(posts);
-        }
-      });
+    handleFetchPosts(id, dateRange) {
+      this.posts = [];
     }
 
     setInitialData() {
